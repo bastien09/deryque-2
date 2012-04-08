@@ -5,101 +5,16 @@
 		<title>Example</title>
 
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-		<script type="text/javascript">
-$(function() {
-	
-	Highcharts.setOptions({
-		global : {
-			useUTC : false
-		}
-	});
-	
-	// Create the chart
-	window.chart = new Highcharts.StockChart({
-		chart : {
-			renderTo : 'container',
-			events : {
-				load : function() {
-
-					// set up the updating of the chart each 100ms
-					var series = this.series[0];
-					setInterval(function() {
-						var x = (new Date()).getTime(), // current time
-						y = Math.round(Math.random() * 100);
-						series.addPoint([x, y], true, true);
-					}, 100); // 100 ms
-				}
-			},
-			zoomType : "x",
-		},
-		
-		rangeSelector: {
-			buttons: [{
-				count: 30,
-				type: 'second',
-				text: '30s'
-			}, {
-				count: 1,
-				type: 'minute',
-				text: '1min'
-			}, {
-				type: 'all',
-				text: 'All'
-			}],
-			inputEnabled: false,
-			selected: 0
-		},
-		
-		title : {
-			text : 'Live random data'
-		},
-		
-		exporting: {
-			enabled: false
-		},
-		
-		series : [{
-			name : 'Random data',
-			id : 'serie1',
-			data : (function() {
-				// generate an array of random data
-				var data = [], time = (new Date()).getTime(), i;
-
-				for( i = -999; i <= 0; i++) {
-					data.push([
-						time + i * 1000,
-						Math.round(Math.random() * 100)
-					]);
-				}
-				return data;
-			})()
-		},
-		//FLAGS
-		{
-         	id: "flags",
-            name: "flagflag",
-            type: "flags",
-            data: []
-        }
-		]
-	});
-
-});
-
-function addFlag() {
-	var ser = chart.get("flags");
-	var serie = chart.get("serie1");
-    ser.addPoint({
-		x : (new Date()).getTime()
-    }); 
-};
-		</script>
+		<script src="Js/highstock.js"></script>
+		<script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
+		<script type="text/javascript" src="Js/ecg_chart.js"></script>
 	</head>
+	
 	<body>
-<script src="Js/highstock.js"></script>
-<script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
-
-<div id="container" style="height: 500px; min-width: 500px"></div>
-<button onClick="addFlag();"> Pouet </button>
+	
+		<div id="container" style="height: 500px; min-width: 500px"></div>
+		<button onClick="addFlag();"> Pouet </button>
+		<button onClick="addSerie('data1', data1);"> Add </button>
+		<input type="text" id="texte" /><button onClick="rmSerie($('#texte').val());" > Remove </button>
 	</body>
 </html>
