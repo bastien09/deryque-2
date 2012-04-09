@@ -18,6 +18,11 @@ $(document).ready(function() {
 
 		rangeSelector: {
 			buttons: [{
+				count: 10,
+				type: 'second',
+				text: '10s'
+			},
+			{
 				count: 30,
 				type: 'second',
 				text: '30s'
@@ -36,7 +41,12 @@ $(document).ready(function() {
 		title : {
 			text : title
 		},
-
+        legend: {
+            enabled: true,
+            align: 'right',
+            layout: 'vertical',
+            verticalAlign: 'middle',
+        },
 		exporting: {
 			enabled: false
 		},
@@ -58,6 +68,7 @@ $(document).ready(function() {
 		        	  id: "flags",
 		        	  name: "flagflag",
 		        	  type: "flags",
+		              showInLegend: false,
 		        	  data: []
 		          }
 		          ]
@@ -93,9 +104,9 @@ function addSerie(nom, data) {
 	});
 };
 
-function rmSerie(nom) {
-	chart.get(nom).remove();
-}
+//function rmSerie(nom) {
+//	chart.get(nom).remove();
+//}
 
 var data1 = [], time = (new Date()).getTime(), i;
 
