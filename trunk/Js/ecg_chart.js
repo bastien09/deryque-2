@@ -1,11 +1,15 @@
 var chart;
-var data1 = [], data2= [], data3= [], data4= [], data5= [], data6= [], data7= [], data8= [], data9= [], data10= [], data11 = [], time = (new Date()).getTime(), i;
+var data0 = [], data1 = [], data2= [], data3= [], data4= [], data5= [], data6= [], data7= [], data8= [], data9= [], data10= [], data11 = [], time = (new Date()).getTime(), i;
 
 for(var i = -999; i <= 0; i++) {
+    data0.push([
+                time + i * 1000,
+                null
+            ]);
     data1.push([
-        time + i * 1000,
-        Math.round(Math.random() * 100)
-    ]);
+                time + i * 1000,
+                Math.round(Math.random() * 100)
+            ]);
     data2.push([
                 time + i * 1000,
                 Math.round(Math.random() * 100)
@@ -88,7 +92,14 @@ $(document).ready(function() {
 			enabled: false
 		},
 
-		series : [         
+		series : [          
+		          {
+		        	  name : 'serie0',
+		        	  id : 'serie0',
+		              showInLegend: false,
+		        	  
+		        	  data : [[(new Date()).getTime() - 1000 * 1000, null]]
+		          },     
 		          {
 		        	  name : 'serie1',
 		        	  id : 'serie1',
@@ -151,14 +162,15 @@ $(document).ready(function() {
 		// add the point
 		if (i >= 999)
 			i = 0;
-		chart.series[0].addPoint(data1[i], true, false);
-		chart.series[1].addPoint(data2[i], true, false);
-		chart.series[2].addPoint(data3[i], true, false);
-		chart.series[3].addPoint(data4[i], true, false);
-		chart.series[4].addPoint(data5[i], true, false);
-		chart.series[5].addPoint(data6[i], true, false);
-		chart.series[6].addPoint(data7[i], true, false);
-		chart.series[7].addPoint(data8[i], true, false);
+		chart.series[0].addPoint(data0[i], true, false);
+		chart.series[1].addPoint(data1[i], true, false);
+		chart.series[2].addPoint(data2[i], true, false);
+		chart.series[3].addPoint(data3[i], true, false);
+		chart.series[4].addPoint(data4[i], true, false);
+		chart.series[5].addPoint(data5[i], true, false);
+		chart.series[6].addPoint(data6[i], true, false);
+		chart.series[7].addPoint(data7[i], true, false);
+		chart.series[8].addPoint(data8[i], true, false);
 		i++;
 		// call it again after 100ms
 		setTimeout(function() { requestData(i); }, 10);    
