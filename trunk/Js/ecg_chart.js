@@ -1,4 +1,44 @@
 var chart;
+var start = (new Date()).getTime() - 999 * 1000;
+var data1 = [], data2= [], data3= [], data4= [], data5= [], data6= [], data7= [], data8= [], data9= [], data10= [], data11 = [], time = (new Date()).getTime(), i;
+
+for(var i = -999; i <= 0; i++) {
+    data1.push([
+        time + i * 1000,
+        Math.round(Math.random() * 100)
+    ]);
+    data2.push([
+                time + i * 1000,
+                Math.round(Math.random() * 100)
+            ]);
+    data3.push([
+                time + i * 1000,
+                Math.round(Math.random() * 100)
+            ]);
+    data4.push([
+                time + i * 1000,
+                Math.round(Math.random() * 100)
+            ]);
+    data5.push([
+                time + i * 1000,
+                Math.round(Math.random() * 100)
+            ]);
+    data6.push([
+                time + i * 1000,
+                Math.round(Math.random() * 100)
+            ]);
+    data7.push([
+                time + i * 1000,
+                Math.round(Math.random() * 100)
+            ]);
+    data8.push([
+                time + i * 1000,
+                Math.round(Math.random() * 100)
+            ]);
+    
+}
+ 
+alert(data1);
 
 $(document).ready(function() {
 	idWhere = 'container';	
@@ -55,12 +95,48 @@ $(document).ready(function() {
 		          {
 		        	  name : 'serie1',
 		        	  id : 'serie1',
-		        	  data : [[(new Date()).getTime(), null]]
+		        	  data : [[start, null]]
 		          },
 		          {
 		        	  name : 'serie2',
 		        	  id : 'serie2',
-		        	  data : [[(new Date()).getTime(), null]]
+		        	  data : [[start, null]]
+
+		          },
+		          {
+		        	  name : 'serie3',
+		        	  id : 'serie3',
+		        	  data : [[start, null]]
+
+		          },
+		          {
+		        	  name : 'serie4',
+		        	  id : 'serie4',
+		        	  data : [[start, null]]
+
+		          },
+		          {
+		        	  name : 'serie5',
+		        	  id : 'serie5',
+		        	  data : [[start, null]]
+
+		          },
+		          {
+		        	  name : 'serie6',
+		        	  id : 'serie6',
+		        	  data : [[start, null]]
+
+		          },
+		          {
+		        	  name : 'serie7',
+		        	  id : 'serie7',
+		        	  data : [[start, null]]
+
+		          },
+		          {
+		        	  name : 'serie8',
+		        	  id : 'serie8',
+		        	  data : [[start, null]]
 
 		          },
 		          //FLAGS
@@ -74,18 +150,24 @@ $(document).ready(function() {
 		          ]
 	});
 
-	function requestData() {
-		var x = (new Date()).getTime(), // current time
-		y = Math.round(Math.random() * 100);
-		y1 = Math.round(Math.random() * 100);
+	function requestData(i) {
 		// add the point
-		chart.series[0].addPoint([x, y], true, false);
-		chart.series[1].addPoint([x, y1], true, false);
+		if (i >= 999)
+			i = 0;
+		chart.series[0].addPoint(data1[i], true, false);
+		chart.series[1].addPoint(data2[i], true, false);
+		chart.series[2].addPoint(data3[i], true, false);
+		chart.series[3].addPoint(data4[i], true, false);
+		chart.series[4].addPoint(data5[i], true, false);
+		chart.series[5].addPoint(data6[i], true, false);
+		chart.series[6].addPoint(data7[i], true, false);
+		chart.series[7].addPoint(data8[i], true, false);
+		i++;
 		// call it again after 100ms
-		setTimeout(requestData, 100);    
+		setTimeout(function() { requestData(i); }, 2);    
 	};
 
-	requestData();
+	requestData(0);
 });
 
 function addFlag() {
@@ -108,11 +190,3 @@ function addSerie(nom, data) {
 //	chart.get(nom).remove();
 //}
 
-var data1 = [], time = (new Date()).getTime(), i;
-
-for(var i = -999; i <= 0; i++) {
-    data1.push([
-        time + i * 1000,
-        Math.round(Math.random() * 100)
-    ]);
-}
