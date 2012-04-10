@@ -1,5 +1,4 @@
 var chart;
-var start = (new Date()).getTime() - 999 * 1000;
 var data1 = [], data2= [], data3= [], data4= [], data5= [], data6= [], data7= [], data8= [], data9= [], data10= [], data11 = [], time = (new Date()).getTime(), i;
 
 for(var i = -999; i <= 0; i++) {
@@ -37,8 +36,6 @@ for(var i = -999; i <= 0; i++) {
             ]);
     
 }
- 
-alert(data1);
 
 $(document).ready(function() {
 	idWhere = 'container';	
@@ -95,48 +92,48 @@ $(document).ready(function() {
 		          {
 		        	  name : 'serie1',
 		        	  id : 'serie1',
-		        	  data : [[start, null]]
+		        	  data : [[(new Date()).getTime() - 1000 * 1000, null]]
 		          },
 		          {
 		        	  name : 'serie2',
 		        	  id : 'serie2',
-		        	  data : [[start, null]]
+		        	  data : [[(new Date()).getTime() - 1000 * 1000, null]]
 
 		          },
 		          {
 		        	  name : 'serie3',
 		        	  id : 'serie3',
-		        	  data : [[start, null]]
+		        	  data : [[(new Date()).getTime() - 1000 * 1000, null]]
 
 		          },
 		          {
 		        	  name : 'serie4',
 		        	  id : 'serie4',
-		        	  data : [[start, null]]
+		        	  data : [[(new Date()).getTime() - 1000 * 1000, null]]
 
 		          },
 		          {
 		        	  name : 'serie5',
 		        	  id : 'serie5',
-		        	  data : [[start, null]]
+		        	  data : [[(new Date()).getTime() - 1000 * 1000, null]]
 
 		          },
 		          {
 		        	  name : 'serie6',
 		        	  id : 'serie6',
-		        	  data : [[start, null]]
+		        	  data : [[(new Date()).getTime() - 1000 * 1000, null]]
 
 		          },
 		          {
 		        	  name : 'serie7',
 		        	  id : 'serie7',
-		        	  data : [[start, null]]
+		        	  data : [[(new Date()).getTime() - 1000 * 1000, null]]
 
 		          },
 		          {
 		        	  name : 'serie8',
 		        	  id : 'serie8',
-		        	  data : [[start, null]]
+		        	  data : [[(new Date()).getTime() - 1000 * 1000, null]]
 
 		          },
 		          //FLAGS
@@ -164,7 +161,7 @@ $(document).ready(function() {
 		chart.series[7].addPoint(data8[i], true, false);
 		i++;
 		// call it again after 100ms
-		setTimeout(function() { requestData(i); }, 2);    
+		setTimeout(function() { requestData(i); }, 10);    
 	};
 
 	requestData(0);
