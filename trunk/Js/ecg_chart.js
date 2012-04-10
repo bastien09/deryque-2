@@ -91,7 +91,21 @@ $(document).ready(function() {
 		exporting: {
 			enabled: false
 		},
-
+        yAxis : {
+            title : {
+                text : 'Power'
+            },
+//            plotLines : [{
+//                value : 0.6738,
+//                id : max,
+//                color : 'green',
+//                dashStyle : 'shortdash',
+//                width : 2,
+//                label : {
+//                    text : 'Max'
+//                }
+//            }
+        },
 		series : [          
 		          {
 		        	  name : 'serie0',
@@ -183,9 +197,29 @@ function addFlag() {
 	var ser = chart.get("flags");
 //	var serie = chart.get("serie1");
 	ser.addPoint({
-		x : (new Date()).getTime()
+		x : (new Date()).getTime() - 999 * 1000
 	}); 
+	$('#infos').html("Pouet"+ ser.xData);
 };
+
+function addLine() {
+	chart.yAxis[0].removePlotLine('max');
+	chart.yAxis[0].addPlotLine({
+		value: (function() {
+			var j=0;
+			var x = chart.series[1].yData;
+			for(i=0;i<x.length;i++) {
+				if(x[i]>x[j])
+					j=i;
+			}
+			
+            return x[j];
+        })(),
+		color: 'rgb(0, 0, 0)',
+		width: 3,
+		id: 'max'
+	});	
+}
 
 function addSerie(nom, data) {
 	chart.addSeries({
