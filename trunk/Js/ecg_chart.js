@@ -233,3 +233,22 @@ function addSerie(nom, data) {
 //	chart.get(nom).remove();
 //}
 
+
+function addMark() {
+		chart.xAxis[0].removePlotLine('mark');
+		chart.xAxis[0].addPlotLine({
+			value: (function() {
+				var j=0;
+				var x = chart.series[1].xData;
+				for(i=0;i<x.length;i++) {
+					if(x[i]>x[j])
+						j=i;
+				}
+				
+   	         return x[j];
+   	     })(),
+			color: 'red',
+			width: 2,
+			id: 'mark'
+		});	
+	}
