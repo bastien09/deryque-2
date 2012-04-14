@@ -6,7 +6,7 @@ class Import extends AbstractView{
 */
 	public function index() {
 		CNavigation::setTitle('Importer des données');
-		CNavigation::setDescription('GPX ou TCX');
+		CNavigation::setDescription('GPX ou TCX ou HL7');
 		DataImportView::showFormImport();
 		//$this->displayXML();
 	}
