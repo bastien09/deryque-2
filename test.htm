@@ -7,17 +7,18 @@
 		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
 		<script src="Js/highstock.js"></script>
 		<script src="http://code.highcharts.com/stock/modules/exporting.js"></script>
-		<script type="text/javascript" src="Js/ecg_chart.js"></script>
+		<script type="text/javascript" src="Js/multiple_charts.js"></script>
 	</head>
 	
 	<body>
 	
-		<div id="container" style="height: 500px; min-width: 500px"></div>
-		<button onClick="addFlag();"> Pouet </button>
-		<button onClick="addSerie('data1', data1);this.disabled=1"> Add </button>
-		<button onClick="addLine();"> Plot line </button>
-		<button onClick="addMark();"> Mark  </button>
-		<button onClick="stop();"> Stop  </button>
+		<div id="container"></div>
+		<div id="container1"></div>
+		<button onClick="setAction('flags');"> Flags </button>
+		<button onClick="setAction('yline');"> Line on YAxis </button>
+		<button onClick="setAction('xline');"> Line on XAxis  </button>
+		<button onClick="run = false;"> Stop  </button>
+		<button onClick="run = true;requestData(lastCall);"> Go  </button>
 		
 		<!--  <input type="text" id="texte" /><button onClick="rmSerie($('#texte').val());" > Remove </button> -->
 		<div id="infos"></div>
