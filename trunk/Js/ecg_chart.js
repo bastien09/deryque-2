@@ -106,6 +106,9 @@ $(document).ready(function() {
 //			}
 //			}
 		},
+		navigator : {
+			baseSeries : 1
+		},
 		plotOptions: {
 			series : {
 				cursor: 'pointer',
@@ -197,23 +200,7 @@ $(document).ready(function() {
 		          ]
 	});
 
-	function requestData(i) {
-		// add the point
-		if (i >= 999)
-			i = 0;
-		chart.series[0].addPoint(data0[i], true, false);
-		chart.series[1].addPoint(data1[i], true, false);
-		chart.series[2].addPoint(data2[i], true, false);
-		chart.series[3].addPoint(data3[i], true, false);
-		chart.series[4].addPoint(data4[i], true, false);
-		chart.series[5].addPoint(data5[i], true, false);
-		chart.series[6].addPoint(data6[i], true, false);
-		chart.series[7].addPoint(data7[i], true, false);
-		chart.series[8].addPoint(data8[i], true, false);
-		i++;
-		// call it again after 100ms
-		setTimeout(function() { requestData(i); }, 10);    
-	};
+	
 
 	requestData(0);
 });
