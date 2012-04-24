@@ -33,10 +33,10 @@ class DGrapheTempsReel extends DAbstract {
 			if ($k !== 'timestamp') {
 				for ($i = 0; $i < count($timestamps); $i++) {
 
-					$dataToAdd[$timestamps[$i]] = $rawData[$k][$i];
+					$dataToAdd[] = $rawData[$k][$i];
 
 				}
-				$addCharts .= "addChart('" . $k . "', " . json_encode($dataToAdd) . ");";
+				$addCharts .= "addChart('" . $k . "', new Array(" . implode(',', $dataToAdd) . "), new Array(". implode(',',$timestamps) ."));";
 			}
 		}
 

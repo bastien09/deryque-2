@@ -1,7 +1,7 @@
 var chart;
 var run = true, action = 'flags', lastCall = 0;
 var charts = [];
-var data = new Array(), time = (new Date()).getTime(), i;
+/*var data = new Array(), time = (new Date()).getTime(), i;
 
 for (x = 0; x < 9; x++) {
 	data[x] = new Array();
@@ -22,7 +22,7 @@ for(var i = -999; i <= 0; i++) {
 		}
 	}
 
-}
+}*/
 var getChartConfig = function(renderId, title, i) {
 	var config = {};
 	config.chart = {
@@ -149,7 +149,19 @@ Highcharts.setOptions({
 	}
 });
 
-function addChart(name, data) {
+function addChart(name, datas, timestamps) {
+		
+	var data = [];
+	var i;
+	
+	for(i = 0; i < timestamps.length; i++) {
+		console.log(timestamps[i]);
+		console.log(datas[i]);
+		data[timestamps[i]] = datas[i];
+	}
+	
+	
+	
 	var idHolder = "holder"+(charts.length);
 	//$('#holder').height($('#holder').height()+400);
 	$('#holder').append('<div id="'+idHolder+'" style="margin:20px;"></div>');
