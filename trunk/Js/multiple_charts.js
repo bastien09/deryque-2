@@ -25,7 +25,6 @@ for(var i = -999; i <= 0; i++) {
 }
 
 $(document).ready(function() {
-
 	var getChartConfig = function(renderId, title, i) {
 		var config = {};
 		config.chart = {
@@ -49,35 +48,40 @@ $(document).ready(function() {
 		};
 		config.i = i;
 		config.rangeSelector = {
-		buttons: [{
-		count: 10,
-		type: 'second',
-		text: '10s'
-		},
-		{
-		count: 30,
-		type: 'second',
-		text: '30s'
-		}, {
-		count: 1,
-		type: 'minute',
-		text: '1min'
-		}, {
-		type: 'all',
-		text: 'All'
-		}],
-		inputEnabled: false,
-		selected: 0
+				enabled : false
 		};
+//		buttons: [{
+//		count: 10,
+//		type: 'second',
+//		text: '10s'
+//		},
+//		{
+//		count: 30,
+//		type: 'second',
+//		text: '30s'
+//		}, {
+//		count: 1,
+//		type: 'minute',
+//		text: '1min'
+//		}, {
+//		type: 'all',
+//		text: 'All'
+//		}],
+//		inputEnabled: false,
+//		selected: 0
+//		};
 
 		config.title = {
 				text : title
 		};
 		config.legend = {
-				enabled: true,
-				align: 'right',
-				layout: 'vertical',
-				verticalAlign: 'middle',
+				enabled: false
+		};
+		config.scrollbar = {
+				height: 7
+		};
+		config.navigator = {
+				height : 15
 		};
 
 		config.plotOptions = {
@@ -148,15 +152,13 @@ $(document).ready(function() {
 	});
 
 	charts.push(new Highcharts.StockChart(
-			getChartConfig("container", "Chart 0", 0 )
+			getChartConfig("holder", "Chart 0", 0 )
 	));
 	charts.push(new Highcharts.StockChart(
-			getChartConfig("container1", "Chart 1", 1 )
+			getChartConfig("holder1", "Chart 1", 1 )
 	));
 
-
 	requestData(lastCall);
-
 });
 
 function requestData(i) {
@@ -184,7 +186,13 @@ function addSerie(nom, data) {
 };
 
 function setAction(item) {
+	alert('Pouet');
 	action = item;
 	$('#infos').html(action);
 }
 
+function Dezoom() {
+	$.each(charts, function (i, chart) {
+		chart.xAxis[0].setExtremes(chart.xAxis.min, chart.xAxis.max);
+	});
+}
