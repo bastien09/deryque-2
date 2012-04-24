@@ -15467,10 +15467,6 @@ Highcharts.RangeSelector = function (chart) {
 			text: 'All'
 		}];
 //		chart.resetZoomEnabled = false;
-	 if (typeof(chart.options.chart.resetZoomEnabled) != 'undefined')
-         chart.resetZoomEnabled = chart.options.chart.resetZoomEnabled;
-      else
-         chart.resetZoomEnabled = false;
 
 	/**
 	 * The method to run when one of the buttons in the range selectors is clicked
