@@ -35,12 +35,12 @@ END;
 			if (file_exists($fichier)) {				
 				$action = CNavigation::generateUrlToApp('Import', 'submit_selection');
 				echo '<form id="choiximport" action="', $action, '" method="post">';
-				if (DataGPX::isOfThisDataType($fichier,$extension)) {
-					DataGPX::recupDonneesImportables($fichier);
-				} elseif (DataTCX::isOfThisDataType($fichier,$extension)) {					
-					DataTCX::recupDonneesImportables($fichier);
-				} elseif (DataHL7::isOfThisDataType($fichier,$extension)) {
-					DataHL7::recupDonneesImportables($fichier);
+				if (GPXFile::isOfThisDataType($fichier,$extension)) {
+					GPXFile::recupDonneesImportables($fichier);
+				} elseif (TCXFile::isOfThisDataType($fichier,$extension)) {					
+					TCXFile::recupDonneesImportables($fichier);
+				} elseif (HL7File::isOfThisDataType($fichier,$extension)) {
+					HL7File::recupDonneesImportables($fichier);
 				}
 				echo <<<END
 				<div class="well" id="boutons">

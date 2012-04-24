@@ -1,6 +1,6 @@
 <?php
 
-class DataTCX implements DataType {
+class TCXFile implements FileType {
 
 	public static function isOfThisDataType($fichier, $extension) {
 

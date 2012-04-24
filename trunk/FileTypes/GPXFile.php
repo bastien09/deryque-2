@@ -1,6 +1,6 @@
 <?php
 
-class DataGPX implements DataType {
+class GPXFile implements FileType {
 
 	public static function isOfThisDataType($fichier, $extension) {
 		return $extension === ".gpx";
