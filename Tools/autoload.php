@@ -7,7 +7,7 @@ function __autoload($class)
 		'Mod/'.$class.'.php',
 		'View/'.$class.'.php',
 		'Ctrl/'.$class.'.php',
-		'DataTypes/'.$class.'.php'
+		'FileTypes/'.$class.'.php'
 	);
 	
 	foreach($possible_paths as $chemin)

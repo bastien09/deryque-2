@@ -1,6 +1,6 @@
 <?php
 
-	interface DataType {
+	interface FileType {
 			
 		public static function isOfThisDataType($fichier,$extension);
 		

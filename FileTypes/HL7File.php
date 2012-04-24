@@ -1,6 +1,6 @@
 <?php
 
-class DataHL7 implements DataType {
+class HL7File implements FileType {
 
 
 	public static function isOfThisDataType($fichier,$extension) {
