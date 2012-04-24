@@ -151,16 +151,15 @@ Highcharts.setOptions({
 
 function addChart(name, datas, timestamps) {
 		
-	var data = [];
+	var data = new Array();
 	var i;
 	
 	for(i = 0; i < timestamps.length; i++) {
-		console.log(timestamps[i]);
-		console.log(datas[i]);
-		data[timestamps[i]] = datas[i];
+		data.push([
+			      timestamps[i],
+			      datas[i]
+			      ]);
 	}
-	
-	
 	
 	var idHolder = "holder"+(charts.length);
 	//$('#holder').height($('#holder').height()+400);
