@@ -28,7 +28,7 @@ var getChartConfig = function(renderId, title, i) {
 	config.chart = {
 			renderTo: renderId,
 			zoomType : "x",
-			height:300,
+			height:200,
 			width:1000,
 
 			events: {
@@ -151,7 +151,8 @@ Highcharts.setOptions({
 
 function addChart(name, data) {
 	var idHolder = "holder"+(charts.length);
-	$('#mainContent').append('<div id="'+idHolder+'" style="margin:20px;height:400px;"></div>');
+	//$('#holder').height($('#holder').height()+400);
+	$('#holder').append('<div id="'+idHolder+'" style="margin:20px;"></div>');
 	charts.push(new Highcharts.StockChart(
 			getChartConfig(idHolder, name, charts.length)
 	));
