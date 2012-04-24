@@ -22,7 +22,7 @@ class DGrapheTempsReel extends DAbstract
 		<button onClick="run = false;"> Stop  </button>
 		<button onClick="run = true;requestData(lastCall);"> Go  </button>
 		<button onClick="Dezoom();"> Zoom out </button>
-		<input type="text" id="nb" /><button onClick="rmChart('$('#nb')');"> RmChart </button>
+		<input type="text" id="nb" /><button onClick="rmChart($('#nb').val());"> RmChart </button>
 		<script>
 		$.each(data, function (i, data) {
 		if (i != 0)

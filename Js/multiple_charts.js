@@ -28,7 +28,7 @@ var getChartConfig = function(renderId, title, i) {
 	config.chart = {
 			renderTo: renderId,
 			zoomType : "x",
-			height:200,
+			height:150,
 			width:1000,
 
 			events: {
@@ -160,7 +160,7 @@ function addChart(name, data) {
 };
 
 function rmChart(i) {
-	charts[i] = null;
+	charts[i].destroy();
 };
 
 function requestData(i, j, data) {
