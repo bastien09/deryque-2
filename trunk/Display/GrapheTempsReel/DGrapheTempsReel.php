@@ -14,16 +14,15 @@ class DGrapheTempsReel extends DAbstract
 		CHead::addJs('exporting');
 		CHead::addJs('multiple_charts');
 		
-		
 		echo <<<END
-		<div id='holder' style='margin:20px;width:900px;height:400px'></div>
-		<div id='holder1' style='margin:20px;width:900px;height:400px'></div>
 		<button onClick="setAction('flags');"> Flags </button>
 		<button onClick="setAction('yline');"> Line on YAxis </button>
 		<button onClick="setAction('xline');"> Line on XAxis  </button>
 		<button onClick="run = false;"> Stop  </button>
 		<button onClick="run = true;requestData(lastCall);"> Go  </button>
 		<button onClick="Dezoom();"> Zoom out </button>
+		<button onClick="addChart('Zougoulou', data[1]);"> AddChart </button>
+		<input type="text" id="nb" /><button onClick="rmChart('$('#nb')');"> RmChart </button>
 END;
 
 	}
