@@ -14,9 +14,20 @@ class HL7File implements FileType {
 	}
 	
 	public static function recupDonneesImportables($fichier) {
+		
+		echo <<<END
+		<table class="bordered-table">
+			<tr>
+				<th><input type="checkbox" value="option1" name="optionsCheckboxes"/></th>
+				<th>SequenceSet</th>
+				<th>Sequences</th>
+			</tr>
+END;
+		
 		$dom = new DOMDocument("1.0","utf-8");
 		$dom->load($fichier);
 		$sequence = $dom->getElementsByTagName('sequenceSet')->item(0);
+		$startTime = $sequence->getElementsByTagName('head')->item(0)->getAttribute('value');
 		$increment = $sequence->getElementsByTagName('increment')->item(0)->getAttribute('value');
 		$digits = $sequence->getElementsByTagName('digits');
 		/** tableaux[0] = timestamp, tableaux[1+] = valeurs */
@@ -29,17 +40,10 @@ class HL7File implements FileType {
 		}
 		/* on remplit le timestamp */
 		for($j = 0; $j < count($tableaux[1]); $j++) {
-			$tableaux[0][] = $j*$increment;
+			$tableaux[0][] = $startTime + $j*$increment;
 		}
 				
-		echo <<<END
-		<table class="bordered-table">
-			<tr>
-				<th><input type="checkbox" value="option1" name="optionsCheckboxes"/></th>
-				<th>Sequences</th>
-			</tr>
-END;
-
+		//echo "<pre>".print_r($tableaux[0])."</pre>";
 
 		//TODO ajouter données
 		
