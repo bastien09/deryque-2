@@ -1,6 +1,7 @@
 var chart;
 var run = true, action = 'flags', lastCall = 0;
 var charts = [];
+var dataCharts = [];
 /*var data = new Array(), time = (new Date()).getTime(), i;
 
 for (x = 0; x < 9; x++) {
@@ -167,6 +168,9 @@ function addChart(name, datas, timestamps) {
 	charts.push(new Highcharts.StockChart(
 			getChartConfig(idHolder, name, charts.length)
 	));
+	dataCharts[charts.length - 1] = data;
+	inf = "infos"+(charts.length-1);
+	$('#infos').append("<li>"+ name +" : <span id="+ inf +"></span></li>");
 	requestData(lastCall, charts.length - 1, data);
 };
 
@@ -183,18 +187,15 @@ function requestData(i, j, data) {
 	if (i >= data.length - 1)
 		i = 0;
 	charts[j].series[0].addPoint(data[i], true, false);
+	afficheInfos(j, charts[j].series[0].yData[i]);
 	i++;
 	// call it again after 100ms
 	setTimeout(function() { requestData(i, j, data); }, 100);    
 };
 
-//function addSerie(nom, data) {
-//	chart.addSeries({
-//		name : nom,
-//		id : nom,
-//		data : data
-//	});
-//};
+function afficheInfos(i, data) {
+	$('#infos'+i).html(data+ "unite");
+}
 
 function setAction(item) {
 	alert('Pouet');

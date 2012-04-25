@@ -42,42 +42,60 @@ class DGrapheTempsReel extends DAbstract {
 
 		$addCharts .= "</script>";
 
-		echo <<<END
-		<script>
-		jQuery(document).ready(function(){
-			$('#head').click(function() {
-				$(this).next().toggle('slow');
-				return false;
-			}).next().hide();
-		});
-			$(function() {
-				$( "#accordion" ).accordion({
-					collapsible: true
-				});
-			});
-		</script>
+// 			<script>
+// 		jQuery(document).ready(function(){
+// 			$('#head').click(function() {
+// 				$(this).next().toggle('slow');
+// 				return false;
+// 			}).next().hide();
+// 		});
+// 			$(function() {
+// 				$( "#accordion" ).accordion({
+// 					collapsible: true
+// 				});
+// 			});
+		
+// 		</script>
+			echo <<<END
 		<div id="englober" style="height:650px;">
 		<div id='holder' style="margin:20px;float:left;"></div>
 			<div id='accordion'>
 				<div class="well">
 					<h3 id="head">Controles</h3>
-					<div>				
-						<button onClick="setAction('flags');"> Flags </button>
-						<button onClick="setAction('yline');"> Line on YAxis </button>
-						<button onClick="setAction('xline');"> Line on XAxis  </button>
-						<button onClick="run = false;"> Stop  </button>
-						<button onClick="run = true;requestData(lastCall);"> Go  </button>
-						<button onClick="Dezoom();"> Zoom out </button>
-						<input type="text" id="nb" /><button onClick="rmChart($('#nb').val());"> RmChart </button>
-					</div>
+					<ul>
+					    <li onClick="run = false;"> Stop  </li>
+						<li onClick="run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); }); "> Go  </li>
+						<li onClick="Dezoom();"> Zoom out </button>
+					</ul>
 				</div>
 				<div class="well">
 					<h3 id="head">Informations</h3>
-					<div>Texte1</div>
+					<div class="row">
+						<div class="span3">
+							<ul>				
+							    <li>Information : bla</li>
+							    <li>Information : bla</li>
+							    <li>Information : bla</li>
+							    <li>Information : bla</li>
+							    <li>Information : bla</li>
+							</ul>
+					    </div>
+					    <div class="span3">
+							<ol id="infos">
+							</ol>								
+					    </div>
+					</div>
 				</div>
 				<div class="well">
 					<h3 id="head">Marqueurs</h3>
-					<div>Texte1</div>
+					<div>
+					<ul>
+						<li onClick="setAction('flags');"> Flags </li>
+						<li onClick="setAction('yline');"> Line on YAxis </li>
+						<li onClick="setAction('xline');"> Line on XAxis  </li>
+						<li><input type="text" id="nb" /></li>
+						<li onClick="rmChart($('#nb').val());"> RmChart </li>
+					</ul>
 				</div>
 				<div class="well">
 					<h3 id="head">Detection de pics</h3>
@@ -85,7 +103,6 @@ class DGrapheTempsReel extends DAbstract {
 				</div>
 			</div>
 		</div>
-
 END;
 
 		echo $addCharts;
