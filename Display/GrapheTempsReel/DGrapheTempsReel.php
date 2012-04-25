@@ -44,6 +44,7 @@ class DGrapheTempsReel extends DAbstract {
 
 		echo <<<END
 		<div id='holder' style="margin:20px;"></div>
+		<div id='droite'>
 		<button onClick="setAction('flags');"> Flags </button>
 		<button onClick="setAction('yline');"> Line on YAxis </button>
 		<button onClick="setAction('xline');"> Line on XAxis  </button>
@@ -51,6 +52,7 @@ class DGrapheTempsReel extends DAbstract {
 		<button onClick="run = true;requestData(lastCall);"> Go  </button>
 		<button onClick="Dezoom();"> Zoom out </button>
 		<input type="text" id="nb" /><button onClick="rmChart($('#nb').val());"> RmChart </button>
+		</div>
 END;
 
 		echo $addCharts;

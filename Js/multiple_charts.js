@@ -180,7 +180,7 @@ function requestData(i, j, data) {
 		lastCall = i;
 		return;
 	}
-	if (i >= 999)
+	if (i >= data.length - 1)
 		i = 0;
 	charts[j].series[0].addPoint(data[i], true, false);
 	i++;
