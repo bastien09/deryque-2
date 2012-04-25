@@ -29,7 +29,7 @@ var getChartConfig = function(renderId, title, i) {
 			renderTo: renderId,
 			zoomType : "x",
 			height:150,
-			width:1000,
+			width:700,
 
 			events: {
 				selection: function(event) {
