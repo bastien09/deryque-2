@@ -12,6 +12,8 @@ class DGrapheTempsReel extends DAbstract {
 		CHead::addJs('highstock');
 		CHead::addJs('exporting');
 		CHead::addJs('multiple_charts');
+		CHead::addJs('bootstrap-modal');
+		CHead::addJs('marqueurs');
 
 		$dataToAdd = array();
 		$timestamps = array();
@@ -66,6 +68,8 @@ class DGrapheTempsReel extends DAbstract {
 					    <li onClick="run = false;"> Stop  </li>
 						<li onClick="run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); }); "> Go  </li>
 						<li onClick="Dezoom();"> Zoom out </button>
+						<li><input type="text" id="nb" /></li>
+						<li onClick="rmChart($('#nb').val());"> RmChart </li>
 					</ul>
 				</div>
 				<div class="well">
@@ -73,8 +77,6 @@ class DGrapheTempsReel extends DAbstract {
 					<div class="row">
 						<div class="span3">
 							<ul>				
-							    <li>Information : bla</li>
-							    <li>Information : bla</li>
 							    <li>Information : bla</li>
 							    <li>Information : bla</li>
 							    <li>Information : bla</li>
@@ -89,20 +91,68 @@ class DGrapheTempsReel extends DAbstract {
 				<div class="well">
 					<h3 id="head">Marqueurs</h3>
 					<div>
-					<ul>
-						<li onClick="setAction('flags');"> Flags </li>
-						<li onClick="setAction('yline');"> Line on YAxis </li>
-						<li onClick="setAction('xline');"> Line on XAxis  </li>
-						<li><input type="text" id="nb" /></li>
-						<li onClick="rmChart($('#nb').val());"> RmChart </li>
-					</ul>
+						<ol id="listeMarqueursCourants"></ol>
+						<ul>
+							<li><button class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"> Ajouter </button></li>
+							<li><select id="listeMarqueurs"></select></li>
+							<li><button class="btn" onClick="setAction('marqueurs')"> Placer </button></li>
+							<li><button class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"> Supprimer </button></li>
+						</ul>
+					</div>
 				</div>
 				<div class="well">
 					<h3 id="head">Detection de pics</h3>
-					<div>Texte1</div>
+						<ul>
+							<li onClick="setAction('yline');"> Line on YAxis </li>
+						</ul>
 				</div>
 			</div>
 		</div>
+		
+		<!-- Modaux -->
+		<div id="popup_ajouter" class="modal hide fade">
+          <div class="modal-header">
+            <a href="#" class="close">×</a>
+            <h3>Ajouter un marqueur</h3>
+          </div>
+          <div class="modal-body">
+          <fieldset>
+          	<div>
+	            <label for="nomMarqueur" > Nom </label>
+	            <input id="nomMarqueur" class="span3" />
+            </div>
+          	<div >
+	            <label for="abbMarqueur" > Abbréviation </label>
+	            <input id="abbMarqueur" class="span3" />
+            </div>
+          	<div>
+	            <label for="descMarqueur" > Description </label>
+	            <textarea id="descMarqueur"></textarea>
+            </div>
+          	<div>
+	            <label for="coulMarqueur" > Couleur </label>
+	            <select id="coulMarqueur"></select>
+            </div>
+          </fieldset>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn primary" onClick="addMarqueur($('#nomMarqueur').val(),$('#abbMarqueur').val(),$('#descMarqueur').val(), $('#coulMarqueur').val());$('#popup_ajouter').modal('hide');">Ajouter</a>
+            <a href="#" class="btn secondary" onClick="$('#popup_ajouter').modal('hide')">Annuler</a>
+          </div>
+		</div>
+		<div id="popup_supprimer" class="modal hide fade">
+          <div class="modal-header">
+            <a href="#" class="close">×</a>
+            <h3>Ajouter un marqueur</h3>
+          </div>
+          <div class="modal-body">
+          	<p> Etes vous sur de vouloir supprimer le marqueur <span id="marqueur"></span> ? </p>
+          </div>
+          <div class="modal-footer">
+            <a href="#" class="btn danger" onClick="rmMarqueur($('#listeMarqueurs').val());$('#popup_supprimer').modal('hide')">Supprimer</a>
+            <a href="#" class="btn secondary" onClick="$('#popup_supprimer').modal('hide')">Annuler</a>
+          </div>
+		</div>		
 END;
 
 		echo $addCharts;

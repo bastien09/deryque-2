@@ -1,42 +1,22 @@
-var chart;
-var run = true, action = 'flags', lastCall = 0;
+var run = true, action = 'marqueur', lastCall = 0;
 var charts = [];
 var dataCharts = [];
-/*var data = new Array(), time = (new Date()).getTime(), i;
 
-for (x = 0; x < 9; x++) {
-	data[x] = new Array();
-}
-for(var i = -999; i <= 0; i++) {
-	for (var x = 0; x < 9; x++) {
-		if (x == 0) {
-			data[x].push([
-			              time + i * 1000,
-			              null
-			              ]);
-		}
-		else {
-			data[x].push([
-			              time + i * 1000,
-			              Math.round(Math.random() * 100)
-			              ]);
-		}
-	}
 
-}*/
-var getChartConfig = function(renderId, title, i) {
+//Fonction pour créer un graphe facilement
+var getChartConfig = function(renderId, title, i, width, height) {
 	var config = {};
 	config.chart = {
 			renderTo: renderId,
 			zoomType : "x",
-			height:150,
-			width:700,
+			height:height,
+			width:width,
 
 			events: {
 				selection: function(event) {
 					if (event.xAxis) {
 						$('#infos').html('min: '+ event.xAxis[0].min +', max: '+ event.xAxis[0].max);
-						for (x = 0; x < charts.length; x++) {
+						for (var x = 0; x < charts.length; x++) {
 							charts[x].xAxis[0].setExtremes(event.xAxis[0].min,event.xAxis[0].max);
 						}
 					} else {
@@ -49,27 +29,6 @@ var getChartConfig = function(renderId, title, i) {
 	config.rangeSelector = {
 			enabled : false
 	};
-//	buttons: [{
-//	count: 10,
-//	type: 'second',
-//	text: '10s'
-//	},
-//	{
-//	count: 30,
-//	type: 'second',
-//	text: '30s'
-//	}, {
-//	count: 1,
-//	type: 'minute',
-//	text: '1min'
-//	}, {
-//	type: 'all',
-//	text: 'All'
-//	}],
-//	inputEnabled: false,
-//	selected: 0
-//	};
-
 	config.title = {
 			text : title
 	};
@@ -91,18 +50,12 @@ var getChartConfig = function(renderId, title, i) {
 						click: function() {
 							//Multiple flags
 							switch (action) {
-							case 'flags' :
-								for (x = 0; x < charts.length; x++) {
-									var ser = charts[x].get("flags");
-									ser.addPoint({
-										x : this.x
-									}); 
-									$('#infos').html("Pouet"+ ser.xData);
-								}
+							case 'marqueurs' :
+								placerMarqueur($('#listeMarqueurs').val(), this.x);
 								break;
 							case 'xline' :
 								//Multiple x plot lines
-								for (x = 0; x < charts.length; x++) {
+								for (var x = 0; x < charts.length; x++) {
 									charts[x].xAxis[0].removePlotLine('xmark');
 									charts[x].xAxis[0].addPlotLine({ 
 										value: this.x,
@@ -150,23 +103,24 @@ Highcharts.setOptions({
 	}
 });
 
+//Ajouter un graphe avec un tableau de y, et de x
 function addChart(name, datas, timestamps) {
-		
+
 	var data = new Array();
 	var i;
-	
+
 	for(i = 0; i < timestamps.length; i++) {
 		data.push([
-			      timestamps[i],
-			      datas[i]
-			      ]);
+		           timestamps[i],
+		           datas[i]
+		           ]);
 	}
-	
+
 	var idHolder = "holder"+(charts.length);
 	//$('#holder').height($('#holder').height()+400);
 	$('#holder').append('<div id="'+idHolder+'" style="margin:20px;"></div>');
 	charts.push(new Highcharts.StockChart(
-			getChartConfig(idHolder, name, charts.length)
+			getChartConfig(idHolder, name, charts.length, 500, 200)
 	));
 	dataCharts[charts.length - 1] = data;
 	inf = "infos"+(charts.length-1);
@@ -178,6 +132,7 @@ function rmChart(i) {
 	charts[i].destroy();
 };
 
+//Temps réel
 function requestData(i, j, data) {
 	// add the point
 	if (!run) {
@@ -193,14 +148,14 @@ function requestData(i, j, data) {
 	setTimeout(function() { requestData(i, j, data); }, 100);    
 };
 
+// Info en temps réel à droite
 function afficheInfos(i, data) {
 	$('#infos'+i).html(data+ "unite");
 }
-
+//Action à effectuer, placer des marqueurs ou des pics
 function setAction(item) {
-	alert('Pouet');
 	action = item;
-	$('#infos').html(action);
+	//$('#infos').html(action);
 }
 
 function Dezoom() {

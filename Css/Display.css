@@ -39,3 +39,15 @@ background:white;
 	margin-left: 800px;
 	width:400px;
 }
+
+fieldset div {
+	margin : 10px;
+}
+
+label {
+	margin-right : 20px;
+}
+
+select {
+	margin-right : 10px;
+}
