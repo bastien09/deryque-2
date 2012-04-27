@@ -92,12 +92,12 @@ class DGrapheTempsReel extends DAbstract {
 					<h3 id="head">Marqueurs</h3>
 					<div>
 						<ol id="listeMarqueursCourants"></ol>
-						<ul>
-							<li><button class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"> Ajouter </button></li>
-							<li><select id="listeMarqueurs"></select></li>
+						<ul id="ulMarqueur" style="text-align:center">
 							<li><button class="btn" onClick="setAction('marqueurs')"> Placer </button></li>
-							<li><button class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"> Supprimer </button></li>
+							<li style="margin-top:5px;margin-bottom:5px"><label for="listeMarqueurs"> Marqueur </label><select id="listeMarqueurs" class="span3" onChange="description()"></select></li>
+							<li><button class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"> Ajouter </button> <button class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"> Supprimer </button></li>
 						</ul>
+						<div id="desc"></div>
 					</div>
 				</div>
 				<div class="well">
@@ -112,7 +112,7 @@ class DGrapheTempsReel extends DAbstract {
 		<!-- Modaux -->
 		<div id="popup_ajouter" class="modal hide fade">
           <div class="modal-header">
-            <a href="#" class="close">×</a>
+            <a href="#" class="close">x</a>
             <h3>Ajouter un marqueur</h3>
           </div>
           <div class="modal-body">
@@ -129,9 +129,15 @@ class DGrapheTempsReel extends DAbstract {
 	            <label for="descMarqueur" > Description </label>
 	            <textarea id="descMarqueur"></textarea>
             </div>
-          	<div>
-	            <label for="coulMarqueur" > Couleur </label>
-	            <select id="coulMarqueur"></select>
+            <div>
+            	<label for="coulMarqueur"> Couleur </label>
+	            <select id="coulMarqueur" class="span3">
+	            <option value="black">Noir</option>
+	            <option value="red">Rouge</option>
+	            <option value="blue">Bleu</option>
+	            <option value="green">Vert</option>
+	            <option value="yellow">Jaune</option>
+	            </select>
             </div>
           </fieldset>
           </div>
@@ -142,7 +148,7 @@ class DGrapheTempsReel extends DAbstract {
 		</div>
 		<div id="popup_supprimer" class="modal hide fade">
           <div class="modal-header">
-            <a href="#" class="close">×</a>
+            <a href="#" class="close">x</a>
             <h3>Ajouter un marqueur</h3>
           </div>
           <div class="modal-body">

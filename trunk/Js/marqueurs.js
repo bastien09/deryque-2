@@ -1,37 +1,37 @@
 var marqueurs = [];			//Marqueurs enregistrés
 var marqueursCourants = [];	//Marqueurs placés
+var compteurMarqueur = 0;
 var compteur = 0;			
 
-
-var getMarqueur = function (nom) {
-	$.each(marqueurs, function (i, marqueur) {
-		if (marqueur.nom == nom) {
-			return marqueur;
-		}
-	});
-	return null;
-};
-
+var getMarqueur = function(i) {
+	for (var j = 0; j < marqueurs.length; j++) {
+		if (i == marqueurs[j].i)
+			return marqueurs[j];
+	}
+}
 var createMarqueur = function (nom, abb, desc, couleur) {
 	var marqueur = {};
 	marqueur.nom = nom;
 	marqueur.abb = abb;
 	marqueur.desc = desc;
 	marqueur.couleur = couleur;
+	marqueur.i = compteurMarqueur++;
 	
 	return marqueur;
 };
 
 var addMarqueur = function (nom, abb, desc, couleur) {
-	marqueur = createMarqueur(nom, abb, desc, "red");
+	marqueur = createMarqueur(nom, abb, desc, couleur);
 	marqueurs.push(marqueur);
 	printMarqueurs();
+	$('#listeMarqueurs option').eq(marqueurs.length-1).attr('selected', 'selected');
+	description();
 };
 
-var rmMarqueur = function (nom) {
-	for (var i = 0; i < marqueurs.length; i++) {
-		if (marqueurs[i].nom == nom) {
-			marqueurs.splice(i,1);
+var rmMarqueur = function (i) {
+	for (var j = 0; j < marqueurs.length; j++) {
+		if (marqueurs[j].i == i) {
+			marqueurs.splice(j,1);
 			printMarqueurs();
 			return;
 		}
@@ -41,14 +41,15 @@ var rmMarqueur = function (nom) {
 var printMarqueurs = function() {
 	var liste = "";
 	$.each(marqueurs, function (i, marqueur) {
-		liste +="<option>"+ marqueur.nom +"</option>";
+		liste +="<option value="+ marqueur.i +">"+ marqueur.nom +"</option>";
 	});
 	$('#listeMarqueurs').html(liste);
 };
 
-var placerMarqueur = function (nom, x) {
+var placerMarqueur = function (i, x) {
+	var marqueur = getMarqueur(i);
 	var marqueurCourant = {};
-	marqueurCourant.nom = nom;
+	marqueurCourant.nom = marqueur.nom;
 	marqueurCourant.x = x;
 	marqueurCourant.i = compteur++;
 	
@@ -56,14 +57,14 @@ var placerMarqueur = function (nom, x) {
 		var ser = chart.get("flags");
 		ser.addPoint({
 			x : x,
-			title : nom,
-			id : nom+marqueurCourant.i
+			title : marqueur.nom,
+			id : marqueur.nom+marqueurCourant.i
 		}); 
 		chart.xAxis[0].addPlotLine({ 
 			value: x,
-			color: 'red',
+			color: marqueur.couleur,
 			width: 2,
-			id: nom+marqueurCourant.i
+			id: marqueur.nom+marqueurCourant.i
 		});	
 	});
 	marqueursCourants.push(marqueurCourant);
@@ -71,7 +72,6 @@ var placerMarqueur = function (nom, x) {
 };
 
 var rmMarqueurCourant = function (id, i) {
-	alert("Suppression de "+ id);
 	$.each(charts, function (i, chart) {
 		chart.xAxis[0].removePlotLine(id);
 		point = chart.get(id);
@@ -87,4 +87,12 @@ var printMarqueursCourants = function() {
 		liste +="<li>"+ marqueurCourant.nom +"<a href='#' class='close' onClick='rmMarqueurCourant(\""+ marqueurCourant.nom + marqueurCourant.i +"\","+ marqueurCourant.i +")'>x</a></li>";
 	});
 	$('#listeMarqueursCourants').html(liste);
+};
+
+var description = function() {
+	var description = getMarqueur($("#listeMarqueurs").val()).desc;
+	console.log(description);
+	if (description == "")
+		description = "Il n'y a pas de description pour ce marqueur";
+	$('#desc').html('<div id="description" class="alert-message info"><a class="close" href="#" onClick="$(\'#description\').remove()">x</a><p>'+ description +'</p></div>');
 };
