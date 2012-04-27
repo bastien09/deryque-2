@@ -40,11 +40,15 @@ background:white;
 	width:400px;
 }
 
+#accordion ul {
+	list-style-type:none;
+}
+
 fieldset div {
 	margin : 10px;
 }
 
-label {
+fieldset label {
 	margin-right : 20px;
 }
 
