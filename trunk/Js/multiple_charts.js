@@ -53,29 +53,9 @@ var getChartConfig = function(renderId, title, i, width, height) {
 							case 'marqueurs' :
 								placerMarqueur($('#listeMarqueurs').val(), this.x);
 								break;
-							case 'xline' :
+							case 'pics' :
 								//Multiple x plot lines
-								for (var x = 0; x < charts.length; x++) {
-									charts[x].xAxis[0].removePlotLine('xmark');
-									charts[x].xAxis[0].addPlotLine({ 
-										value: this.x,
-										color: 'red',
-										width: 2,
-										id: 'xmark'
-									});	
-								} 
-								break;
-							case 'yline' :
-								//Multiple x plot lines
-								for (x = 0; x < charts.length; x++) {
-									charts[x].yAxis[0].removePlotLine('ymark');
-									charts[x].yAxis[0].addPlotLine({ 
-										value: this.y,
-										color: 'red',
-										width: 2,
-										id: 'ymark'
-									});	
-								} 
+								placerLigne($('#choixLigne').val(), this.y);
 								break;
 							}
 						}
@@ -120,16 +100,19 @@ function addChart(name, datas, timestamps) {
 	//$('#holder').height($('#holder').height()+400);
 	$('#holder').append('<div id="'+idHolder+'" style="margin:20px;"></div>');
 	charts.push(new Highcharts.StockChart(
-			getChartConfig(idHolder, name, charts.length, 500, 200)
+			getChartConfig(idHolder, name, charts.length, 500, 500)
 	));
 	dataCharts[charts.length - 1] = data;
 	inf = "infos"+(charts.length-1);
 	$('#infos').append("<li>"+ name +" : <span id="+ inf +"></span></li>");
+	printCharts();
 	requestData(lastCall, charts.length - 1, data);
 };
 
 function rmChart(i) {
 	charts[i].destroy();
+	charts.splice(i,1);
+	printCharts();
 };
 
 //Temps réel
@@ -145,7 +128,7 @@ function requestData(i, j, data) {
 	afficheInfos(j, charts[j].series[0].yData[i]);
 	i++;
 	// call it again after 100ms
-	setTimeout(function() { requestData(i, j, data); }, 100);    
+	setTimeout(function() { if (charts[j].series) requestData(i, j, data); }, 100);    
 };
 
 // Info en temps réel à droite
@@ -162,4 +145,12 @@ function Dezoom() {
 	$.each(charts, function (i, chart) {
 		chart.xAxis[0].setExtremes(chart.xAxis.min, chart.xAxis.max);
 	});
+}
+
+function printCharts() {
+	var liste = "";
+	$.each(charts, function (i, chart) {
+		liste += "<option value="+ i +">Graphe "+ i +"</option>";
+	});
+	$('#listeCharts').html(liste);
 }

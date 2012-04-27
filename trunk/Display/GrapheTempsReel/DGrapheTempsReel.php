@@ -14,6 +14,7 @@ class DGrapheTempsReel extends DAbstract {
 		CHead::addJs('multiple_charts');
 		CHead::addJs('bootstrap-modal');
 		CHead::addJs('marqueurs');
+		CHead::addJs('pics');
 
 		$dataToAdd = array();
 		$timestamps = array();
@@ -65,11 +66,12 @@ class DGrapheTempsReel extends DAbstract {
 				<div class="well">
 					<h3 id="head">Controles</h3>
 					<ul>
-					    <li onClick="run = false;"> Stop  </li>
-						<li onClick="run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); }); "> Go  </li>
-						<li onClick="Dezoom();"> Zoom out </button>
-						<li><input type="text" id="nb" /></li>
-						<li onClick="rmChart($('#nb').val());"> RmChart </li>
+					    <li><button class="btn" onClick="run = false;"> Stop </button>
+							<button class="btn" onClick="run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); }); "> Go </button>
+							<button class="btn" onClick="Dezoom();"> Zoom out </button>							
+					     </li>
+						<li><select id="listeCharts"></select></li>
+						<li><button class="btn" onClick="rmChart($('#listeCharts').val());"> Supprimer </button></li>
 					</ul>
 				</div>
 				<div class="well">
@@ -78,8 +80,6 @@ class DGrapheTempsReel extends DAbstract {
 						<div class="span3">
 							<ul>				
 							    <li>Information : bla</li>
-							    <li>Information : bla</li>
-							    <li>Information : bla</li>
 							</ul>
 					    </div>
 					    <div class="span3">
@@ -87,23 +87,28 @@ class DGrapheTempsReel extends DAbstract {
 							</ol>								
 					    </div>
 					</div>
-				</div>
+				</div>		
 				<div class="well">
 					<h3 id="head">Marqueurs</h3>
 					<div>
 						<ol id="listeMarqueursCourants"></ol>
 						<ul id="ulMarqueur" style="text-align:center">
-							<li><button class="btn" onClick="setAction('marqueurs')"> Placer </button></li>
+							<li><button class="btn" onClick="setAction('marqueurs')"> Placer </button><button class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"> Ajouter </button> <button class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"> Supprimer </button></li>
 							<li style="margin-top:5px;margin-bottom:5px"><label for="listeMarqueurs"> Marqueur </label><select id="listeMarqueurs" class="span3" onChange="description()"></select></li>
-							<li><button class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"> Ajouter </button> <button class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"> Supprimer </button></li>
-						</ul>
+							</ul>
 						<div id="desc"></div>
 					</div>
 				</div>
 				<div class="well">
 					<h3 id="head">Detection de pics</h3>
 						<ul>
-							<li onClick="setAction('yline');"> Line on YAxis </li>
+							<li><button class="btn" onClick="setAction('pics');"> Placer </button><button class="btn" onClick="rmLigne($('#choixLigne').val())"> Supprimer </button></li>
+							<li><select id="choixLigne">
+							<option value="min"> Minimum </option>
+							<option value="max"> Maximum </option>
+							</select></li>
+							<li> Seuil maximum : <span id="picMax"></span></li>
+							<li> Seuil minimum : <span id="picMin"></span></li>
 						</ul>
 				</div>
 			</div>
