@@ -98,7 +98,7 @@ function addChart(name, datas, timestamps) {
 
 	var idHolder = "holder"+(charts.length);
 	//$('#holder').height($('#holder').height()+400);
-	$('#holder').append('<div id="'+idHolder+'" style="margin:20px;"></div>');
+	$('#holder').append('<a class="close" href="#" onClick="rmChart('+charts.length+');">x</a><div id="'+idHolder+'" style="margin:20px;"></div>');
 	charts.push(new Highcharts.StockChart(
 			getChartConfig(idHolder, name, charts.length, 500, 500)
 	));
@@ -112,6 +112,8 @@ function addChart(name, datas, timestamps) {
 function rmChart(i) {
 	charts[i].destroy();
 	charts.splice(i,1);
+	$('#holder'+i).prev().remove();
+	$('#holder'+i).remove();
 	printCharts();
 };
 
@@ -128,7 +130,7 @@ function requestData(i, j, data) {
 	afficheInfos(j, charts[j].series[0].yData[i]);
 	i++;
 	// call it again after 100ms
-	setTimeout(function() { if (charts[j].series) requestData(i, j, data); }, 100);    
+	setTimeout(function() { if (charts[j]) requestData(i, j, data); }, 100);    
 };
 
 // Info en temps réel à droite

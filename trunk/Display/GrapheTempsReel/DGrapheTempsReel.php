@@ -13,6 +13,7 @@ class DGrapheTempsReel extends DAbstract {
 		CHead::addJs('exporting');
 		CHead::addJs('multiple_charts');
 		CHead::addJs('bootstrap-modal');
+		CHead::addJs('bootstrap-tabs');
 		CHead::addJs('marqueurs');
 		CHead::addJs('pics');
 
@@ -61,7 +62,14 @@ class DGrapheTempsReel extends DAbstract {
 // 		</script>
 			echo <<<END
 		<div id="englober" style="height:650px;">
-		<div id='holder' style="margin:20px;float:left;"></div>
+		<ul class="tabs" data-tabs="tabs">
+		<li class="active"><a href="#holder"> ECG </a></li>
+		<li><a href="#pics"> Pics </a></li>
+		</ul>
+		<div id="my-tab-content" class="tab-content">
+			<div class="tab-pane active" id="holder" style="margin:20px;float:left;"></div>
+			<div class="tab-pane" id="pics" style="margin:20px;float:left;"></div>
+		</div>
 			<div id='accordion'>
 				<div class="well">
 					<h3 id="head">Controles</h3>
@@ -70,8 +78,6 @@ class DGrapheTempsReel extends DAbstract {
 							<button class="btn" onClick="run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); }); "> Go </button>
 							<button class="btn" onClick="Dezoom();"> Zoom out </button>							
 					     </li>
-						<li><select id="listeCharts"></select></li>
-						<li><button class="btn" onClick="rmChart($('#listeCharts').val());"> Supprimer </button></li>
 					</ul>
 				</div>
 				<div class="well">
@@ -89,27 +95,31 @@ class DGrapheTempsReel extends DAbstract {
 					</div>
 				</div>		
 				<div class="well">
-					<h3 id="head">Marqueurs</h3>
-					<div>
-						<ol id="listeMarqueursCourants"></ol>
-						<ul id="ulMarqueur" style="text-align:center">
-							<li><button class="btn" onClick="setAction('marqueurs')"> Placer </button><button class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"> Ajouter </button> <button class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"> Supprimer </button></li>
-							<li style="margin-top:5px;margin-bottom:5px"><label for="listeMarqueurs"> Marqueur </label><select id="listeMarqueurs" class="span3" onChange="description()"></select></li>
+					<ul class="tabs" data-tabs="tabs">
+						<li class="active"><a href="#divMarqueurs"> Marqueurs </a></li>
+						<li><a href="#divPics"> Detection de pics </a></li>
+					</ul>
+					<div id="my-tab-content" class="tab-content">
+						<div id="divMarqueurs" class="tab-pane active">	
+							<ol id="listeMarqueursCourants"></ol>
+							<ul id="ulMarqueur" style="text-align:center">
+								<li><button class="btn" onClick="setAction('marqueurs')"> Placer </button><button class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"> Ajouter </button> <button class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"> Supprimer </button></li>
+								<li style="margin-top:5px;margin-bottom:5px"><label for="listeMarqueurs"> Marqueur </label><select id="listeMarqueurs" class="span3" onChange="description()"></select></li>
+								</ul>
+							<div id="desc"></div>
+						</div>
+						<div id="divPics" class="tab-pane">
+							<ul>
+								<li><button class="btn" onClick="setAction('pics');"> Placer </button><button class="btn" onClick="rmLigne($('#choixLigne').val())"> Supprimer </button></li>
+								<li><select id="choixLigne">
+								<option value="min"> Minimum </option>
+								<option value="max"> Maximum </option>
+								</select></li>
+								<li> Seuil maximum : <span id="picMax"></span></li>
+								<li> Seuil minimum : <span id="picMin"></span></li>
 							</ul>
-						<div id="desc"></div>
+						</div>
 					</div>
-				</div>
-				<div class="well">
-					<h3 id="head">Detection de pics</h3>
-						<ul>
-							<li><button class="btn" onClick="setAction('pics');"> Placer </button><button class="btn" onClick="rmLigne($('#choixLigne').val())"> Supprimer </button></li>
-							<li><select id="choixLigne">
-							<option value="min"> Minimum </option>
-							<option value="max"> Maximum </option>
-							</select></li>
-							<li> Seuil maximum : <span id="picMax"></span></li>
-							<li> Seuil minimum : <span id="picMin"></span></li>
-						</ul>
 				</div>
 			</div>
 		</div>
