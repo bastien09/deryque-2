@@ -1,4 +1,6 @@
 var minLine = "", maxLine = "";
+var dPicsMin = new Array();
+var dPicsMax = new Array();
 
 var placerLigne = function(choix, y) {
 	var color = (choix == 'min') ? 'green' : 'red';
@@ -13,6 +15,7 @@ var placerLigne = function(choix, y) {
 	});
 	if (choix == "min") {
 		minLine = y;
+		recupererPicsMin();
 	} else if (choix == "max") {
 		maxLine = y;
 	}
@@ -46,3 +49,30 @@ var printLignes = function() {
 		$('#picMax').html('Non defini');	
 	}
 };
+
+var recupererPicsMin = function () {
+	dPicsMin = new Array();
+	$.each(charts, function (i, chart) {
+		var dChart = new Array();
+		$.each(chart.series[0].yData, function (j, data) {
+			if (data <= minLine) {
+				dChart.push(chart.series[0].data[j]);
+			}
+		});
+		dPicsMin.push(dCharts);
+	});
+};
+
+var recupererPicsMax = function () {
+	dPicsMax = new Array();
+	$.each(charts, function (i, chart) {
+		var dChart = new Array();
+		$.each(chart.series[0].yData, function (j, data) {
+			if (data >= MaxLine)
+				dChart.push(chart.series[0].data[j]);
+		});
+		dPicsMax.push(dCharts);
+	});
+};
+
+
