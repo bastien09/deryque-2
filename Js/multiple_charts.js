@@ -56,6 +56,7 @@ var getChartConfig = function(renderId, title, i, width, height) {
 							case 'pics' :
 								//Multiple x plot lines
 								placerLigne($('#choixLigne').val(), this.y);
+								recupererPicsMax();
 								break;
 							}
 						}

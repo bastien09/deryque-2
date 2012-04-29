@@ -1,6 +1,8 @@
 var minLine = "", maxLine = "";
 var dPicsMin = new Array();
 var dPicsMax = new Array();
+var picsMaxCharts = [];
+var picsMinCharts = [];
 
 var placerLigne = function(choix, y) {
 	var color = (choix == 'min') ? 'green' : 'red';
@@ -59,7 +61,7 @@ var recupererPicsMin = function () {
 				dChart.push(chart.series[0].data[j]);
 			}
 		});
-		dPicsMin.push(dCharts);
+		dPicsMin.push(dChart);
 	});
 };
 
@@ -68,11 +70,43 @@ var recupererPicsMax = function () {
 	$.each(charts, function (i, chart) {
 		var dChart = new Array();
 		$.each(chart.series[0].yData, function (j, data) {
-			if (data >= MaxLine)
+			if (data >= maxLine) {
 				dChart.push(chart.series[0].data[j]);
+			}
 		});
-		dPicsMax.push(dCharts);
+		dPicsMax.push(dChart);
 	});
 };
 
+function rmPicChart(choice, i) {
+	if (choice == 'min') {
+		picsMinCharts[i].destroy();
+		picsMinCharts.splice(i,1);
+		$('#picsMin'+i).prev().remove();
+		$('#picsMin'+i).remove();
+	} else if (choice == 'max') {
+		picsMaxCharts[i].destroy();
+		picsMaxCharts.splice(i,1);
+		$('#picsMax'+i).prev().remove();
+		$('#picsMax'+i).remove();
+	}
+//	printCharts();
+};
 
+var showPicsCharts = function () {
+	$('#picsMax').empty();
+	$('#picsMin').empty();
+	$.each(dPicsMax, function (i, dChart) {
+			$('#picsMax').append('<a class="close" href="#" onClick="rmPicChart(\'max\', i)">x</a><div id="picsMax'+i+'" style="margin:20px;"></div>');
+			picsMaxCharts.push(new Highcharts.StockChart(
+					getChartConfig('picsMax'+i, "Graphe "+i, picsMaxCharts.length, 200, 200)));
+			picsMaxCharts[i].series[0].setData(dChart);
+	});
+	$.each(dPicsMin, function (i, dChart) {
+		$('#picsMin').append('<a class="close" href="#" onClick="rmPicChart(\'min\', i)">x</a><div id="picsMin'+i+'" style="margin:20px;"></div>');
+		picsMinCharts.push(new Highcharts.StockChart(
+				getChartConfig('picsMin'+i, "Graphe "+i, picsMinCharts.length, 200, 200)));
+		picsMinCharts[i].series[0].setData(dChart);
+});
+	//$('#holder').height($('#holder').height()+400);
+}
