@@ -64,7 +64,7 @@ class DGrapheTempsReel extends DAbstract {
 		<div id="englober" style="height:650px;">
 		<ul class="tabs" data-tabs="tabs">
 		<li class="active"><a href="#holder"> ECG </a></li>
-		<li><a href="#pics" onClick="showPicsCharts()" > Pics </a></li>
+		<li><a href="#pics" > Pics </a></li>
 		</ul>
 		<div id="my-tab-content" class="tab-content">
 			<div class="tab-pane active" id="holder" style="margin:20px;float:left;"></div>
@@ -74,9 +74,8 @@ class DGrapheTempsReel extends DAbstract {
 				<div class="well">
 					<h3 id="head">Controles</h3>
 					<ul>
-					    <li><button class="btn" onClick="run = false;"> Stop </button>
-							<button class="btn" onClick="run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); }); "> Go </button>
-							<button class="btn" onClick="Dezoom();"> Zoom out </button>							
+					    <li><a href="#"><img src="http://localhost/InspecteurDeryque/Img/icons/key_play_pause.png" onClick="if (run) {run = false; } else {run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); });}" /></a>
+							<a href="#"><img src="http://localhost/InspecteurDeryque/Img/icons/zoom_out.png" onClick="Dezoom();" /></a>							
 					     </li>
 					</ul>
 				</div>
@@ -110,11 +109,11 @@ class DGrapheTempsReel extends DAbstract {
 						</div>
 						<div id="divPics" class="tab-pane">
 							<ul>
-								<li><button class="btn" onClick="setAction('pics');"> Placer </button><button class="btn" onClick="rmLigne($('#choixLigne').val())"> Supprimer </button></li>
-								<li><select id="choixLigne">
-								<option value="min"> Minimum </option>
-								<option value="max"> Maximum </option>
-								</select></li>
+								<li><button class="btn" onClick="setAction('pics');"> Placer </button><button class="btn" onClick="rmLigne($('input[name=choixLigne]:checked').val())"> Supprimer </button></li>
+								<li>
+								<input type="radio" name="choixLigne" value="min" checked> Minimum </input>
+								<input type="radio" name="choixLigne" value="max"> Maximum </input>
+								</li>
 								<li> Seuil maximum : <span id="picMax"></span></li>
 								<li> Seuil minimum : <span id="picMin"></span></li>
 							</ul>
