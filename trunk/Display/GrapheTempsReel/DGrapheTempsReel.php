@@ -13,7 +13,8 @@ class DGrapheTempsReel extends DAbstract {
 		CHead::addJs('exporting');
 		CHead::addJs('multiple_charts');
 		CHead::addJs('bootstrap-modal');
-		CHead::addJs('bootstrap-tabs');
+		CHead::addJs('bootstrap-tabs');;
+		CHead::addJs('bootstrap-popover');
 		CHead::addJs('marqueurs');
 		CHead::addJs('pics');
 
@@ -73,11 +74,33 @@ class DGrapheTempsReel extends DAbstract {
 			<div id='accordion'>
 				<div class="well">
 					<h3 id="head">Controles</h3>
-					<ul>
-					    <li><a href="#"><img src="http://localhost/InspecteurDeryque/Img/icons/key_play_pause.png" onClick="if (run) {run = false; } else {run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); });}" /></a>
-							<a href="#"><img src="http://localhost/InspecteurDeryque/Img/icons/zoom_out.png" onClick="Dezoom();" /></a>							
-					     </li>
+						<div style="text-align:center"><a href="#" class="btn" onClick="if (run) {run = false; } else {run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); });}"><img src="http://localhost/InspecteurDeryque/Img/icons/key_play_pause.png" alt="Lecture/pause" /></a>
+						<a href="#" class="btn" onClick="Dezoom();"><img src="http://localhost/InspecteurDeryque/Img/icons/zoom_out.png" alt="Dezoom" /></a></div>							
+					    
+					<ul class="tabs" data-tabs="tabs">
+						<li class="active"><a href="#divMarqueurs"> Marqueurs </a></li>
+						<li><a href="#divPics"> Detection de pics </a></li>
 					</ul>
+					<div id="my-tab-content" class="tab-content">
+						<div id="divMarqueurs" class="tab-pane active">	
+							<ol id="listeMarqueursCourants"></ol>
+							<select id="listeMarqueurs" class="span3" onChange="description()"></select>
+							<a class="btn" onClick="setAction('marqueurs')"><img src="http://localhost/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" /></a>
+							<a class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"><img src="http://localhost/InspecteurDeryque/Img/icons/plus.png" alt="Ajouter" /></a> 
+							<a class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"><img src="http://localhost/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" /></a>
+							
+							<div id="desc" style="text-align:center"></div>
+						</div>
+						<div id="divPics" class="tab-pane">
+							<table id="tablePics">
+								<tr>
+								<td> Seuil maximum : <span id="picMax"></span></td><td><a class="btn" onClick="setAction('pics');minOrMax='max'"><img src="http://localhost/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" /></a><a class="btn" onClick="rmLigne('max')"><img src="http://localhost/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" /></a></td>
+								</tr><tr>
+								<td> Seuil minimum : <span id="picMin"></span></td><td><a class="btn" onClick="setAction('pics');minOrMax='min'"><img src="http://localhost/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" /></a><a class="btn" onClick="rmLigne('min')"><img src="http://localhost/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" /></a></td>
+								</tr>
+							</table>
+						</div>
+					</div>
 				</div>
 				<div class="well">
 					<h3 id="head">Informations</h3>
@@ -91,33 +114,6 @@ class DGrapheTempsReel extends DAbstract {
 							<ol id="infos">
 							</ol>								
 					    </div>
-					</div>
-				</div>		
-				<div class="well">
-					<ul class="tabs" data-tabs="tabs">
-						<li class="active"><a href="#divMarqueurs"> Marqueurs </a></li>
-						<li><a href="#divPics"> Detection de pics </a></li>
-					</ul>
-					<div id="my-tab-content" class="tab-content">
-						<div id="divMarqueurs" class="tab-pane active">	
-							<ol id="listeMarqueursCourants"></ol>
-							<ul id="ulMarqueur" style="text-align:center">
-								<li><button class="btn" onClick="setAction('marqueurs')"> Placer </button><button class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"> Ajouter </button> <button class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"> Supprimer </button></li>
-								<li style="margin-top:5px;margin-bottom:5px"><label for="listeMarqueurs"> Marqueur </label><select id="listeMarqueurs" class="span3" onChange="description()"></select></li>
-								</ul>
-							<div id="desc"></div>
-						</div>
-						<div id="divPics" class="tab-pane">
-							<ul>
-								<li><button class="btn" onClick="setAction('pics');"> Placer </button><button class="btn" onClick="rmLigne($('input[name=choixLigne]:checked').val())"> Supprimer </button></li>
-								<li>
-								<input type="radio" name="choixLigne" value="min" checked> Minimum </input>
-								<input type="radio" name="choixLigne" value="max"> Maximum </input>
-								</li>
-								<li> Seuil maximum : <span id="picMax"></span></li>
-								<li> Seuil minimum : <span id="picMin"></span></li>
-							</ul>
-						</div>
 					</div>
 				</div>
 			</div>

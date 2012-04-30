@@ -1,4 +1,4 @@
-var run = true, action = 'marqueur', lastCall = 0;
+var run = true, action = 'marqueur', lastCall = 0, minOrMax = '';
 var charts = [];
 var dataCharts = [];
 
@@ -55,7 +55,7 @@ var getChartConfig = function(renderId, title, i, width, height) {
 								break;
 							case 'pics' :
 								//Multiple x plot lines
-								placerLigne($('input[name=choixLigne]:checked').val(), this.y);
+								placerLigne(minOrMax, this.y);
 								break;
 							}
 						}

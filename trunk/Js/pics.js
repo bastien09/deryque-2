@@ -46,7 +46,7 @@ var printLignes = function() {
 	} else {
 		$('#picMin').html('Non defini');	
 	}
-	if (maxLine != "" || minLine == "0") {
+	if (maxLine != "" || maxLine == "0") {
 		$('#picMax').html(maxLine);
 	} else {
 		$('#picMax').html('Non defini');	
