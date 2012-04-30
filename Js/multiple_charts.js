@@ -55,8 +55,7 @@ var getChartConfig = function(renderId, title, i, width, height) {
 								break;
 							case 'pics' :
 								//Multiple x plot lines
-								placerLigne($('#choixLigne').val(), this.y);
-								recupererPicsMax();
+								placerLigne($('input[name=choixLigne]:checked').val(), this.y);
 								break;
 							}
 						}

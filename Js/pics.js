@@ -20,6 +20,7 @@ var placerLigne = function(choix, y) {
 		recupererPicsMin();
 	} else if (choix == "max") {
 		maxLine = y;
+		recupererPicsMax();
 	}
 	printLignes();
 };
@@ -54,6 +55,27 @@ var printLignes = function() {
 
 var recupererPicsMin = function () {
 	dPicsMin = new Array();
+	// Pour chaque graphe
+//	$.each(charts, function (i, chart) {
+//		var dChart = new Array();
+//		// Pour chaque section < min
+//		for (var j = 0; j < chart.series[0].yData.length; j++) {
+//			if (chart.series[0].yData[j] <= minLine) {
+//				var min = j;
+//				// On cherche le min, et on prendra un intervalle dont ce min est le milieu
+//				while(j < chart.series[0].yData.length && chart.series[0].yData[j] <= minLine) {
+//					if (chart.series[0].yData[j] < chart.series[0].yData[min]) {
+//						min = j;
+//					}
+//					j++;
+//				}
+//				// On prend l'intervalle
+//				dChart.push(chart.series[0].data.slice((min - 3 < 0) ? 0 : min - 3, (min + 3 > chart.series[0].data.length) ? chart.series[0].data.length : min + 3));
+//			}
+//		}
+//		if (dChart.length > 0)
+//			dPicsMin.push(dChart);
+//	});
 	$.each(charts, function (i, chart) {
 		var dChart = new Array();
 		$.each(chart.series[0].yData, function (j, data) {
@@ -61,8 +83,10 @@ var recupererPicsMin = function () {
 				dChart.push(chart.series[0].data[j]);
 			}
 		});
-		dPicsMin.push(dChart);
+		if (dChart.length > 0)
+			dPicsMin.push(dChart);
 	});
+	showMinPicsCharts();
 };
 
 var recupererPicsMax = function () {
@@ -74,8 +98,10 @@ var recupererPicsMax = function () {
 				dChart.push(chart.series[0].data[j]);
 			}
 		});
-		dPicsMax.push(dChart);
+		if (dChart.length > 0)
+			dPicsMax.push(dChart);
 	});
+	showMaxPicsCharts();
 };
 
 function rmPicChart(choice, i) {
@@ -93,15 +119,18 @@ function rmPicChart(choice, i) {
 //	printCharts();
 };
 
-var showPicsCharts = function () {
+var showMaxPicsCharts = function () {
 	$('#picsMax').empty();
-	$('#picsMin').empty();
 	$.each(dPicsMax, function (i, dChart) {
 			$('#picsMax').append('<a class="close" href="#" onClick="rmPicChart(\'max\', i)">x</a><div id="picsMax'+i+'" style="margin:20px;"></div>');
 			picsMaxCharts.push(new Highcharts.StockChart(
 					getChartConfig('picsMax'+i, "Graphe "+i, picsMaxCharts.length, 200, 200)));
 			picsMaxCharts[i].series[0].setData(dChart);
 	});
+}
+
+var showMinPicsCharts = function () {
+	$('#picsMin').empty();
 	$.each(dPicsMin, function (i, dChart) {
 		$('#picsMin').append('<a class="close" href="#" onClick="rmPicChart(\'min\', i)">x</a><div id="picsMin'+i+'" style="margin:20px;"></div>');
 		picsMinCharts.push(new Highcharts.StockChart(
