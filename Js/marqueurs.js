@@ -51,6 +51,12 @@ var placerMarqueur = function (i, x) {
 	var marqueurCourant = {};
 	marqueurCourant.nom = marqueur.nom;
 	marqueurCourant.x = x;
+	for (var j = 0; j < charts[0].series[0].xData.length; j++) {
+		if (charts[0].series[0].xData[j] == x) {
+			marqueurCourant.index = j;
+			break;
+		}
+	}
 	marqueurCourant.i = compteur++;
 	
 	$.each(charts, function (i, chart) {
@@ -84,7 +90,13 @@ var rmMarqueurCourant = function (id, i) {
 var printMarqueursCourants = function() {
 	var liste = "";
 	$.each(marqueursCourants, function (i, marqueurCourant) {
-		liste +="<li>"+ marqueurCourant.nom +"<a href='#' class='close' onClick='rmMarqueurCourant(\""+ marqueurCourant.nom + marqueurCourant.i +"\","+ marqueurCourant.i +")'>x</a></li>";
+		liste +="<li><a href='#' onClick='if ($(\"#marqueursCourants"+i+"\").is(\":hidden\")) {$(\"#marqueursCourants"+i+"\").fadeIn();}else {$(\"#marqueursCourants"+i+"\").fadeOut();}'>"+ marqueurCourant.nom +"</a><a href='#' class='close' onClick='rmMarqueurCourant(\""+ marqueurCourant.nom + marqueurCourant.i +"\","+ marqueurCourant.i +")'>x</a></li>";
+		liste +="<ol id='marqueursCourants"+i+"'>";
+		$.each(charts, function (j, chart) {
+			liste += "<li>"+ chart.title.text +" : "+ chart.series[0].yData[marqueurCourant.index] +"</li>";
+
+		});		
+		liste +="</ol>"
 	});
 	$('#listeMarqueursCourants').html(liste);
 };

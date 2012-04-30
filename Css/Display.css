@@ -55,3 +55,11 @@ fieldset label {
 select {
 	margin-right : 10px;
 }
+
+a img {
+	padding-top : 2px;
+}
+#tablePics tr td {
+	vertical-align:middle;
+	text-align:center;
+}
