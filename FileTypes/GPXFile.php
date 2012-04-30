@@ -153,7 +153,7 @@ END;
 			<select name="assoc_$sum" id="assoc_$sum">
 END;
 		foreach ($releves_list as $r) {
-			echo '<option value="',   htmlspecialchars($r['name']), '">',   htmlspecialchars($r['name']), " (",   htmlspecialchars($r['modname']), ")", "</option>";
+			echo '<option value="',    htmlspecialchars($r['name']), '">',    htmlspecialchars($r['name']), " (",    htmlspecialchars($r['modname']), ")", "</option>";
 		}
 		echo <<<END
 			</select>
@@ -162,6 +162,156 @@ END;
 	    </div>
 END;
 		//DataImportView::showNewReleveForm($nomDonnee);
+	}
+
+	public static function submit_selection($data) {
+		$data = preg_replace('/<gpx.*?>/', '<gpx>', $data, 1);
+		$data = preg_replace('/<\\/tp1:(.+)>/', '</$1>', $data);
+		$data = preg_replace('/<tp1:(.+)>/', '<$1>', $data);
+		$gpx = simplexml_load_string($data);
+
+		//recup les bonnes données
+
+		R::begin();
+		foreach ($gpx->children() as $gpx_data) {
+			if ($gpx_data -> getName() === "trk") {
+				$nameTrk = $gpx_data -> xpath("name");
+				$sum_trk = sha1($nameTrk[0]);
+				$hname = htmlspecialchars($nameTrk[0]);
+				if (array_key_exists("trk_" . $sum_trk, $_POST)) {
+					foreach ($gpx_data->children() as $trksegs) {
+						if ($trksegs -> getName() === "trkseg") {
+							//recup le temps du premier trackpoint du trackseg en question
+							$trkpt1 = $trksegs -> xpath("trkpt[1]/time");
+							if (empty($trkpt1)) {
+								continue;
+							}
+							$nameTrkseg = htmlspecialchars($trkpt1[0]);
+							$sum_seg = sha1($trkpt1[0]);
+							$seg_sum_seg = "seg_" . $sum_seg;
+							if (array_key_exists($seg_sum_seg, $_POST)) {
+								//groaw($trksegs);
+
+								//remplissage relevé par relevé
+								foreach ($_POST as $key => $post) {
+									if (self::startswith($key, "assoc_")) {
+										$sum_assoc = strrchr($key, '_');
+										//groaw($key);
+										//groaw($post);
+										if (isset($_POST['data' . $sum_assoc])) {
+											//groaw($_POST['data'.$sum_assoc]);
+											self::saveData($post, $_POST['data' . $sum_assoc], $trksegs);
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		R::commit();
+		new CMessage('Vos relevés ont été ajoutés avec succès ! Vous pouvez en sélectionner d\'autres, ou bien revenir au Tableau de Bord.');
+		CNavigation::redirectToApp('Import', 'dataSelection');
+	}
+
+	private static function saveData($nom_releve, $type_donnees, $donnees) {
+		$releve = DataMod::getReleve($nom_releve, $_SESSION['bd_id']);
+		$b_releve = R::load('releve', $releve['id']);
+
+		if (!$releve)
+			CTools::hackError();
+
+		$n_datamod = DataMod::loadDataType($releve['modname']);
+		$variables = $n_datamod -> getVariables();
+
+		foreach ($donnees as $d) {
+			if ($d -> getName() !== 'trkpt')
+				continue;
+
+			$datamod = $n_datamod -> instancier();
+
+			$vars = array();
+
+			switch($type_donnees) {
+				case 'PositionGPS' :
+					$vars['lat'] = floatval($d['lat']);
+					$vars['lon'] = floatval($d['lon']);
+					break;
+				case 'Vitesse' :
+					$date = $d -> xpath('time');
+					$date = strtotime($date[0]);
+					if ($GLOBALS['ancienne_lat'] === null) {
+						$GLOBALS['ancienne_lat'] = floatval($d['lat']);
+						$GLOBALS['ancienne_lon'] = floatval($d['lon']);
+						$GLOBALS['ancienne_date'] = $date;
+					} elseif ($date !== $GLOBALS['ancienne_date']) {
+						$lats = array($GLOBALS['ancienne_lat'], floatval($d['lat']));
+						$longs = array($GLOBALS['ancienne_lon'], floatval($d['lon']));
+						/*$lats = array(43.6210081, 43.6209744);
+						 $longs = array(7.0493919, 7.0493517);*/
+						$dt = floatval(abs($date - $GLOBALS['ancienne_date']));
+						//$dt = floatval(abs(strtotime("2011-02-05T12:29:47Z") - strtotime("2011-02-05T12:29:49Z")));
+						$distance = floatval($this -> distanceParcoursGPSenM($lats, $longs));
+						$vitesse = $distance / floatval($dt);
+						$vars['vitesse'] = floatval($vitesse);
+						//actualiser les vieux
+						$GLOBALS['ancienne_lat'] = floatval($d['lat']);
+						$GLOBALS['ancienne_lon'] = floatval($d['lon']);
+						$GLOBALS['ancienne_date'] = $date;
+					}
+					break;
+				case 'Calories' :
+					if ($GLOBALS['ancienne_latcal'] === null) {
+						$GLOBALS['ancienne_latcal'] = floatval($d['lat']);
+						$GLOBALS['ancienne_loncal'] = floatval($d['lon']);
+					} else {
+						$lats = array($GLOBALS['ancienne_latcal'], floatval($d['lat']));
+						$longs = array($GLOBALS['ancienne_loncal'], floatval($d['lon']));
+						$distance = floatval($this -> distanceParcoursGPSenM($lats, $longs));
+						$GLOBALS['distance_cumulee'] += $distance;
+						$cals = floatval(floatval($GLOBALS['distance_cumulee']) * 70.0 * 0.001036 / 1000.0);
+						$vars['calories'] = $cals;
+					}
+					break;
+				default :
+					$exts = $d -> xpath('extensions/TrackPointExtension/' . $type_donnees);
+					if (!empty($exts)) {
+						$vars["$type_donnees"] = floatval($exts[0]);
+					}
+			}
+
+			$time = $d -> xpath('time');
+			if (!empty($time)) {
+				$vars['timestamp'] = strtotime($time[0]);
+			}
+
+			foreach ($variables as $k => $var) {
+				if (isset($vars[$k])) {
+					$datamod -> $k = $vars[$k];
+				} else {
+					$datamod -> $k = isset($vars[$type_donnees]) ? $vars[$type_donnees] : 0.0;
+				}
+			}
+
+			//groaw($datamod);
+			$n_datamod -> save($_SESSION['user'], $b_releve, $datamod);
+		}
+	}
+
+	private static function startswith($chaine, $debut) {
+		return substr($chaine, 0, strlen($debut)) === $debut;
+	}
+
+	private static function distanceParcoursGPSenM($lats, $longs) {
+		$distance = 0.0;
+		$a = pi() / 180.0;
+		for ($i = 0; $i < count($lats) - 1; $i++) {
+			$distance += 6367445.0 * acos(sin(floatval($lats[$i] * $a)) * sin(floatval($lats[$i + 1] * $a)) + cos(floatval($lats[$i] * $a)) * cos(floatval($lats[$i + 1] * $a)) * cos(floatval($longs[$i] * $a - $longs[$i + 1] * $a)));
+			//$distance += sqrt(pow(($lats[$i+1]-$lats[$i]),2) + pow(($longs[$i+1]-$longs[$i]),2))*111.16/3.6;
+		}
+		return floatval($distance);
 	}
 
 }

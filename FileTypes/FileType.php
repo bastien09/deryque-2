@@ -6,6 +6,8 @@
 		
 		public static function recupDonneesImportables($fichier);
 		
+		public static function submit_selection($data);
+		
 	}
 
 ?>

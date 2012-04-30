@@ -32,7 +32,7 @@ END;
 				if (htmlspecialchars($lapsandmore -> getName()) === "Lap") {
 					echo "<tr>";
 					echo '<td><input type="checkbox" value="option1" name="optionsCheckboxes"/></td>';
-					echo "<td>Lap - StartTime : ",    htmlspecialchars($lapsandmore['StartTime']), "</td>";
+					echo "<td>Lap - StartTime : ",     htmlspecialchars($lapsandmore['StartTime']), "</td>";
 					echo <<<END
 					<td>
 						<table class="zebra-striped bordered-table">
@@ -119,9 +119,9 @@ END;
 	}
 
 	private static function getData($fichier) {
-		
+
 		$data = file_get_contents($fichier);
-		
+
 		$data = preg_replace('/<TrainingCenterDatabase.*?>/', '<TrainingCenterDatabase>', $data, 1);
 		$data = preg_replace('/<(.+)xsi.*?".*?"(.*?)>/', '<$1$2>', $data);
 		$tcx = simplexml_load_string($data);
@@ -138,7 +138,7 @@ END;
 			<select name="assoc_$sum" id="assoc_$sum">
 END;
 		foreach ($releves_list as $r) {
-			echo '<option value="',       htmlspecialchars($r['name']), '">',       htmlspecialchars($r['name']), " (",       htmlspecialchars($r['modname']), ")", "</option>";
+			echo '<option value="',        htmlspecialchars($r['name']), '">',        htmlspecialchars($r['name']), " (",        htmlspecialchars($r['modname']), ")", "</option>";
 		}
 		echo <<<END
 			</select>
@@ -147,6 +147,14 @@ END;
 	    </div>
 END;
 		//DataImportView::showNewReleveForm($nomDonnee);
+	}
+
+	public static function submit_selection($data) {
+		$data = preg_replace('/<TrainingCenterDatabase.*?>/', '<TrainingCenterDatabase>', $data, 1);
+		$data = preg_replace('/<(.+)xsi.*?".*?"(.*?)>/', '<$1$2>', $data);
+		$tcx = simplexml_load_string($data);
+
+		//aucun traitement pour l'instant
 	}
 
 }

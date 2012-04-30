@@ -109,7 +109,7 @@ END;
 			<select name="assoc_$sum" id="assoc_$sum">
 END;
 		foreach ($releves_list as $r) {
-			echo '<option value="',    htmlspecialchars($r['name']), '">',    htmlspecialchars($r['name']), " (",    htmlspecialchars($r['modname']), ")", "</option>";
+			echo '<option value="',     htmlspecialchars($r['name']), '">',     htmlspecialchars($r['name']), " (",     htmlspecialchars($r['modname']), ")", "</option>";
 		}
 		echo <<<END
 			</select>
@@ -117,6 +117,10 @@ END;
 			<a class="btn" href="$new_url">Nouveau relevé</a>
 	    </div>
 END;
+	}
+
+	public static function submit_selection($data) {
+
 	}
 
 }
