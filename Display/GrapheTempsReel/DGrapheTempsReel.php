@@ -15,6 +15,8 @@ class DGrapheTempsReel extends DAbstract {
 		CHead::addJs('bootstrap-modal');
 		CHead::addJs('bootstrap-tabs');;
 		CHead::addJs('bootstrap-popover');
+		CHead::addJs('jquery.cookie');
+		CHead::addJs('jquery.jsoncookie');
 		CHead::addJs('marqueurs');
 		CHead::addJs('pics');
 
@@ -63,14 +65,7 @@ class DGrapheTempsReel extends DAbstract {
 // 		</script>
 			echo <<<END
 		<div id="englober" style="height:650px;">
-		<ul class="tabs" data-tabs="tabs">
-		<li class="active"><a href="#holder"> ECG </a></li>
-		<li><a href="#pics" > Pics </a></li>
-		</ul>
-		<div id="my-tab-content" class="tab-content">
 			<div class="tab-pane active" id="holder" style="margin:20px;float:left;"></div>
-			<div class="tab-pane" id="pics" style="margin:20px;float:left;"><h3> Pics Max </h3><div id="picsMax"></div><h3> Pics Min </h3><div id="picsMin"></div></div>
-		</div>
 			<div id='accordion'>
 				<div class="well">
 					<h3 id="head">Controles</h3>

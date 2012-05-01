@@ -100,7 +100,7 @@ function addChart(name, datas, timestamps) {
 	//$('#holder').height($('#holder').height()+400);
 	$('#holder').append('<a class="close" href="#" onClick="rmChart('+charts.length+');">x</a><div id="'+idHolder+'" style="margin:20px;"></div>');
 	charts.push(new Highcharts.StockChart(
-			getChartConfig(idHolder, name, charts.length, 500, 500)
+			getChartConfig(idHolder, name, charts.length, 700, 300)
 	));
 	dataCharts[charts.length - 1] = data;
 	inf = "infos"+(charts.length-1);
