@@ -74,8 +74,8 @@ class DGrapheTempsReel extends DAbstract {
 			<div id='accordion'>
 				<div class="well">
 					<h3 id="head">Controles</h3>
-						<div style="text-align:center"><a href="#" class="btn" onClick="if (run) {run = false; } else {run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); });}"><img src="http://localhost/InspecteurDeryque/Img/icons/key_play_pause.png" alt="Lecture/pause" /></a>
-						<a href="#" class="btn" onClick="Dezoom();"><img src="http://localhost/InspecteurDeryque/Img/icons/zoom_out.png" alt="Dezoom" /></a></div>							
+						<div style="text-align:center"><a href="#" class="btn" onClick="if (run) {run = false; } else {run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); });}"><img src="/InspecteurDeryque/Img/icons/key_play_pause.png" alt="Lecture/pause" /></a>
+						<a href="#" class="btn" onClick="Dezoom();"><img src="/InspecteurDeryque/Img/icons/zoom_out.png" alt="Dezoom" /></a></div>							
 					    
 					<ul class="tabs" data-tabs="tabs">
 						<li class="active"><a href="#divMarqueurs"> Marqueurs </a></li>
@@ -85,18 +85,18 @@ class DGrapheTempsReel extends DAbstract {
 						<div id="divMarqueurs" class="tab-pane active">	
 							<ol id="listeMarqueursCourants"></ol>
 							<select id="listeMarqueurs" class="span3" onChange="description()"></select>
-							<a class="btn" onClick="setAction('marqueurs')"><img src="http://localhost/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" /></a>
-							<a class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"><img src="http://localhost/InspecteurDeryque/Img/icons/plus.png" alt="Ajouter" /></a> 
-							<a class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"><img src="http://localhost/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" /></a>
+							<a class="btn" onClick="setAction('marqueurs')"><img src="/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" /></a>
+							<a class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"><img src="/InspecteurDeryque/Img/icons/plus.png" alt="Ajouter" /></a> 
+							<a class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"><img src="/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" /></a>
 							
 							<div id="desc" style="text-align:center"></div>
 						</div>
 						<div id="divPics" class="tab-pane">
 							<table id="tablePics">
 								<tr>
-								<td> Seuil maximum : <span id="picMax"></span></td><td><a class="btn" onClick="setAction('pics');minOrMax='max'"><img src="http://localhost/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" /></a><a class="btn" onClick="rmLigne('max')"><img src="http://localhost/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" /></a></td>
+								<td> Seuil maximum : <span id="picMax"></span></td><td><a class="btn" onClick="setAction('pics');minOrMax='max'"><img src="/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" /></a><a class="btn" onClick="rmLigne('max')"><img src="/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" /></a></td>
 								</tr><tr>
-								<td> Seuil minimum : <span id="picMin"></span></td><td><a class="btn" onClick="setAction('pics');minOrMax='min'"><img src="http://localhost/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" /></a><a class="btn" onClick="rmLigne('min')"><img src="http://localhost/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" /></a></td>
+								<td> Seuil minimum : <span id="picMin"></span></td><td><a class="btn" onClick="setAction('pics');minOrMax='min'"><img src="/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" /></a><a class="btn" onClick="rmLigne('min')"><img src="/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" /></a></td>
 								</tr>
 							</table>
 						</div>
@@ -132,7 +132,7 @@ class DGrapheTempsReel extends DAbstract {
 	            <input id="nomMarqueur" class="span3" />
             </div>
           	<div >
-	            <label for="abbMarqueur" > Abbréviation </label>
+	            <label for="abbMarqueur" > Abbrï¿½viation </label>
 	            <input id="abbMarqueur" class="span3" />
             </div>
           	<div>
