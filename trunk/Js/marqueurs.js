@@ -90,10 +90,11 @@ var rmMarqueurCourant = function (id, i) {
 var printMarqueursCourants = function() {
 	var liste = "";
 	$.each(marqueursCourants, function (i, marqueurCourant) {
-		liste +="<li><a href='#' onClick='if ($(\"#marqueursCourants"+i+"\").is(\":hidden\")) {$(\"#marqueursCourants"+i+"\").fadeIn();}else {$(\"#marqueursCourants"+i+"\").fadeOut();}'>"+ marqueurCourant.nom +"</a><a href='#' class='close' onClick='rmMarqueurCourant(\""+ marqueurCourant.nom + marqueurCourant.i +"\","+ marqueurCourant.i +")'>x</a></li>";
+		liste +="<li><a href='#' onClick='if ($(\"#marqueursCourants"+i+"\").is(\":hidden\")) {$(\"#marqueursCourants"+i+"\").fadeIn();}else {$(\"#marqueursCourants"+i+"\").fadeOut();}'>"+ marqueurCourant.nom +" [x = "+ marqueurCourant.x +" ]</a><a href='#' class='close' onClick='rmMarqueurCourant(\""+ marqueurCourant.nom + marqueurCourant.i +"\","+ marqueurCourant.i +")'>x</a></li>";
 		liste +="<ol id='marqueursCourants"+i+"'>";
 		$.each(charts, function (j, chart) {
-			liste += "<li>"+ chart.title.text +" : "+ chart.series[0].yData[marqueurCourant.index] +"</li>";
+			console.log(chart.title);
+			liste += "<li>"+ chart.title.textStr +" : "+ chart.series[0].yData[marqueurCourant.index] +"</li>";
 
 		});		
 		liste +="</ol>"

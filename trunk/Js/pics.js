@@ -1,8 +1,4 @@
 var minLine = "", maxLine = "";
-var dPicsMin = new Array();
-var dPicsMax = new Array();
-var picsMaxCharts = [];
-var picsMinCharts = [];
 
 var placerLigne = function(choix, y) {
 	var color = (choix == 'min') ? 'green' : 'red';
@@ -54,7 +50,7 @@ var printLignes = function() {
 };
 
 var recupererPicsMin = function () {
-	dPicsMin = new Array();
+	var dPicsMin = new Array();
 	// Pour chaque graphe
 	$.each(charts, function (i, chart) {
 		var dChart = new Array();
@@ -91,11 +87,11 @@ var recupererPicsMin = function () {
 //		if (dChart.length > 0)
 //			dPicsMin.push(dChart);
 //	});
-	showMinPicsCharts();
+	$.JSONCookie('minPics',dPicsMin, { expires : 2 });
 };
 
 var recupererPicsMax = function () {
-	dPicsMax = new Array();
+	var dPicsMax = new Array();
 	$.each(charts, function (i, chart) {
 		var dChart = new Array();
 		for (var j = 0; j < chart.series[0].yData.length; j++) {
@@ -127,45 +123,5 @@ var recupererPicsMax = function () {
 //		if (dChart.length > 0)
 //			dPicsMax.push(dChart);
 	});
-	showMaxPicsCharts();
-};
-
-function rmPicChart(choice, i) {
-	if (choice == 'min') {
-		picsMinCharts[i].destroy();
-		picsMinCharts.splice(i,1);
-		$('#picsMin'+i).prev().remove();
-		$('#picsMin'+i).remove();
-	} else if (choice == 'max') {
-		picsMaxCharts[i].destroy();
-		picsMaxCharts.splice(i,1);
-		$('#picsMax'+i).prev().remove();
-		$('#picsMax'+i).remove();
-	}
-//	printCharts();
-};
-
-var showMaxPicsCharts = function () {
-	$('#picsMax').empty();
-	$.each(dPicsMax, function (i, dChart) {
-		$.each(dChart, function (j, section) {
-			$('#picsMax').append('<a class="close" href="#" onClick="rmPicChart(\'max\', '+i+', '+ j +')">x</a><div id="picsMax'+i+'-'+j+'" style="margin:20px;"></div>');
-			picsMaxCharts.push(new Highcharts.StockChart(
-					getChartConfig('picsMax'+i+'-'+j, "Graphe "+i+"-"+j, picsMaxCharts.length, 200, 200)));
-			picsMaxCharts[i].series[0].setData(section);
-		});
-	});
-};
-
-var showMinPicsCharts = function () {
-	$('#picsMin').empty();
-	$.each(dPicsMin, function (i, dChart) {
-		$.each(dChart, function (j, section) {
-			$('#picsMin').append('<a class="close" href="#" onClick="rmPicChart(\'min\', '+i+', '+ j +')">x</a><div id="picsMin'+i+'-'+j+'" style="margin:20px;"></div>');
-			picsMinCharts.push(new Highcharts.StockChart(
-					getChartConfig('picsMin'+i+'-'+j, "Graphe "+i+"-"+j, picsMinCharts.length, 200, 200)));
-			picsMinCharts[i].series[0].setData(section);
-		});
-	});
-	//$('#holder').height($('#holder').height()+400);
+	$.JSONCookie('maxPics',dPicsMax, { expires : 2 });
 };
