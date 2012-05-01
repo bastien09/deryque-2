@@ -56,36 +56,41 @@ var printLignes = function() {
 var recupererPicsMin = function () {
 	dPicsMin = new Array();
 	// Pour chaque graphe
-//	$.each(charts, function (i, chart) {
-//		var dChart = new Array();
-//		// Pour chaque section < min
-//		for (var j = 0; j < chart.series[0].yData.length; j++) {
-//			if (chart.series[0].yData[j] <= minLine) {
-//				var min = j;
-//				// On cherche le min, et on prendra un intervalle dont ce min est le milieu
-//				while(j < chart.series[0].yData.length && chart.series[0].yData[j] <= minLine) {
-//					if (chart.series[0].yData[j] < chart.series[0].yData[min]) {
-//						min = j;
-//					}
-//					j++;
-//				}
-//				// On prend l'intervalle
-//				dChart.push(chart.series[0].data.slice((min - 3 < 0) ? 0 : min - 3, (min + 3 > chart.series[0].data.length) ? chart.series[0].data.length : min + 3));
-//			}
-//		}
-//		if (dChart.length > 0)
-//			dPicsMin.push(dChart);
-//	});
 	$.each(charts, function (i, chart) {
 		var dChart = new Array();
-		$.each(chart.series[0].yData, function (j, data) {
-			if (data <= minLine) {
-				dChart.push(chart.series[0].data[j]);
+		// Pour chaque section < min
+		for (var j = 0; j < chart.series[0].yData.length; j++) {
+			if (chart.series[0].yData[j] <= minLine && chart.series[0].yData[j] != null) {
+				var min = j;
+				// On cherche le min, et on prendra un intervalle dont ce min est le milieu
+				while(j < chart.series[0].yData.length && chart.series[0].yData[j] <= minLine) {
+					if (chart.series[0].yData[j] < chart.series[0].yData[min]) {
+						min = j;
+					}
+					j++;
+				}
+				// On prend l'intervalle
+				var section = new Array();
+				for (var h = Math.max(0, min - 3); h < Math.min(min +3, chart.series[0].data.length); h++) {
+					console.log(chart.series[0].data[h].x+ ", "+ chart.series[0].data[h].y );
+					section.push(chart.series[0].data[h]);
+				}
+				dChart.push(section);
 			}
-		});
+		}
 		if (dChart.length > 0)
 			dPicsMin.push(dChart);
 	});
+//	$.each(charts, function (i, chart) {
+//		var dChart = new Array();
+//		$.each(chart.series[0].yData, function (j, data) {
+//			if (data <= minLine) {
+//				dChart.push(chart.series[0].data[j]);
+//			}
+//		});
+//		if (dChart.length > 0)
+//			dPicsMin.push(dChart);
+//	});
 	showMinPicsCharts();
 };
 
@@ -93,13 +98,34 @@ var recupererPicsMax = function () {
 	dPicsMax = new Array();
 	$.each(charts, function (i, chart) {
 		var dChart = new Array();
-		$.each(chart.series[0].yData, function (j, data) {
-			if (data >= maxLine) {
-				dChart.push(chart.series[0].data[j]);
+		for (var j = 0; j < chart.series[0].yData.length; j++) {
+			if (chart.series[0].yData[j] >= maxLine) {
+				var max = j;
+				// On cherche le min, et on prendra un intervalle dont ce min est le milieu
+				while(j < chart.series[0].yData.length && chart.series[0].yData[j] >= maxLine) {
+					if (chart.series[0].yData[j] > chart.series[0].yData[max]) {
+						max = j;
+					}
+					j++;
+				}
+				// On prend l'intervalle
+				var section = new Array();
+				for (var h = Math.max(0, max - 3); h < Math.min(max +3, chart.series[0].data.length); h++) {
+					console.log(chart.series[0].data[h].x+ ", "+ chart.series[0].data[h].y );
+					section.push(chart.series[0].data[h]);
+				}
+				dChart.push(section);
 			}
-		});
+		}
 		if (dChart.length > 0)
 			dPicsMax.push(dChart);
+//		$.each(chart.series[0].yData, function (j, data) {
+//			if (data >= maxLine) {
+//				dChart.push(chart.series[0].data[j]);
+//			}
+//		});
+//		if (dChart.length > 0)
+//			dPicsMax.push(dChart);
 	});
 	showMaxPicsCharts();
 };
@@ -122,20 +148,24 @@ function rmPicChart(choice, i) {
 var showMaxPicsCharts = function () {
 	$('#picsMax').empty();
 	$.each(dPicsMax, function (i, dChart) {
-			$('#picsMax').append('<a class="close" href="#" onClick="rmPicChart(\'max\', i)">x</a><div id="picsMax'+i+'" style="margin:20px;"></div>');
+		$.each(dChart, function (j, section) {
+			$('#picsMax').append('<a class="close" href="#" onClick="rmPicChart(\'max\', '+i+', '+ j +')">x</a><div id="picsMax'+i+'-'+j+'" style="margin:20px;"></div>');
 			picsMaxCharts.push(new Highcharts.StockChart(
-					getChartConfig('picsMax'+i, "Graphe "+i, picsMaxCharts.length, 200, 200)));
-			picsMaxCharts[i].series[0].setData(dChart);
+					getChartConfig('picsMax'+i+'-'+j, "Graphe "+i+"-"+j, picsMaxCharts.length, 200, 200)));
+			picsMaxCharts[i].series[0].setData(section);
+		});
 	});
-}
+};
 
 var showMinPicsCharts = function () {
 	$('#picsMin').empty();
 	$.each(dPicsMin, function (i, dChart) {
-		$('#picsMin').append('<a class="close" href="#" onClick="rmPicChart(\'min\', i)">x</a><div id="picsMin'+i+'" style="margin:20px;"></div>');
-		picsMinCharts.push(new Highcharts.StockChart(
-				getChartConfig('picsMin'+i, "Graphe "+i, picsMinCharts.length, 200, 200)));
-		picsMinCharts[i].series[0].setData(dChart);
-});
+		$.each(dChart, function (j, section) {
+			$('#picsMin').append('<a class="close" href="#" onClick="rmPicChart(\'min\', '+i+', '+ j +')">x</a><div id="picsMin'+i+'-'+j+'" style="margin:20px;"></div>');
+			picsMinCharts.push(new Highcharts.StockChart(
+					getChartConfig('picsMin'+i+'-'+j, "Graphe "+i+"-"+j, picsMinCharts.length, 200, 200)));
+			picsMinCharts[i].series[0].setData(section);
+		});
+	});
 	//$('#holder').height($('#holder').height()+400);
-}
+};
