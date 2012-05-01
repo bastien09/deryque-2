@@ -253,7 +253,7 @@ END;
 						 $longs = array(7.0493919, 7.0493517);*/
 						$dt = floatval(abs($date - $GLOBALS['ancienne_date']));
 						//$dt = floatval(abs(strtotime("2011-02-05T12:29:47Z") - strtotime("2011-02-05T12:29:49Z")));
-						$distance = floatval($this -> distanceParcoursGPSenM($lats, $longs));
+						$distance = floatval(self::distanceParcoursGPSenM($lats, $longs));
 						$vitesse = $distance / floatval($dt);
 						$vars['vitesse'] = floatval($vitesse);
 						//actualiser les vieux
@@ -269,7 +269,7 @@ END;
 					} else {
 						$lats = array($GLOBALS['ancienne_latcal'], floatval($d['lat']));
 						$longs = array($GLOBALS['ancienne_loncal'], floatval($d['lon']));
-						$distance = floatval($this -> distanceParcoursGPSenM($lats, $longs));
+						$distance = floatval(self::distanceParcoursGPSenM($lats, $longs));
 						$GLOBALS['distance_cumulee'] += $distance;
 						$cals = floatval(floatval($GLOBALS['distance_cumulee']) * 70.0 * 0.001036 / 1000.0);
 						$vars['calories'] = $cals;
