@@ -109,7 +109,7 @@ END;
 			<select name="assoc_$sum" id="assoc_$sum">
 END;
         foreach ($releves_list as $r) {
-            echo '<option value="',         htmlspecialchars($r['name']), '">',         htmlspecialchars($r['name']), " (",         htmlspecialchars($r['modname']), ")", "</option>";
+            echo '<option value="',             htmlspecialchars($r['name']), '">',             htmlspecialchars($r['name']), " (",             htmlspecialchars($r['modname']), ")", "</option>";
         }
         echo <<<END
 			</select>
@@ -139,14 +139,14 @@ END;
             $code = $digit -> parentNode -> parentNode -> getElementsByTagName('code') -> item(0) -> getAttribute('code');
 
             if (isset($_POST[$code])) {
-
+                $tableaux['names'][$i] = $code;
                 $tableaux[$i] = self::table($digit -> nodeValue);
                 $i++;
             }
         }
         /* on remplit le timestamp */
         for ($j = 0; $j < count($tableaux[1]); $j++) {
-            $tableaux[0][] = $startTime + $j * $increment;
+            $tableaux['timestamp'][] = $startTime + $j * $increment;
         }
 
         R::begin();
@@ -164,42 +164,67 @@ END;
             }
         }
 
-        R::commit();
-        new CMessage('Vos relevés ont été ajoutés avec succès ! Vous pouvez en sélectionner d\'autres, ou bien revenir au Tableau de Bord.');
-        CNavigation::redirectToApp('Import', 'dataSelection');
-
+         R::commit();
+         new CMessage('Vos relevés ont été ajoutés avec succès ! Vous pouvez en sélectionner d\'autres, ou bien revenir au Tableau de Bord.');
+         CNavigation::redirectToApp('Import', 'dataSelection');
     }
 
-    private static function saveData($nom_releve, $type_donnees, $tableaux) {
-        
-        echo $nom_releve;
+    private static function saveData($nom_releve_prefix, $type_donnees, $tableaux) {
 
-        $releve = DataMod::getReleve($nom_releve, $_SESSION['bd_id']);
-        $b_releve = R::load('releve', $releve['id']);
+        for ($sequence = 1; $sequence < count($tableaux) - 1; $sequence++) {
 
-        if (!$releve)
-            CTools::hackError();
+            $nom_releve = $nom_releve_prefix . "_" . $tableaux['names'][$sequence];
 
-        $n_datamod = DataMod::loadDataType($releve['modname']);
-        $variables = $n_datamod -> getVariables();
+            self::create_releve($nom_releve);
 
-        $datamod = $n_datamod -> instancier();
+            $releve = DataMod::getReleve($nom_releve, $_SESSION['bd_id']);
 
-        for ($i = 0; $i < count($tableaux[0]); $i++) {
+            //echo print_r($releve) . "\n";
 
-            $datamod -> timestamp = $tableaux[0][$i];
+            $b_releve = R::load('releve', $releve['id']);
 
-            $datamod -> voltage = $tableaux[1][$i];
+            if (!$releve)
+             CTools::hackError();
 
-            //echo print_r($datamod);
+             $n_datamod = DataMod::loadDataType($releve['modname']);
+             $variables = $n_datamod -> getVariables();
 
-            $n_datamod -> save($_SESSION['user'], $b_releve, $datamod);
+             $datamod = $n_datamod -> instancier();
+
+             for ($i = 0; $i < count($tableaux['timestamp']); $i++) {
+
+             $datamod -> timestamp = $tableaux['timestamp'][$i];
+
+             $datamod -> voltage = $tableaux[$sequence][$i];
+
+             //echo print_r($datamod);
+
+             $n_datamod -> save($_SESSION['user'], $b_releve, $datamod);
+             }
+
         }
 
     }
 
     private static function startswith($chaine, $debut) {
         return substr($chaine, 0, strlen($debut)) === $debut;
+    }
+
+    private static function create_releve($name) {
+        if (!R::findOne('releve', 'name = ? and user_id = ?', array($name, $_SESSION['bd_id']))) {
+            
+            $mode = R::findOne('datamod', 'modname = ?',array('ElectroCardioGramme'));
+            
+            $user = $_SESSION['user'];
+
+            $releve = R::dispense('releve');
+            $releve -> mod = $mode;
+            $releve -> user = $user;
+            $releve -> name = $name;
+            $releve -> description = "";
+
+            R::store($releve);
+        }
     }
 
 }
