@@ -1,69 +1,70 @@
 <?php
 class DGrapheTempsReel extends DAbstract {
-	const nom = 'Graphe RT';
+    const nom = 'Graphe RT';
 
-	public function show() {
-		if ($this -> gererVide())
-			return;
-		
-		CHead::addJs('jquery-ui-1.8.19.custom.min');
-		//CHead::addJs('jquery.flot.min');
-		//CHead::addJs('Plot_js/jquery_realtimelinechart');
-		CHead::addJs('highstock');
-		CHead::addJs('exporting');
-		CHead::addJs('multiple_charts');
-		CHead::addJs('bootstrap-modal');
-		CHead::addJs('bootstrap-tabs');;
-		CHead::addJs('bootstrap-popover');
-		CHead::addJs('jquery.cookie');
-		CHead::addJs('jquery.jsoncookie');
-		CHead::addJs('marqueurs');
-		CHead::addJs('pics');
+    public function show() {
+        if ($this -> gererVide())
+            return;
 
-		$dataToAdd = array();
-		$timestamps = array();
-		$rawData = array();
+        CHead::addJs('jquery-ui-1.8.19.custom.min');
+        //CHead::addJs('jquery.flot.min');
+        //CHead::addJs('Plot_js/jquery_realtimelinechart');
+        CHead::addJs('highstock');
+        CHead::addJs('exporting');
+        CHead::addJs('multiple_charts');
+        CHead::addJs('bootstrap-modal');
+        CHead::addJs('bootstrap-tabs');
+        ;
+        CHead::addJs('bootstrap-popover');
+        CHead::addJs('jquery.cookie');
+        CHead::addJs('jquery.jsoncookie');
+        CHead::addJs('marqueurs');
+        CHead::addJs('pics');
 
-		foreach ($this->data as $data) {
-			$timestamps[] = $data['timestamp'];
+        $dataToAdd = array();
+        $timestamps = array();
+        $rawData = array();
 
-			foreach ($this->structure as $k => $v) {
+        foreach ($this->data as $data) {
+            $timestamps[] = $data['timestamp'];
 
-				if ($k !== 'timestamp')
-					$rawData[$k][] = $data[$k];
-			}
-		}
+            foreach ($this->structure as $k => $v) {
 
-		$addCharts = "<script>";
+                if ($k !== 'timestamp')
+                    $rawData[$k][] = $data[$k];
+            }
+        }
 
-		foreach ($this->structure as $k => $v) {
-			if ($k !== 'timestamp') {
-				for ($i = 0; $i < count($timestamps); $i++) {
+        $addCharts = "<script>";
 
-					$dataToAdd[] = $rawData[$k][$i];
+        foreach ($this->structure as $k => $v) {
+            if ($k !== 'timestamp') {
+                for ($i = 0; $i < count($timestamps); $i++) {
 
-				}
-				$addCharts .= "addChart('" . $k . "', new Array(" . implode(',', $dataToAdd) . "), new Array(". implode(',',$timestamps) ."));";
-			}
-		}
+                    $dataToAdd[] = $rawData[$k][$i];
 
-		$addCharts .= "</script>";
+                }
+                $addCharts .= "addChart('" . $k . "', new Array(" . implode(',', $dataToAdd) . "), new Array(" . implode(',', $timestamps) . "));";
+            }
+        }
 
-// 			<script>
-// 		jQuery(document).ready(function(){
-// 			$('#head').click(function() {
-// 				$(this).next().toggle('slow');
-// 				return false;
-// 			}).next().hide();
-// 		});
-// 			$(function() {
-// 				$( "#accordion" ).accordion({
-// 					collapsible: true
-// 				});
-// 			});
-		
-// 		</script>
-			echo <<<END
+        $addCharts .= "</script>";
+
+        // 			<script>
+        // 		jQuery(document).ready(function(){
+        // 			$('#head').click(function() {
+        // 				$(this).next().toggle('slow');
+        // 				return false;
+        // 			}).next().hide();
+        // 		});
+        // 			$(function() {
+        // 				$( "#accordion" ).accordion({
+        // 					collapsible: true
+        // 				});
+        // 			});
+
+        // 		</script>
+        echo <<<END
 		<div id="englober" style="height:650px;">
 			<div class="tab-pane active" id="holder" style="margin:20px;float:left;"></div>
 			<div id='accordion'>
@@ -163,12 +164,38 @@ class DGrapheTempsReel extends DAbstract {
             <a href="#" class="btn danger" onClick="rmMarqueur($('#listeMarqueurs').val());$('#popup_supprimer').modal('hide')">Supprimer</a>
             <a href="#" class="btn secondary" onClick="$('#popup_supprimer').modal('hide')">Annuler</a>
           </div>
-		</div>		
+		</div>
 END;
 
-		echo $addCharts;
+        echo $addCharts;
 
-	}
+        if (isset($_GET['minLine']) or isset($_GET['maxLine'])) {
+            $this -> addPics();
+        }
+
+    }
+
+    private function addPics() {
+
+        $releveRow = DataMod::getReleve($_GET['nom'], $_SESSION['bd_id']);
+
+        $mode = R::findOne('datamod', 'modname = ?', array($releveRow['modname']));
+
+        $releve = R::load('releve', $releveRow['id']);
+
+        $releve -> mod = $mode;
+
+        if (isset($_GET['minLine'])) {
+            $releve -> PicMinLine = $_GET['minLine'];
+        }
+
+        if (isset($_GET['maxLine'])) {
+            $releve -> PicMaxLine = $_GET['maxLine'];
+        }
+
+        R::store($releve);
+
+    }
 
 }
 ?>
