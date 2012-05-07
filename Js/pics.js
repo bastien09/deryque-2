@@ -13,11 +13,11 @@ var placerLigne = function(choix, y) {
 	});
 	if (choix == "min") {
 		minLine = y;
-		recupererPicsMin();
+		//recupererPicsMin();
 		$.get(document.URL, { 'minLine' : minLine } );
 	} else if (choix == "max") {
 		maxLine = y;
-		recupererPicsMax();
+		//recupererPicsMax();
 		$.get(document.URL, { 'maxLine' : maxLine } );
 	}
 	printLignes();
