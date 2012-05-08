@@ -173,7 +173,7 @@ END;
 
         for ($sequence = 1; $sequence < count($tableaux) - 1; $sequence++) {
 
-            $nom_releve = $nom_releve_prefix . "_" . $tableaux['names'][$sequence];
+            $nom_releve = $nom_releve_prefix . " (" . $tableaux['names'][$sequence] . ")";
 
             self::create_releve($nom_releve);
 
