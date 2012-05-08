@@ -125,7 +125,7 @@ function requestData(i, j, data) {
 		return;
 	}
 	if (i >= data.length - 1)
-		i = 0;
+		return;
 	charts[j].series[0].addPoint(data[i], true, false);
 	afficheInfos(j, charts[j].series[0].yData[i]);
 	i++;
