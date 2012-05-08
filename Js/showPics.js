@@ -1,5 +1,8 @@
 
 // Need charts, maxLine, minLine
+var charts = [];
+var maxLine = "";
+var minLine = "";
 var picsMaxCharts = [];
 var picsMinCharts = [];
 var dPicsMin = new Array();
@@ -41,7 +44,7 @@ var recupererPicsMin = function () {
 				// On prend l'intervalle
 				dChart1.min = chart.series[0].xData[Math.max(1, min - 3)];
 				dChart1.max = chart.series[0].xData[Math.min(min + 3, chart.series[0].data.length - 1)];
-				//Structure .min/.max à enregistrer pour chaque pic
+				//Structure .min/.max ï¿½ enregistrer pour chaque pic
 				console.log(dChart1.min +", "+ dChart1.max);
 
 				dChart.push(dChart1);
@@ -72,7 +75,7 @@ var recupererPicsMax = function () {
 				// On prend l'intervalle
 				dChart1.min = chart.series[0].xData[Math.max(1, max - 3)];
 				dChart1.max = chart.series[0].xData[Math.min(max + 3, chart.series[0].data.length - 1)];
-				//Structure .min/.max à enregistrer pour chaque pic
+				//Structure .min/.max ï¿½ enregistrer pour chaque pic
 				console.log(dChart1.min +", "+ dChart1.max);
 
 				dChart.push(dChart1);
@@ -165,4 +168,36 @@ var showMinPicsCharts = function () {
 					}));
 		});
 	});
+};
+
+// chargement des donnÃ©es dans js.
+
+function setMinLine(i) {
+	minLine = i;
+	recupererPicsMin();
+}
+
+function setMaxLine(i) {
+	maxLine = i;
+	recupererPicsMax();
+}
+
+function addChart(name, datas, timestamps) {
+
+	var data = new Array();
+	var i;
+
+	for(i = 0; i < timestamps.length; i++) {
+		data.push([
+		           timestamps[i],
+		           datas[i]
+		           ]);
+	}
+
+	var idHolder = "holder"+(charts.length);
+	//$('#holder').height($('#holder').height()+400);
+	$('#holder').append('<a class="close" href="#" onClick="rmChart('+charts.length+');">x</a><div id="'+idHolder+'" style="margin:20px;"></div>');
+	charts.push(new Highcharts.StockChart(
+			getChartConfig(idHolder, name, charts.length, 700, 300)
+	));
 };
