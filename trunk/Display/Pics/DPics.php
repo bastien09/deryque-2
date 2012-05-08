@@ -12,8 +12,6 @@ class DPics extends DAbstract {
         CHead::addJs('multiple_charts');
         CHead::addJs('bootstrap-modal');
         CHead::addJs('bootstrap-tabs');
-        ;
-        CHead::addJs('bootstrap-popover');
         CHead::addJs('jquery.cookie');
         CHead::addJs('jquery.jsoncookie');
         CHead::addJs('showPics');
@@ -52,7 +50,7 @@ class DPics extends DAbstract {
 		
 		<div id="holder" style="display : none;"></div>
 		
-		<div class="" id="pics" style="margin:20px;float:left;"><h3> Pics Max </h3><div id="picsMax"></div><h3> Pics Min </h3><div id="picsMin"></div></div>
+		<div class="" id="pics" style="margin:20px;float:left;"><div id="picsMax"><h3> Pics Max </h3></div><div id="picsMin"><h3> Pics Min </h3></div></div>
 		
 END;
 
