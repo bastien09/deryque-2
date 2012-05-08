@@ -52,6 +52,8 @@ class Data
 				$releve->user = $user;
 				$releve->name = $_REQUEST['nom'];
 				$releve->description = $_REQUEST['desc'];
+                $releve->PicMinLine = NULL;
+                $releve->PicMaxLine = NULL;
 
 				R::store($releve);
 
