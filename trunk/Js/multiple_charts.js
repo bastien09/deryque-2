@@ -15,12 +15,12 @@ var getChartConfig = function(renderId, title, i, width, height) {
 			events: {
 				selection: function(event) {
 					if (event.xAxis) {
-						$('#infos').html('min: '+ event.xAxis[0].min +', max: '+ event.xAxis[0].max);
 						for (var x = 0; x < charts.length; x++) {
 							charts[x].xAxis[0].setExtremes(event.xAxis[0].min,event.xAxis[0].max);
+							charts[x].setSize(300, 200);
+							$('holder'+x).css('float', 'left');
+							$('holder'+x).css('display', 'inline');
 						}
-					} else {
-						$('#infos').html ('Selection reset');
 					}
 				}
 			}
@@ -64,7 +64,7 @@ var getChartConfig = function(renderId, title, i, width, height) {
 			}
 	};
 
-	config.series =  [{ name: 'data'+i, data :[[(new Date()).getTime() - 1000 * 1000, null]]}, 
+	config.series =  [{ name: 'data'+i, data :[[0, null]]}, 
 	                  {
 		id: "flags",
 		name: "flagflag",
@@ -88,7 +88,6 @@ function addChart(name, datas, timestamps) {
 
 	var data = new Array();
 	var i;
-
 	for(i = 0; i < timestamps.length; i++) {
 		data.push([
 		           timestamps[i],
@@ -146,6 +145,7 @@ function setAction(item) {
 function Dezoom() {
 	$.each(charts, function (i, chart) {
 		chart.xAxis[0].setExtremes(chart.xAxis.min, chart.xAxis.max);
+		chart.setSize(700, 300);
 	});
 }
 

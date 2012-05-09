@@ -133,8 +133,8 @@ var showMaxPicsCharts = function () {
 							})()
 						}],
 					}));
-			$('#picsMax').append('<br />');
 		});
+		$('#picsMax').append('<br />');
 	});
 };
 
