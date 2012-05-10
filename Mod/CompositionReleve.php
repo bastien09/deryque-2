@@ -10,10 +10,16 @@ class CompositionReleve {
     /**
      * Trouve ou ajoute un nouveau relevé multiple.
      */
-    public function __construct($name) {
-        $this -> _releveBean = R::findOrDispense('multi_releve', "name = ?", array($name));
+    public function __construct($name, $user) {
+        $beans = R::findOrDispense('multi_releve', "name = ?", array($name));
 
-        $this -> _releveBean -> name = name;
+        foreach ($beans as $bean) {
+            $this -> _releveBean = $bean;
+            break;
+        }
+        
+        $this -> _releveBean -> name = $name;
+        $this -> _releveBean -> user = $user;
 
     }
 
@@ -22,7 +28,11 @@ class CompositionReleve {
      */
     public function addReleve($rname) {
 
-        $this -> _releveBean -> releves[] = R::find('releve', 'name = ?', array($rname));
+        $releves = R::find('releve', 'name = ?', array($rname));
+
+        foreach ($releves as $releve) {
+            $this -> _releveBean -> releves[] = $releve;
+        }
 
     }
 

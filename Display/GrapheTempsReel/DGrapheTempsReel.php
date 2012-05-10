@@ -190,7 +190,9 @@ END;
         if (isset($_GET['maxLine'])) {
             $releve -> PicMaxLine = $_GET['maxLine'];
         }
-
+        
+        $releve->PicEndTime = $_GET['endTime'];
+        
         R::store($releve);
 
     }

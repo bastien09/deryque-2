@@ -79,8 +79,16 @@ END;
 
 	public static function showRelevesChoiceMenu(){
 		echo <<<END
+		
+		<ul class="tabs" data-tabs="tabs">
+            <li class="active"><a href="#releves">Relevés</a></li>
+            <li><a href="#composition">Relevés composés</a></li>
+        </ul>
+        
 		<h4 id="titre_releves">Liste des relevés</h4>
-		<div id="releves">
+		
+		<div id="my-tab-content" class="tab-content">
+		<div class="tab-pane active" id="releves">
 			<table class="zebra-striped">
 END;
 		$releves = DataMod::getReleves($_SESSION['bd_id']);
@@ -95,7 +103,34 @@ END;
 			</tr>
 END;
 		}
-		echo "</table></div>";
+		echo <<<END
+		  </table>
+		  </div>
+		  <div id="composition" class="tab-pane">
+		  <table class="zebra-striped">
+END;
+		
+        $releves = DataMod::getMultiReleves($_SESSION['bd_id']);
+                
+        foreach($releves as $releve){
+            $hname = htmlspecialchars($releve['name']);
+            $hurl = CNavigation::generateUrlToApp('Display', 'iframe_view', array('nom'=>$releve['name']));
+            $hid = sha1($releve['name']);
+            echo <<<END
+            <tr>
+                <td><input type="checkbox" value="$hurl" name="i$hid"/></td>
+                <td>$hname</td>
+            </tr>
+END;
+        }
+        
+		  
+	   echo <<<END
+	       </table>
+		  </div>	  
+		  
+        </div>
+END;
 	}
 }
 
