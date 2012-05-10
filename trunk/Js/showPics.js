@@ -7,6 +7,7 @@ var picsMaxCharts = []; //Graphes des pics max
 var picsMinCharts = []; // Graphes des pics min
 var dPicsMin = new Array();	//Tableau d'intervalles pour les min
 var dPicsMax = new Array();	// pour les max
+var viewLength = 0; // La taille du tableau lors de la définition du seuil. 
 
 
 function rmPicChart(choice, i) {
@@ -192,6 +193,10 @@ function setMinLine(i) {
 function setMaxLine(i) {
 	maxLine = i;
 	recupererPicsMax();
+}
+
+function setViewLength(i) {
+	viewLength = i;
 }
 
 function addChart(name, datas, timestamps) {

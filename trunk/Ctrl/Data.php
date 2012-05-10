@@ -54,6 +54,7 @@ class Data
 				$releve->description = $_REQUEST['desc'];
                 $releve->PicMinLine = NULL;
                 $releve->PicMaxLine = NULL;
+                $releve->PicEndTime = NULL;
 
 				R::store($releve);
 

@@ -11,14 +11,17 @@ var placerLigne = function(choix, y) {
 			id: choix
 		});	
 	});
+	
+	var chartsLength = charts[0].series[0].xData.length;
+	
 	if (choix == "min") {
 		minLine = y;
 		//recupererPicsMin();
-		$.get(document.URL, { 'minLine' : minLine } );
+		$.get(document.URL, { 'minLine' : minLine, 'endTime' : chartsLength } );
 	} else if (choix == "max") {
 		maxLine = y;
 		//recupererPicsMax();
-		$.get(document.URL, { 'maxLine' : maxLine } );
+		$.get(document.URL, { 'maxLine' : maxLine, 'endTime' : chartsLength } );
 	}
 	printLignes();
 };

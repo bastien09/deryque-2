@@ -109,7 +109,7 @@ END;
 			<select name="assoc_$sum" id="assoc_$sum">
 END;
         foreach ($releves_list as $r) {
-            echo '<option value="',             htmlspecialchars($r['name']), '">',             htmlspecialchars($r['name']), " (",             htmlspecialchars($r['modname']), ")", "</option>";
+            echo '<option value="',              htmlspecialchars($r['name']), '">',              htmlspecialchars($r['name']), " (",              htmlspecialchars($r['modname']), ")", "</option>";
         }
         echo <<<END
 			</select>
@@ -164,18 +164,21 @@ END;
             }
         }
 
-         R::commit();
-         new CMessage('Vos relevés ont été ajoutés avec succès ! Vous pouvez en sélectionner d\'autres, ou bien revenir au Tableau de Bord.');
-         CNavigation::redirectToApp('Import', 'dataSelection');
+        R::commit();
+        new CMessage('Vos relevés ont été ajoutés avec succès ! Vous pouvez en sélectionner d\'autres, ou bien revenir au Tableau de Bord.');
+        CNavigation::redirectToApp('Import', 'dataSelection');
     }
 
     private static function saveData($nom_releve_prefix, $type_donnees, $tableaux) {
+        
+        $multi_releve = new CompositionReleve($nom_releve_prefix,$_SESSION['user']);
+        
 
         for ($sequence = 1; $sequence < count($tableaux) - 1; $sequence++) {
 
             $nom_releve = $nom_releve_prefix . " (" . $tableaux['names'][$sequence] . ")";
 
-            self::create_releve($nom_releve);
+            $r = self::create_releve($nom_releve);
 
             $releve = DataMod::getReleve($nom_releve, $_SESSION['bd_id']);
 
@@ -184,25 +187,29 @@ END;
             $b_releve = R::load('releve', $releve['id']);
 
             if (!$releve)
-             CTools::hackError();
+                CTools::hackError();
 
-             $n_datamod = DataMod::loadDataType($releve['modname']);
-             $variables = $n_datamod -> getVariables();
+            $n_datamod = DataMod::loadDataType($releve['modname']);
+            $variables = $n_datamod -> getVariables();
 
-             $datamod = $n_datamod -> instancier();
+            $datamod = $n_datamod -> instancier();
 
-             for ($i = 0; $i < count($tableaux['timestamp']); $i++) {
+            for ($i = 0; $i < count($tableaux['timestamp']); $i++) {
 
-             $datamod -> timestamp = $tableaux['timestamp'][$i];
+                $datamod -> timestamp = $tableaux['timestamp'][$i];
 
-             $datamod -> voltage = $tableaux[$sequence][$i];
+                $datamod -> voltage = $tableaux[$sequence][$i];
 
-             //echo print_r($datamod);
+                //echo print_r($datamod);
 
-             $n_datamod -> save($_SESSION['user'], $b_releve, $datamod);
-             }
+                $n_datamod -> save($_SESSION['user'], $b_releve, $datamod);
+            }
+            
+            $multi_releve->addReleve($nom_releve);
 
         }
+        
+        $multi_releve->save();
 
     }
 
@@ -212,9 +219,9 @@ END;
 
     private static function create_releve($name) {
         if (!R::findOne('releve', 'name = ? and user_id = ?', array($name, $_SESSION['bd_id']))) {
-            
-            $mode = R::findOne('datamod', 'modname = ?',array('ElectroCardioGramme'));
-            
+
+            $mode = R::findOne('datamod', 'modname = ?', array('ElectroCardioGramme'));
+
             $user = $_SESSION['user'];
 
             $releve = R::dispense('releve');
@@ -224,6 +231,8 @@ END;
             $releve -> description = "";
 
             R::store($releve);
+
+            return $releve;
         }
     }
 

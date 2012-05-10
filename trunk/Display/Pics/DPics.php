@@ -63,6 +63,11 @@ END;
     private function getPics() {
 
         $releve = DataMod::getReleve($_GET['nom'], $_SESSION['bd_id']);
+        
+        $endTime = R::getRow('select PicEndTime from releve r where r.id = ?', array($releve['id']));
+        if($endTime != NULL) {
+            echo "<script> setViewLength(".$endTime['PicEndTime'].") </script>";
+        }
 
         if ($releve['PicMinLine'] != NULL) {
             echo "<script> setMinLine(".$releve['PicMinLine'].");</script>";
@@ -70,6 +75,7 @@ END;
         if ($releve['PicMaxLine'] != NULL) {
             echo "<script> setMaxLine (".$releve['PicMaxLine']."); </script>";
         }
+        
     }
 
 }
