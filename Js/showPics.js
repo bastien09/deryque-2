@@ -32,28 +32,36 @@ var recupererPicsMin = function () {
 	$.each(dataCharts, function (i, data) {
 		var dChart = new Array();
 		// Pour chaque section < min
-		for (var j = 0; j < data.length; j++) {
+		for (var j = 0; j < viewLength; j++) {
 			if (data[j].y <= minLine && data[j].y != null) {
-				var min = j;
+				var min = j, debut = j, fin = j, start = 0, end = 0;
 				var dChart1 = new Array();
 				// On cherche le min, et on prendra un intervalle dont ce min est le milieu
-				while(j < data[j].length && data[j].y <= minLine) {
+				console.log('j ='+ j +'data.length = '+ data.length +' data[j].y = '+ data[j].y);
+				while(j < viewLength && data[j].y <= minLine) {
+					console.log('< y : '+ data[j].y);
 					if (data[j].y < data[min].y) {
 						min = j;
 					}
 					j++;
 				}
-				console.log("j = "+ j);	
+				fin = j;
+				console.log("min = "+ min +" debut = "+ debut +" fin = "+ fin);
+				// Si l'intervalle est trop grand.. on réduit
+				if ((fin - debut) > 10) {
+					start = min - 7;
+					end = min + 7;
+				} else {
+					start = debut - 5;
+					end = fin + 5;
+				}
 				// On prend l'intervalle
-				dChart1.min = data[Math.max(1, min - 10)].x;
-				dChart1.max = data[Math.min(min + 10, data.length - 1)].x;
-				j+= 10;
+				dChart1.min = data[Math.max(1, start)].x;
+				dChart1.max = data[Math.min(end, data.length - 1)].x;
 				//Structure .min/.max ï¿½ enregistrer pour chaque pic
 				console.log(dChart1.min +", "+ dChart1.max);
 
 				dChart.push(dChart1);
-				if (dChart.length == 3)
-					break;
 			}
 		}
 		dPicsMin.push(dChart);
@@ -65,28 +73,35 @@ var recupererPicsMax = function () {
 	dPicsMax = new Array();
 	$.each(dataCharts, function (i, data) {
 		var dChart = new Array();
-		for (var j = 0; j < data.length; j++) {
+		for (var j = 0; j < viewLength; j++) {
 			if (data[j].y >= maxLine && data[j].y != null) {
-				var max = j;
+				var max = j, debut = j, fin = j;
 				var dChart1 = new Array();
 				// On cherche le min, et on prendra un intervalle dont ce min est le milieu
-				while(j < data[j].length && data[j].y >= maxLine) {
+				while(j < viewLength && data[j].y >= maxLine) {
+					console.log('> y : '+ data[j].y);
 					if (data[j].y > data[max].y) {
 						max = j;
 					}
 					j++;
 				}
-				console.log("j = "+ j);	
+				fin = j;
+				console.log("max = "+ max +" debut = "+ debut +" fin = "+ fin);
+				// Si l'intervalle est trop grand.. on réduit
+				if ((fin - debut) > 10) {
+					start = max - 7;
+					end = max + 7;
+				} else {
+					start = debut - 5;
+					end = fin + 5;
+				}
 				// On prend l'intervalle
-				dChart1.min = data[Math.max(1, max - 10)].x;
-				dChart1.max = data[Math.min(max + 10, data.length - 1)].x;
-				j+= 10;
+				dChart1.min = data[Math.max(1, start)].x;
+				dChart1.max = data[Math.min(end, data.length - 1)].x;
 				//Structure .min/.max ï¿½ enregistrer pour chaque pic
 				console.log(dChart1.min +", "+ dChart1.max);
 
 				dChart.push(dChart1);
-				if (dChart.length == 3)
-					break;
 			}
 		}
 		dPicsMax.push(dChart);
@@ -127,7 +142,6 @@ var showMaxPicsCharts = function () {
 										return tmp;
 									if (dataCharts[i][x].x >= section.min) {
 										tmp.push(dataCharts[i][x].y);
-										console.log(tmp[tmp.length - 1]);
 									}
 								}
 								return tmp;
@@ -171,7 +185,6 @@ var showMinPicsCharts = function () {
 										return tmp;
 									if (dataCharts[i][x].x >= section.min) {
 										tmp.push(dataCharts[i][x].y);
-										console.log(tmp[tmp.length - 1]);
 									}
 								}
 								return tmp;
