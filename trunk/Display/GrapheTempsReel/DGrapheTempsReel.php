@@ -14,10 +14,9 @@ class DGrapheTempsReel extends DAbstract {
         CHead::addJs('multiple_charts');
         CHead::addJs('bootstrap-modal');
         CHead::addJs('bootstrap-tabs');
-        CHead::addJs('jquery.cookie');
-        CHead::addJs('jquery.jsoncookie');
         CHead::addJs('marqueurs');
         CHead::addJs('pics');
+        CHead::addJs('grid');
 
         $dataToAdd = array();
         $timestamps = array();

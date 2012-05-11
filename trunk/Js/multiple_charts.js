@@ -27,7 +27,30 @@ var getChartConfig = function(renderId, title, i, width, height) {
 	};
 	config.i = i;
 	config.rangeSelector = {
-			enabled : false
+				buttons: [{
+					count: 1,
+					type: 'second',
+					text: '1s'
+				},
+				{
+					count: 10,
+					type: 'second',
+					text: '10s'
+				},
+				{
+					count: 30,
+					type: 'second',
+					text: '30s'
+				}, {
+					count: 1,
+					type: 'minute',
+					text: '1min'
+				}, {
+					type: 'all',
+					text: 'All'
+				}],
+				inputEnabled: false,
+				selected: 0
 	};
 	config.title = {
 			text : title
@@ -41,7 +64,10 @@ var getChartConfig = function(renderId, title, i, width, height) {
 	config.navigator = {
 			height : 15
 	};
-
+	config.xAxis = {
+			tickPixelInterval: 25,
+			dateTimeLabelFormats : '%S'
+    };
 	config.plotOptions = {
 			series : {
 				cursor: 'pointer',
@@ -90,7 +116,7 @@ function addChart(name, datas, timestamps) {
 	var i;
 	for(i = 0; i < timestamps.length; i++) {
 		data.push([
-		           timestamps[i],
+		           timestamps[i]*1000,
 		           datas[i]
 		           ]);
 	}
@@ -106,6 +132,7 @@ function addChart(name, datas, timestamps) {
 	$('#infos').append("<li>"+ name +" : <span id="+ inf +"></span></li>");
 	printCharts();
 	requestData(lastCall, charts.length - 1, data);
+	console.log("Length : "+data.length);
 };
 
 function rmChart(i) {
@@ -123,13 +150,20 @@ function requestData(i, j, data) {
 		lastCall = i;
 		return;
 	}
-	if (i >= data.length - 1)
+	if (i >= data.length - 1) {
+		run = false;
 		return;
+	}
 	charts[j].series[0].addPoint(data[i], true, false);
 	afficheInfos(j, charts[j].series[0].yData[i]);
 	i++;
-	// call it again after 100ms
-	setTimeout(function() { if (charts[j]) requestData(i, j, data); }, 100);    
+	// call it again after.. guess it
+	var timeOut = 0;
+	if (i == 0)
+		timeOut = 0;
+	else 
+		timeOut = (data[i].x - data[i - 1].x);
+	setTimeout(function() { if (charts[j]) requestData(i, j, data); }, timeOut);    
 };
 
 // Info en temps réel à droite
