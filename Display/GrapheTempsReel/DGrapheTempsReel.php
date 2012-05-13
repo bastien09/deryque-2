@@ -67,29 +67,29 @@ class DGrapheTempsReel extends DAbstract {
 			<div id='accordion'>
 				<div class="well">
 					<h3 id="head">Controles</h3>
-						<div style="text-align:center"><a href="#" class="btn" onClick="if (run) {run = false; } else {run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); });}"><img src="/InspecteurDeryque/Img/icons/key_play_pause.png" alt="Lecture/pause" /></a>
-						<a href="#" class="btn" onClick="Dezoom();"><img src="/InspecteurDeryque/Img/icons/zoom_out.png" alt="Dezoom" /></a></div>							
+						<div style="text-align:center"><a href="#" class="btn" onClick="if (run) {run = false; } else {run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); });}"><img src="/InspecteurDeryque/Img/icons/key_play_pause.png" alt="Lecture/pause" title="Lecture/pause du graphe en cours" /></a>
+						<a href="#" class="btn" onClick="Dezoom();"><img src="/InspecteurDeryque/Img/icons/zoom_out.png" alt="Dezoom" title="Remet le graphe par defaut" /></a></div>							
 					    
 					<ul class="tabs" data-tabs="tabs">
-						<li class="active"><a href="#divMarqueurs"> Marqueurs </a></li>
-						<li><a href="#divPics"> Detection de pics </a></li>
+						<li class="active"><a href="#divMarqueurs" alt="Manipulation des marqueurs" title="Manipulation des marqueurs"> Marqueurs </a></li>
+						<li><a href="#divPics" alt="Permet de trouver les pics du graphe" title="Permet de trouver les pics du graphe"> Detection de pics </a></li>
 					</ul>
 					<div id="my-tab-content" class="tab-content">
 						<div id="divMarqueurs" class="tab-pane active">	
 							<ol id="listeMarqueursCourants"></ol>
 							<select id="listeMarqueurs" class="span3" onChange="description()"></select>
-							<a class="btn" onClick="setAction('marqueurs')"><img src="/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" /></a>
-							<a class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"><img src="/InspecteurDeryque/Img/icons/plus.png" alt="Ajouter" /></a> 
-							<a class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"><img src="/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" /></a>
+							<a class="btn" onClick="setAction('marqueurs')"><img src="/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" title="Placer un marqueur sur le graphe"/></a>
+							<a class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"><img src="/InspecteurDeryque/Img/icons/plus.png" alt="Ajouter" title="Créer un nouveau marqueur"/></a> 
+							<a class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"><img src="/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" title="Supprimer un marqueur"/></a>
 							
 							<div id="desc" style="text-align:center"></div>
 						</div>
 						<div id="divPics" class="tab-pane">
 							<table id="tablePics">
 								<tr>
-								<td> Seuil maximum : <span id="picMax"></span></td><td><a class="btn" onClick="setAction('pics');minOrMax='max'"><img src="/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" /></a><a class="btn" onClick="rmLigne('max')"><img src="/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" /></a></td>
+								<td> Seuil maximum : <span id="picMax"></span></td><td><a class="btn" onClick="setAction('pics');minOrMax='max'"><img src="/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" title="Placer une limite maximum sur le graphe" /></a><a class="btn" onClick="rmLigne('max')"><img src="/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" title="Supprimer la limite maximum s'il y en a une"/></a></td>
 								</tr><tr>
-								<td> Seuil minimum : <span id="picMin"></span></td><td><a class="btn" onClick="setAction('pics');minOrMax='min'"><img src="/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" /></a><a class="btn" onClick="rmLigne('min')"><img src="/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" /></a></td>
+								<td> Seuil minimum : <span id="picMin"></span></td><td><a class="btn" onClick="setAction('pics');minOrMax='min'"><img src="/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" title="Placer une limite minimum sur le graphe" /></a><a class="btn" onClick="rmLigne('min')"><img src="/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" title="Supprimer une limite minimum s'il y en a une"/></a></td>
 								</tr>
 							</table>
 						</div>
