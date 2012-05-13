@@ -9,6 +9,11 @@ var dPicsMin = new Array();	//Tableau d'intervalles pour les min
 var dPicsMax = new Array();	// pour les max
 var viewLength = 0; // La taille du tableau lors de la dÃ©finition du seuil. 
 
+function initPics() {
+	if(maxLine == "" && minLine == "") {
+		$("#pics").before('<div id="description" class="alert-message info">Pour pouvoir afficher des pics, il faut utiliser le module de détection de pics disponible dans la visualisation Graphe RT.</div>');
+	}
+};
 
 function rmPicChart(choice, i) {
 	if (choice == 'min') {

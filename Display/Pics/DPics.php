@@ -74,7 +74,7 @@ END;
         if ($releve['PicMaxLine'] != NULL) {
             echo "<script> setMaxLine (".$releve['PicMaxLine']."); </script>";
         }
-        
+        echo '<script> initPics(); </script>';
     }
 
 }
