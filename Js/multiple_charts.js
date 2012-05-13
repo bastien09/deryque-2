@@ -61,13 +61,20 @@ var getChartConfig = function(renderId, title, i, width, height) {
 	config.scrollbar = {
 			height: 7
 	};
+	config.xAxis = {
+			dateTimeLabelFormats : '%S',
+			title : {
+				text : "Temps (ms)"
+			}
+	};
+	config.yAxis = {
+			title : {
+				text : "Voltage (mV)"
+			}
+	};
 	config.navigator = {
 			height : 15
 	};
-	config.xAxis = {
-			tickPixelInterval: 25,
-			dateTimeLabelFormats : '%S'
-    };
 	config.plotOptions = {
 			series : {
 				cursor: 'pointer',
@@ -102,12 +109,6 @@ var getChartConfig = function(renderId, title, i, width, height) {
 
 	return config;
 };
-
-Highcharts.setOptions({
-	global : {
-		useUTC : true
-	}
-});
 
 //Ajouter un graphe avec un tableau de y, et de x
 function addChart(name, datas, timestamps) {
@@ -154,16 +155,24 @@ function requestData(i, j, data) {
 		run = false;
 		return;
 	}
-	charts[j].series[0].addPoint(data[i], true, false);
+	var tmp = i;
+	while (i < data.length && i < (tmp + 4)) {
+		charts[j].series[0].addPoint(data[i], false, false);
+		i++;
+	}
+	//Rafraichissement qu'un sur 5, faster faster !
+	if (i < data.length) {
+		charts[j].series[0].addPoint(data[i], true, false);
+		i++;
+	}
 	afficheInfos(j, charts[j].series[0].yData[i]);
-	i++;
 	// call it again after.. guess it
 	var timeOut = 0;
 	if (i == 0)
 		timeOut = 0;
 	else 
 		timeOut = (data[i].x - data[i - 1].x);
-	setTimeout(function() { if (charts[j]) requestData(i, j, data); }, timeOut);    
+	setTimeout(function() { if (charts[j]) requestData(i, j, data); }, 10);    
 };
 
 // Info en temps réel à droite
