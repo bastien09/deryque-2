@@ -17,6 +17,7 @@ class DGrapheTempsReel extends DAbstract {
         CHead::addJs('marqueurs');
         CHead::addJs('pics');
         CHead::addJs('grid');
+        CHead::addJs('visu_pics');
 
         $dataToAdd = array();
         $timestamps = array();
