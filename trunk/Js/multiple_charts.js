@@ -18,8 +18,6 @@ var getChartConfig = function(renderId, title, i, width, height) {
 						for (var x = 0; x < charts.length; x++) {
 							charts[x].xAxis[0].setExtremes(event.xAxis[0].min,event.xAxis[0].max);
 							charts[x].setSize(300, 200);
-							$('holder'+x).css('float', 'left');
-							$('holder'+x).css('display', 'inline');
 						}
 					}
 				}

@@ -66,10 +66,13 @@ class DGrapheTempsReel extends DAbstract {
 		<div id="englober" style="height:650px;">
 			<div class="tab-pane active" id="holder" style="margin:20px;float:left;"></div>
 			<div id='accordion'>
-				<div class="well">
+				<div class="well" id="controles">
 					<h3 id="head">Controles</h3>
+						<div id="top-right"><a class="btn" id="btnVertical" onClick="vertical();$('#btnHorizontal').removeAttr('disabled');$(this).attr('disabled', 'disabled');" disabled="disabled" title="Vue verticale" style="padding : 1px"><img src="/InspecteurDeryque/Img/icons/vertical.png" /></a><a class="btn" id="btnHorizontal" onClick="horizontal();$('#btnVertical').removeAttr('disabled');$(this).attr('disabled', 'disabled');" title="Vue horizontale" style="padding : 1px"><img src="/InspecteurDeryque/Img/icons/horizontal.png" /></a>
+						</div>	
 						<div style="text-align:center"><a href="#" class="btn" onClick="if (run) {run = false; } else {run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); });}"><img src="/InspecteurDeryque/Img/icons/key_play_pause.png" alt="Lecture/pause" title="Lecture/pause du graphe en cours" /></a>
-						<a href="#" class="btn" onClick="Dezoom();"><img src="/InspecteurDeryque/Img/icons/zoom_out.png" alt="Dezoom" title="Remet le graphe par defaut" /></a></div>							
+						<a href="#" class="btn" onClick="Dezoom();"><img src="/InspecteurDeryque/Img/icons/zoom_out.png" alt="Dezoom" title="Remet le graphe par defaut" /></a>
+						</div>						
 					    
 					<ul class="tabs" data-tabs="tabs">
 						<li class="active"><a href="#divMarqueurs" alt="Manipulation des marqueurs" title="Manipulation des marqueurs"> Marqueurs </a></li>
@@ -96,7 +99,7 @@ class DGrapheTempsReel extends DAbstract {
 						</div>
 					</div>
 				</div>
-				<div class="well">
+				<div class="well" id="informations">
 					<h3 id="head">Informations</h3>
 					<div class="row">
 						<div class="span3">
@@ -163,6 +166,7 @@ class DGrapheTempsReel extends DAbstract {
             <a href="#" class="btn secondary" onClick="$('#popup_supprimer').modal('hide')">Annuler</a>
           </div>
 		</div>
+        <script>$('#btnVertical').click();</script>
 END;
 
         echo $addCharts;
