@@ -64,7 +64,7 @@ class DGrapheTempsReel extends DAbstract {
         // 		</script>
         echo <<<END
 		<div id="englober" style="height:650px;">
-			<div class="tab-pane active" id="holder" style="margin:20px;float:left;"></div>
+			<div class="tab-pane active" id="holder" style="float:left;"></div>
 			<div id='accordion'>
 				<div class="well" id="controles">
 					<h3 id="head">Controles</h3>
@@ -77,6 +77,7 @@ class DGrapheTempsReel extends DAbstract {
 					<ul class="tabs" data-tabs="tabs">
 						<li class="active"><a href="#divMarqueurs" alt="Manipulation des marqueurs" title="Manipulation des marqueurs"> Marqueurs </a></li>
 						<li><a href="#divPics" alt="Permet de trouver les pics du graphe" title="Permet de trouver les pics du graphe"> Detection de pics </a></li>
+						<li><a href="#divCompo" alt="Composer des morceaux de courbe" title="Composer des morceaux de courbe"> Composition </a></li>
 					</ul>
 					<div id="my-tab-content" class="tab-content">
 						<div id="divMarqueurs" class="tab-pane active">	
@@ -97,20 +98,22 @@ class DGrapheTempsReel extends DAbstract {
 								</tr>
 							</table>
 						</div>
+						<div id="divCompo" class="tab-pane" style="text-align:center">
+						<ul>
+						<li style="margin: 5px 0px"><a class="btn" onClick="setAction('selectionCompo')" title="Sélectionnez une partie d'un graphe" >Par s&eacute;lection</a></li>
+						<li style="margin: 5px 0px"><a class="btn" onClick="compoDates()" data-controls-modal="popup_compo_dates" data-keyboard="true">Par dates</a></li>
+						<li style="margin: 5px 0px"><a class="btn" onClick="compoMarqueurs();" data-controls-modal="popup_compo_marqueurs" data-keyboard="true">Par marqueurs</a></li>
+						
+						</div>
 					</div>
 				</div>
 				<div class="well" id="informations">
 					<h3 id="head">Informations</h3>
 					<div class="row">
-						<div class="span3">
-							<ul>				
-							    <li>Information : bla</li>
-							</ul>
+						<div id="infosAction">
 					    </div>
-					    <div class="span3">
-							<ol id="infos">
-							</ol>								
-					    </div>
+						<ol id="infos">
+						</ol>
 					</div>
 				</div>
 			</div>
@@ -129,7 +132,7 @@ class DGrapheTempsReel extends DAbstract {
 	            <input id="nomMarqueur" class="span3" />
             </div>
           	<div >
-	            <label for="abbMarqueur" > Abbrï¿½viation </label>
+	            <label for="abbMarqueur" > Abbr&eacute;viation </label>
 	            <input id="abbMarqueur" class="span3" />
             </div>
           	<div>
@@ -153,6 +156,7 @@ class DGrapheTempsReel extends DAbstract {
             <a href="#" class="btn secondary" onClick="$('#popup_ajouter').modal('hide')">Annuler</a>
           </div>
 		</div>
+		<!--  																	 -->
 		<div id="popup_supprimer" class="modal hide fade">
           <div class="modal-header">
             <a href="#" class="close">x</a>
@@ -165,6 +169,85 @@ class DGrapheTempsReel extends DAbstract {
             <a href="#" class="btn danger" onClick="rmMarqueur($('#listeMarqueurs').val());$('#popup_supprimer').modal('hide')">Supprimer</a>
             <a href="#" class="btn secondary" onClick="$('#popup_supprimer').modal('hide')">Annuler</a>
           </div>
+		</div>
+		<!--  																	 -->
+		<div id="popup_compo_marqueurs" class="modal hide fade">
+			<div class="modal-header">
+	            <a href="#" class="close">x</a>
+	            <h3>Composition par marqueurs</h3>
+	          </div>
+	          <div class="modal-body">
+	          	<p> S&eacute;lectionnez 2 marqueurs afin d'&eacute;tablir un intervalle :</p>
+	          	<fieldset>
+          			<div>
+			            <label for="graphe_compo_marqueurs"> Graphe </label>
+			            <select id="graphe_compo_marqueurs" class="span3">
+			            </select>
+		            </div>
+		            <div>
+			            <label for="de_compo_marqueurs"> de </label>
+			            <select id="de_compo_marqueurs" class="span3">
+			            </select>
+		            </div>
+		            <div>
+			            <label for="a_compo_marqueurs"> &agrave; </label>
+			            <select id="a_compo_marqueurs" class="span3">
+			            </select>
+		            </div>
+		         </fieldset>
+	          </div>
+	          <div class="modal-footer">
+	            <a href="#" class="btn primary" onClick="$('#popup_compo_marqueurs').modal('hide')">Composer</a>
+	            <a href="#" class="btn secondary" onClick="$('#popup_compo_marqueurs').modal('hide')">Annuler</a>
+	          </div>
+		</div>
+		<div id="popup_compo_dates" class="modal hide fade">
+			<div class="modal-header">
+	            <a href="#" class="close">x</a>
+	            <h3>Composition par dates</h3>
+	          </div>
+	          <div class="modal-body">
+	          	<p> S&eacute;lectionnez 2 dates afin d'&eacute;tablir un intervalle :</p>
+	          	<fieldset>
+          			<div>
+			            <label for="graphe_compo_dates"> Graphe </label>
+			            <select id="graphe_compo_dates" class="span3">
+			            </select>
+		            </div>
+		            <div>
+			            <label for="de_compo_dates"> de </label>
+			            <select id="de_compo_dates" class="span3">
+			            </select>
+		            </div>
+		            <div>
+			            <label for="a_compo_dates"> &agrave; </label>
+			            <select id="a_compo_dates" class="span3">
+			            </select>
+		            </div>
+		         </fieldset>
+	          </div>
+	          <div class="modal-footer">
+	            <a href="#" class="btn primary" onClick="$('#popup_compo_dates').modal('hide')">Composer</a>
+	            <a href="#" class="btn secondary" onClick="$('#popup_compo_dates').modal('hide')">Annuler</a>
+	          </div>
+		</div>
+		<div id="popup_compo_selection" class="modal hide fade">
+			<div class="modal-header">
+	            <a href="#" class="close">x</a>
+	            <h3>Composition par s&eacute;lection</h3>
+	          </div>
+	          <div class="modal-body">
+	          	<p>Souhaitez vous cr&eacute;er ce nouvel intervalle :</p>
+	          	<fieldset style="text-align:center">
+		            <p>Graphe <span id="graphe_compo_selection" class="span3"></span></p>
+		            <p>de <span id="de_compo_selection" class="span3"></span></p>
+		            <p>&agrave; <span id="a_compo_selection" class="span3"></span></p>
+		         </fieldset>
+	          </div>
+	          <div class="modal-footer">
+	            <a href="#" class="btn primary" onClick="$('#popup_compo_selection').modal('hide')">Composer</a>
+	            <a href="#" class="btn secondary" onClick="$('#popup_compo_selection').modal('hide')">Annuler</a>
+	          </div>
 		</div>
         <script>$('#btnVertical').click();</script>
 END;

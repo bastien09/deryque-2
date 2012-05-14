@@ -109,3 +109,47 @@ var description = function() {
 		description = "Il n'y a pas de description pour ce marqueur";
 	$('#desc').html('<div id="description" class="alert-message info"><a class="close" href="#" onClick="$(\'#description\').remove()">x</a><p>'+ description +'</p></div>');
 };
+
+var compoMarqueurs = function() {
+	var listeGraphes = "";
+	var listeMarqueursCourants = "";
+
+	$.each(charts, function (j, chart) {
+		listeGraphes += "<option value='"+ chart.i +"'>"+chart.title.textStr+"</option>";
+	});
+	$.each(marqueursCourants, function (j, marqueurCourant) {
+		listeMarqueursCourants += "<option value='"+ marqueurCourant.i +"'>"+ marqueurCourant.nom +" &agrave; "+ marqueurCourant.x +"</option>";
+	});
+	$('#graphe_compo_marqueurs').html(listeGraphes);
+	$('#de_compo_marqueurs').html(listeMarqueursCourants);
+	$('#a_compo_marqueurs').html(listeMarqueursCourants);
+	
+}
+
+var compoDates = function() {
+	var listeGraphes = "";
+	var listeDates = "";
+
+	$.each(charts, function (j, chart) {
+		listeGraphes += "<option value='"+ chart.i +"'>"+chart.title.textStr+"</option>";
+	});
+	$.each(charts[0].series[0].xData, function (j, timestamp) {
+		listeDates += "<option value='"+ j +"'>"+timestamp +" ms : "+ charts[0].series[0].yData[j] +" mV</option>";
+	});
+
+	$('#graphe_compo_dates').html(listeGraphes);
+	$('#de_compo_dates').html(listeDates);
+	$('#a_compo_dates').html(listeDates);
+}
+
+var compoSelection = function(graphe, event) {
+	if (event.xAxis) {
+		//alert('Récupérer '+ event.xAxis[0].min +' et '+event.xAxis[0].max +' dans getChartConfig (multiple_charts.js) ainsi que l\'id du relevé');
+		// La selection sur graphe n'est possible que si zoomType est activé, provoquant un zoom. Il faut alors dézoomer :/
+		$('#graphe_compo_selection').html(graphe.title.textStr);
+		$('#de_compo_selection').html(event.xAxis[0].min);
+		$('#a_compo_selection').html(event.xAxis[0].max);
+		$('#popup_compo_selection').modal('show');
+		setTimeout("Dezoom()", 100);
+	}
+}

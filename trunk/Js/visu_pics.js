@@ -1,7 +1,7 @@
 var vertical = function() {
 
 $('#accordion').css("position","fixed");
-$('#accordion').css("margin-left", "800px");
+$('#accordion').css("margin-left", "750px");
 $('#accordion').css("width","400px");
 
 $('#tablePics').html('<tr><td> Seuil maximum : <span id="picMax"></span></td><td><a class="btn" onClick="setAction(\'pics\');minOrMax=\'max\'"><img src="/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" title="Placer une limite maximum sur le graphe" /></a><a class="btn" onClick="rmLigne(\'max\')"><img src="/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" title="Supprimer la limite maximum existante"/></a></td></tr><tr><td> Seuil minimum : <span id="picMin"></span></td><td><a class="btn" onClick="setAction(\'pics\');minOrMax=\'min\'"><img src="/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" title="Placer une limite minimum sur le graphe" /></a><a class="btn" onClick="rmLigne(\'min\')"><img src="/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" title="Supprimer une limite minimum existante"/></a></td></tr>');
@@ -17,6 +17,7 @@ $('#controles').css("width", "");
 for (var x = 0; x < charts.length; x++) {
 	$('holder'+x).css('float', '');
 	$('holder'+x).css('display', '');
+	charts[x].setSize(600, 300);
 }
 
 };
@@ -38,5 +39,6 @@ var horizontal = function() {
 	for (var x = 0; x < charts.length; x++) {
 		$('holder'+x).css('float', 'left');
 		$('holder'+x).css('display', 'inline');
+		charts[x].setSize(300, 200);
 	}
 };
