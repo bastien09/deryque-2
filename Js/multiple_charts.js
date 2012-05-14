@@ -8,17 +8,23 @@ var getChartConfig = function(renderId, title, i, width, height) {
 	var config = {};
 	config.chart = {
 			renderTo: renderId,
-			zoomType : "x",
 			height:height,
 			width:width,
-
+			zoomType : 'x',
+			
 			events: {
 				selection: function(event) {
-					if (event.xAxis) {
-						for (var x = 0; x < charts.length; x++) {
-							charts[x].xAxis[0].setExtremes(event.xAxis[0].min,event.xAxis[0].max);
-							charts[x].setSize(300, 200);
+					switch (action) {
+					case 'zoom' :
+						if (event.xAxis) {
+							for (var x = 0; x < charts.length; x++) {
+								charts[x].xAxis[0].setExtremes(event.xAxis[0].min,event.xAxis[0].max);
+							}
 						}
+						break;
+					case 'selectionCompo' :
+						compoSelection(this, event);
+						break;
 					}
 				}
 			}
@@ -180,14 +186,29 @@ function afficheInfos(i, data) {
 //Action à effectuer, placer des marqueurs ou des pics
 function setAction(item) {
 	action = item;
-	//$('#infos').html(action);
+	var info = "";
+	switch (action) {
+	case 'zoom' : 
+		info = "Sélectionnez un intervalle sur le graphe à zoomer.";
+		break;
+	case 'selectionCompo' :
+		info="Sélectionnez un intervalle sur le graphe afin de pouvoir le composer avec d'autres.";
+		break;
+	case 'pics' :
+		info="Cliquez sur la courbe là afin de définir un seuil pour détecter un ou plusieurs pic(s).";
+		break;
+	case 'marqueurs' :
+		info="Cliquez sur la courbe là où vous souhaitez placer un marqueur.";
+		break;
+	}
+	$('#infosAction').html("<p class='alert-message info' style='margin-left: 25px'>"+info+"</p>");
 }
 
 function Dezoom() {
 	$.each(charts, function (i, chart) {
 		chart.xAxis[0].setExtremes(chart.xAxis.min, chart.xAxis.max);
-		chart.setSize(700, 300);
 	});
+	console.log("Dezoom");
 }
 
 function printCharts() {

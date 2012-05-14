@@ -38,6 +38,9 @@ background:white;
 	list-style-type:none;
 }
 
+#holder {
+	margin-left: 0px;
+}
 fieldset div {
 	margin : 10px;
 }
