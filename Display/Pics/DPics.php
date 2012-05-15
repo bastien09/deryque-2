@@ -63,9 +63,9 @@ END;
 
         $releve = DataMod::getReleve($_GET['nom'], $_SESSION['bd_id']);
         
-        $endTime = R::getRow('select PicEndTime from releve r where r.id = ?', array($releve['id']));
+        $endTime = R::getRow('select PicEndTime, PicBeginTime from releve r where r.id = ?', array($releve['id']));
         if($endTime != NULL) {
-            echo "<script> setViewLength(".$endTime['PicEndTime'].") </script>";
+            echo "<script> setViewLength(".$endTime['PicBeginTime'].", ".$endTime['PicEndTime'].") </script>";
         }
 
         if ($releve['PicMinLine'] != NULL) {

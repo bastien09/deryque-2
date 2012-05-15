@@ -11,7 +11,7 @@ var getChartConfig = function(renderId, title, width, height) {
 			height:height,
 			width:width,
 			zoomType : 'x',
-			
+
 			events: {
 				selection: function(event) {
 					switch (action) {
@@ -30,30 +30,30 @@ var getChartConfig = function(renderId, title, width, height) {
 			}
 	};
 	config.rangeSelector = {
-				buttons: [{
-					count: 1,
-					type: 'second',
-					text: '1s'
-				},
-				{
-					count: 10,
-					type: 'second',
-					text: '10s'
-				},
-				{
-					count: 30,
-					type: 'second',
-					text: '30s'
-				}, {
-					count: 1,
-					type: 'minute',
-					text: '1min'
-				}, {
-					type: 'all',
-					text: 'All'
-				}],
-				inputEnabled: false,
-				selected: 0
+			buttons: [{
+				count: 1,
+				type: 'second',
+				text: '1s'
+			},
+			{
+				count: 10,
+				type: 'second',
+				text: '10s'
+			},
+			{
+				count: 30,
+				type: 'second',
+				text: '30s'
+			}, {
+				count: 1,
+				type: 'minute',
+				text: '1min'
+			}, {
+				type: 'all',
+				text: 'All'
+			}],
+			inputEnabled: false,
+			selected: 0
 	};
 	config.title = {
 			text : title
@@ -81,19 +81,18 @@ var getChartConfig = function(renderId, title, width, height) {
 	config.plotOptions = {
 			series : {
 				cursor: 'pointer',
-				point : {
-					events: {
-						click: function() {
-							//Multiple flags
-							switch (action) {
-							case 'marqueurs' :
-								placerMarqueur($('#listeMarqueurs').val(), this.x);
-								break;
-							case 'pics' :
-								//Multiple x plot lines
-								placerLigne(minOrMax, this.y);
-								break;
-							}
+				events: {
+					click: function(event) {
+						//Multiple flags
+						switch (action) {
+						case 'marqueurs' :
+							placerMarqueur($('#listeMarqueurs').val(), event.point.x);
+							break;
+						case 'pics' :
+							//Multiple x plot lines
+							console.log(this.chart.xAxis[0].getExtremes());
+							placerLigne(minOrMax, event.point.y, this.chart.xAxis[0].getExtremes().min, this.chart.xAxis[0].getExtremes().max);
+							break;
 						}
 					}
 				}
@@ -173,7 +172,7 @@ function requestData(i, j, data) {
 	setTimeout(function() { if (charts[j]) requestData(i, j, data); }, 10);    
 };
 
-// Info en temps réel à droite
+//Info en temps réel à droite
 function afficheInfos(i, data) {
 	$('#infos'+i).html(data+ "unite");
 }
