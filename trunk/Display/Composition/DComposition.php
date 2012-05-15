@@ -9,10 +9,10 @@ class DComposition extends DAbstract {
         CHead::addJs('jquery-ui-1.8.19.custom.min');
         CHead::addJs('highstock');
         CHead::addJs('exporting');
-        CHead::addJs('multiple_charts');
         CHead::addJs('bootstrap-modal');
         CHead::addJs('bootstrap-tabs');
-        CHead::addJs('showPics');
+        CHead::addJs('miniChart');
+        CHead::addJs('composition');
         CHead::addJs('grid');
         
         
@@ -49,7 +49,7 @@ class DComposition extends DAbstract {
 		
 		<div id="holder" style="display : none;"></div>
 		
-		<div class="" id="pics" style="margin:20px;float:left;"><div id="picsMax"><h3> Pics Max </h3></div><div id="picsMin"><h3> Pics Min </h3></div></div>
+		<div class="" id="composition" style="margin:20px;float:left;"></div>
 		
 END;
 
@@ -67,7 +67,7 @@ END;
         $compositions = Composition::getCompositions($_GET['nom']);
         
         foreach ($compositions as $composition) {
-            echo "<script> addComposition(". $composition->name . "," . $composition->begin . "," . $composition->end .") </script>";
+            echo "<script> addComposition('". $composition->name . "'," . $composition->begin . "," . $composition->end .") </script>";
         }
         
         

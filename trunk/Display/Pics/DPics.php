@@ -9,9 +9,9 @@ class DPics extends DAbstract {
         CHead::addJs('jquery-ui-1.8.19.custom.min');
         CHead::addJs('highstock');
         CHead::addJs('exporting');
-        CHead::addJs('multiple_charts');
         CHead::addJs('bootstrap-modal');
         CHead::addJs('bootstrap-tabs');
+        CHead::addJs('miniChart');
         CHead::addJs('showPics');
         CHead::addJs('grid');
         
