@@ -1,5 +1,5 @@
-
-// Need charts, maxLine, minLine
+// SOUS "CLASSE" DE MINICHART
+//Need charts, maxLine, minLine
 var dataCharts = [];
 var maxLine = "";
 var minLine = "";
@@ -15,20 +15,6 @@ function initPics() {
 	}
 };
 
-function rmPicChart(choice, i) {
-	if (choice == 'min') {
-		picsMinCharts[i].destroy();
-		picsMinCharts.splice(i,1);
-		$('#picsMin'+i).prev().remove();
-		$('#picsMin'+i).remove();
-	} else if (choice == 'max') {
-		picsMaxCharts[i].destroy();
-		picsMaxCharts.splice(i,1);
-		$('#picsMax'+i).prev().remove();
-		$('#picsMax'+i).remove();
-	}
-//	printCharts();
-};
 
 var recupererPicsMin = function () {
 	dPicsMin = new Array();
@@ -71,7 +57,7 @@ var recupererPicsMin = function () {
 		}
 		dPicsMin.push(dChart);
 	});
-	showMinPicsCharts();
+	showPicsCharts(picsMinCharts, "picsMin", "Pics minimum", dPicsMin);
 };
 
 var recupererPicsMax = function () {
@@ -111,97 +97,35 @@ var recupererPicsMax = function () {
 		}
 		dPicsMax.push(dChart);
 	});
-	showMaxPicsCharts();
+	showPicsCharts(picsMaxCharts, "picsMax", "Pics Maximum", dPicsMax);
 };
 
-var showMaxPicsCharts = function () {
-	$('#picsMax').empty();
-	$('#picsMax').append("<h2 style='text-align:center'> Pics max </h3>");
-	$.each(dPicsMax, function (i, dChart) {
-		$('#picsMax').append("<h3> Graphe "+ i +"</h3");
+var showPicsCharts = function (where, divName, titre, what) {
+	$('#'+ divName).empty();
+	$('#'+ divName).append("<h2 style='text-align:center'> "+ titre +" </h3");
+	$.each(what, function (i, dChart) {
+		$('#'+ divName).append("<h3> Graphe "+ dataCharts[i].name +"</h3");
 		$.each(dChart, function (j, section) {
-			//console.log(section.min +", "+ section.max);
-			$('#picsMax').append('<div id="chartBloc"><a class="close" href="#" onClick="rmPicChart(\'max\', '+i+', '+ j +')">x</a><div id="picsMax'+i+'-'+j+'" style="margin:20px;"></div></div>');
-			picsMaxCharts.push(
-					new Highcharts.StockChart({
-						chart : {
-							renderTo : 'picsMax'+i+'-'+j,
-							height:300,
-							width:150
-						},
-						title : {
-							text : 'picsMax'+i+'-'+j
-						},
-						navigator : {
-							enabled : false
-						},
-						rangeSelector : {
-							enabled : false
-						},
-						series : [{
-							name : 'data',
-							data : (function() {
-								var tmp = [];
-								for(var x = 1; x < dataCharts[i].length; x++) {
-									if (dataCharts[i][x].x >= section.max)
-										return tmp;
-									if (dataCharts[i][x].x >= section.min) {
-										tmp.push(dataCharts[i][x].y);
-									}
-								}
-								return tmp;
-							})()
-						}],
-					}));
+			showChart(where, divName, i, j, dataCharts, section, dataCharts[i].name+'-'+j);
+			
 		});
-		$('#picsMax').append('<br />');
+		$('#'+ divName).append('<br />');
 	});
 };
 
-var showMinPicsCharts = function () {
-	$('#picsMin').empty();
-	$('#picsMin').append("<h2 style='text-align:center'> Pics min </h3");
-	$.each(dPicsMin, function (i, dChart) {
-		$('#picsMin').append("<h3> Graphe "+ i +"</h3");
-		$.each(dChart, function (j, section) {
-			$('#picsMin').append('<div id="chartBloc"><a class="close" href="#" onClick="rmPicChart(\'min\', '+i+', '+ j +')">x</a><div id="picsMin'+i+'-'+j+'" style="margin:20px;"></div></div>');
-			picsMaxCharts.push(
-					new Highcharts.StockChart({
-						chart : {
-							renderTo : 'picsMin'+i+'-'+j,
-							height:300,
-							width:150
-						},
-						title : {
-							text : 'picsMin'+i+'-'+j
-						},
-						navigator : {
-							enabled : false
-						},
-						rangeSelector : {
-							enabled : false
-						},
-						series : [{
-							name : 'data',
-							data : (function() {
-								var tmp = [];
-								for(var x = 1; x < dataCharts[i].length; x++) {
-									if (dataCharts[i][x].x >= section.max)
-										return tmp;
-									if (dataCharts[i][x].x >= section.min) {
-										tmp.push(dataCharts[i][x].y);
-									}
-								}
-								return tmp;
-							})()
-						}],
-					}));
-		});
-		$('#picsMin').append('<br />');
-	});
-};
 
-// chargement des données dans js.
+var computeData = function(i, section) {
+	var tmp = [];
+	for(var x = 1; x < dataCharts[i].length; x++) {
+		if (dataCharts[i][x].x >= section.max)
+			return tmp;
+		if (dataCharts[i][x].x >= section.min) {
+			tmp.push([dataCharts[i][x].x*1000, dataCharts[i][x].y]);
+		}
+	}
+	return tmp;
+}
+//chargement des données dans js.
 
 function setMinLine(i) {
 	minLine = i;
@@ -216,17 +140,3 @@ function setMaxLine(i) {
 function setViewLength(i) {
 	viewLength = i;
 }
-
-function addChart(name, datas, timestamps) {
-
-	var data = new Array();
-	var i;
-
-	for(i = 0; i < timestamps.length; i++) {
-		var couple = new Array();
-		couple.x = timestamps[i];
-		couple.y = datas[i];
-		data.push(couple);
-	}
-	dataCharts.push(data);
-};
