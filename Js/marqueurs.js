@@ -1,5 +1,5 @@
-var marqueurs = [];			//Marqueurs enregistrés
-var marqueursCourants = [];	//Marqueurs placés
+var marqueurs = [];			//Marqueurs enregistrï¿½s
+var marqueursCourants = [];	//Marqueurs placï¿½s
 var compteurMarqueur = 0;
 var compteur = 0;			
 
@@ -145,8 +145,8 @@ var compoDates = function() {
 
 var compoSelection = function(graphe, event) {
 	if (event.xAxis) {
-		//alert('Récupérer '+ event.xAxis[0].min +' et '+event.xAxis[0].max +' dans getChartConfig (multiple_charts.js) ainsi que l\'id du relevé');
-		// La selection sur graphe n'est possible que si zoomType est activé, provoquant un zoom. Il faut alors dézoomer :/
+		//alert('Rï¿½cupï¿½rer '+ event.xAxis[0].min +' et '+event.xAxis[0].max +' dans getChartConfig (multiple_charts.js) ainsi que l\'id du relevï¿½');
+		// La selection sur graphe n'est possible que si zoomType est activï¿½, provoquant un zoom. Il faut alors dï¿½zoomer :/
 		$('#graphe_compo_selection').html(graphe.title.textStr);
 		$('#de_compo_selection').html(event.xAxis[0].min);
 		$('#a_compo_selection').html(event.xAxis[0].max);
@@ -161,7 +161,7 @@ var okMarqueurs = function() {
 	var a = $('#a_compo_marqueurs').val();
 	
 	console.log('Marqueurs '+ graphe +' '+ de +' '+ a);
-	//TODO : BDD
+	saveComposition(graphe,de,a);
 }
 var okDates = function() {
 	var graphe = $('#graphe_compo_dates').val();
@@ -169,7 +169,7 @@ var okDates = function() {
 	var a = $('#a_compo_dates').val();
 
 	console.log('Dates '+ graphe +' '+ de +' '+ a);
-	//TODO : BDD
+	saveComposition(graphe,de,a);
 	
 }
 var okSelection = function() {
@@ -178,6 +178,10 @@ var okSelection = function() {
 	var a = $('#a_compo_selection').text();
 
 	console.log('Selection '+ graphe +' '+ de +' '+ a);
-	//TODO : BDD
+	saveComposition(graphe,de,a);
 	
+}
+
+function saveComposition(graphName,begin,end) {
+	$.get(document.URL, { 'graphName' : graphName , 'compositionBegin' : begin, 'compositionEnd' : end } );
 }
