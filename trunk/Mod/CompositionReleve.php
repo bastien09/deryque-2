@@ -31,7 +31,9 @@ class CompositionReleve {
         $releves = R::find('releve', 'name = ?', array($rname));
 
         foreach ($releves as $releve) {
+            
             $this -> _releveBean -> releves[] = $releve;
+            
         }
 
     }
@@ -42,7 +44,23 @@ class CompositionReleve {
     public function save() {
 
         R::store($this -> _releveBean);
+        R::commit();
 
+    }
+    
+    /**
+     * Retourne le relevé qui porte ce nom (NULL si il n'existe pas).
+     */
+    public static function getCReleve($name) {
+        $resList = R::find('multi_releve', "name = ?", array($name));
+        if(count($resList) === 0) {
+            return NULL;
+        } else {
+            foreach ($resList as $res) {
+                return $res;
+            }
+            
+        }
     }
 
 }

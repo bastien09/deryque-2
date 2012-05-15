@@ -1,73 +1,82 @@
 <?php
-class Display
-{
-	/*private static function tableauRandom($nb = 10, $max = 100){
-		for($i = 0 ; $i < $nb ; $i++){
-			$tab["abscisse"][$i] = rand(1, $max);
-			$tab["ordonnee"][$i] = rand(1, $max);
-		}
-		return $tab;
-	}
-	private static function TriPoint($tab){
-		array_multisort($tab["abscisse"], SORT_ASC, $tab["ordonnee"]);
-		return $tab;
-	}*/
+class Display {
+    /*private static function tableauRandom($nb = 10, $max = 100){
+     for($i = 0 ; $i < $nb ; $i++){
+     $tab["abscisse"][$i] = rand(1, $max);
+     $tab["ordonnee"][$i] = rand(1, $max);
+     }
+     return $tab;
+     }
+     private static function TriPoint($tab){
+     array_multisort($tab["abscisse"], SORT_ASC, $tab["ordonnee"]);
+     return $tab;
+     }*/
 
-	public function index() {
-		CNavigation::setTitle('Super page');
-		CNavigation::setDescription('Tout reste à faire');
-	}
+    public function index() {
+        CNavigation::setTitle('Super page');
+        CNavigation::setDescription('Tout reste à faire');
+    }
 
-	private function vue_commune() {
+    private function vue_commune() {
 
-		$releve = isset($_REQUEST['nom']) ? DataMod::getReleve($_REQUEST['nom'], $_SESSION['bd_id']) : false;
+        if (isset($_GET['multireleve']) && $_GET['multireleve'] === "true") {
+            $mreleves = CompositionReleve::getCReleve($_REQUEST['nom']);
+            
+            echo print_r($mreleves);
+            
+            CTools::hackError();
+        } else {
 
-		if (!$releve){
-			CTools::hackError();
-		}
+            $releve = isset($_REQUEST['nom']) ? DataMod::getReleve($_REQUEST['nom'], $_SESSION['bd_id']) : false;
 
-		$n_datamod = DataMod::loadDataType($releve['modname']);
-		
-		$type = isset($_REQUEST['type']) ? $_REQUEST['type'] : (empty($n_datamod->display_prefs) ? 'default' : $n_datamod->display_prefs[0]);
-		$d = DisplayMod::loadDisplayType($type);
+            if (!$releve) {
+                CTools::hackError();
+            }
 
-		if (!$d) {
-			CTools::hackError();
-		}
+            $n_datamod = DataMod::loadDataType($releve['modname']);
 
-		$g = $d->instancier();
+            $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : (empty($n_datamod -> display_prefs) ? 'default' : $n_datamod -> display_prefs[0]);
+            $d = DisplayMod::loadDisplayType($type);
 
-		/*$salut = 42;
-		$coucou = 'salut';
-		echo $$coucou;*/
+            if (!$d) {
+                CTools::hackError();
+            }
 
-		$g->structure = $n_datamod->getVariables();
-		$g->data = R::getAll('select * from d_'.$n_datamod->dossier.' where user_id = ? and releve_id = ?', array($_SESSION['bd_id'], $releve['id']));
+            $g = $d -> instancier();
 
-		return array($g,$d, $n_datamod,$releve);
-	}
+            /*$salut = 42;
+             $coucou = 'salut';
+             echo $$coucou;*/
 
-	public function view() {
-		$r_vue = $this->vue_commune();
-		$r_vue[0]->show();
-		CNavigation::setTitle($r_vue[0]::nom.' du relevé «'.$_REQUEST['nom'].'»');
-		CNavigation::setDescription($r_vue[3]['description']);
-		DisplayView::showBackButtons(CNavigation::generateUrlToApp('Data','view',
-			array('nom'=>$_REQUEST['nom'])));
-	}
+            $g -> structure = $n_datamod -> getVariables();
+            $g -> data = R::getAll('select * from d_' . $n_datamod -> dossier . ' where user_id = ? and releve_id = ?', array($_SESSION['bd_id'], $releve['id']));
 
-	public function iframe_view() {
-		define('NO_HEADER_BAR', true);
-		CHead::addCss('iframe_view');
+            return array($g, $d, $n_datamod, $releve);
 
-		$r_vue = $this->vue_commune();
-		$data = DisplayMod::getDisplayTypes();
-		DisplayView::showGraphChoiceMenu($data, false, $r_vue[2]->display_prefs, $r_vue[1]->dossier, 'iframe_view');
+        }
+    }
 
-		echo '<h2>', htmlspecialchars($r_vue[0]::nom), ' du relevé «',
-			 		htmlspecialchars($_REQUEST['nom']), '» <small>',
-					htmlspecialchars($r_vue[3]['description']),'</small></h2>';
-		$r_vue[0]->show();
-	}
+    public function view() {
+        $r_vue = $this -> vue_commune();
+        $r_vue[0] -> show();
+        CNavigation::setTitle($r_vue[0]::nom . ' du relevé «' . $_REQUEST['nom'] . '»');
+        CNavigation::setDescription($r_vue[3]['description']);
+        DisplayView::showBackButtons(CNavigation::generateUrlToApp('Data', 'view', array('nom' => $_REQUEST['nom'])));
+    }
+
+    public function iframe_view() {
+        define('NO_HEADER_BAR', true);
+        CHead::addCss('iframe_view');
+
+        $r_vue = $this -> vue_commune();
+        $data = DisplayMod::getDisplayTypes();
+        DisplayView::showGraphChoiceMenu($data, false, $r_vue[2] -> display_prefs, $r_vue[1] -> dossier, 'iframe_view');
+
+        echo '<h2>',  htmlspecialchars($r_vue[0]::nom), ' du relevé «',
+        htmlspecialchars($_REQUEST['nom']), '» <small>',
+        htmlspecialchars($r_vue[3]['description']), '</small></h2>';
+        $r_vue[0] -> show();
+    }
+
 }
 ?>
