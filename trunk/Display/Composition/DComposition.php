@@ -1,5 +1,5 @@
 <?php
-class Composition extends DAbstract {
+class DComposition extends DAbstract {
     const nom = 'Composition';
 
     public function show() {
@@ -63,21 +63,14 @@ END;
 
         $releve = DataMod::getReleve($_GET['nom'], $_SESSION['bd_id']);
         
-       /* $endTime = R::getRow('select PicEndTime from releve r where r.id = ?', array($releve['id']));
-        if($endTime != NULL) {
-            echo "<script> setViewLength(".$endTime['PicEndTime'].") </script>";
-        }
-
-        if ($releve['PicMinLine'] != NULL) {
-            echo "<script> setMinLine(".$releve['PicMinLine'].");</script>";
-        }
-        if ($releve['PicMaxLine'] != NULL) {
-            echo "<script> setMaxLine (".$releve['PicMaxLine']."); </script>";
-        }*/
         
         $compositions = Composition::getCompositions($_GET['nom']);
         
-        //echo '<script> initPics(); </script>';
+        foreach ($compositions as $composition) {
+            echo "<script> addComposition(". $composition->name . "," . $composition->begin . "," . $composition->end .") </script>";
+        }
+        
+        
     }
 
 }
