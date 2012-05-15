@@ -52,5 +52,4 @@ function rmChart(choice, i, j) {
 		composition.splice(i,1);
 		$('#composition'+i+'-'+j).parent().hide();
 	}
-//	printCharts();
 };

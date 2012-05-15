@@ -7,7 +7,8 @@ var picsMaxCharts = []; //Graphes des pics max
 var picsMinCharts = []; // Graphes des pics min
 var dPicsMin = new Array();	//Tableau d'intervalles pour les min
 var dPicsMax = new Array();	// pour les max
-var viewLength = 0; // La taille du tableau lors de la définition du seuil. 
+var startView = 0;
+var endView = 0; // La taille du tableau lors de la définition du seuil. 
 
 function initPics() {
 	if(maxLine == "" && minLine == "") {
@@ -23,13 +24,13 @@ var recupererPicsMin = function () {
 	$.each(dataCharts, function (i, data) {
 		var dChart = new Array();
 		// Pour chaque section < min
-		for (var j = 0; j < viewLength; j++) {
+		for (var j = startView; j < endView; j++) {
 			if (data[j].y <= minLine && data[j].y != null) {
 				var min = j, debut = j, fin = j, start = 0, end = 0;
 				var dChart1 = new Array();
 				// On cherche le min, et on prendra un intervalle dont ce min est le milieu
 				console.log('j ='+ j +'data.length = '+ data.length +' data[j].y = '+ data[j].y);
-				while(j < viewLength && data[j].y <= minLine) {
+				while(j < endView && data[j].y <= minLine) {
 					console.log('< y : '+ data[j].y);
 					if (data[j].y < data[min].y) {
 						min = j;
@@ -64,12 +65,12 @@ var recupererPicsMax = function () {
 	dPicsMax = new Array();
 	$.each(dataCharts, function (i, data) {
 		var dChart = new Array();
-		for (var j = 0; j < viewLength; j++) {
+		for (var j = startView; j < endView; j++) {
 			if (data[j].y >= maxLine && data[j].y != null) {
 				var max = j, debut = j, fin = j;
 				var dChart1 = new Array();
 				// On cherche le min, et on prendra un intervalle dont ce min est le milieu
-				while(j < viewLength && data[j].y >= maxLine) {
+				while(j < endView && data[j].y >= maxLine) {
 					console.log('> y : '+ data[j].y);
 					if (data[j].y > data[max].y) {
 						max = j;
@@ -137,6 +138,7 @@ function setMaxLine(i) {
 	recupererPicsMax();
 }
 
-function setViewLength(i) {
-	viewLength = i;
+function setViewLength(min, max) {
+	startView = min;
+	endView = max;
 }
