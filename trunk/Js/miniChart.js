@@ -50,8 +50,7 @@ function rmChart(choice, i, j) {
 	} else if (choice == 'composition') {
 		composition[i].destroy();
 		composition.splice(i,1);
-		$('#composition'+i).prev().remove();
-		$('#composition'+i).remove();
+		$('#composition'+i+'-'+j).parent().hide();
 	}
 //	printCharts();
 };
