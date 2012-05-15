@@ -115,7 +115,7 @@ var compoMarqueurs = function() {
 	var listeMarqueursCourants = "";
 
 	$.each(charts, function (j, chart) {
-		listeGraphes += "<option value='"+ chart.i +"'>"+chart.title.textStr+"</option>";
+		listeGraphes += "<option value='"+ chart.title.textStr +"'>"+chart.title.textStr+"</option>";
 	});
 	$.each(marqueursCourants, function (j, marqueurCourant) {
 		listeMarqueursCourants += "<option value='"+ marqueurCourant.i +"'>"+ marqueurCourant.nom +" &agrave; "+ marqueurCourant.x +"</option>";
@@ -131,7 +131,8 @@ var compoDates = function() {
 	var listeDates = "";
 
 	$.each(charts, function (j, chart) {
-		listeGraphes += "<option value='"+ chart.i +"'>"+chart.title.textStr+"</option>";
+		console.log(chart);
+		listeGraphes += "<option value='"+ chart.title.textStr +"'>"+chart.title.textStr+"</option>";
 	});
 	$.each(charts[0].series[0].xData, function (j, timestamp) {
 		listeDates += "<option value='"+ j +"'>"+timestamp +" ms : "+ charts[0].series[0].yData[j] +" mV</option>";
@@ -152,4 +153,31 @@ var compoSelection = function(graphe, event) {
 		$('#popup_compo_selection').modal('show');
 		setTimeout("Dezoom()", 100);
 	}
+}
+
+var okMarqueurs = function() {
+	var graphe = $('#graphe_compo_marqueurs').val();
+	var de = $('#de_compo_marqueurs').val();
+	var a = $('#a_compo_marqueurs').val();
+	
+	console.log('Marqueurs '+ graphe +' '+ de +' '+ a);
+	//TODO : BDD
+}
+var okDates = function() {
+	var graphe = $('#graphe_compo_dates').val();
+	var de = $('#de_compo_dates').val();
+	var a = $('#a_compo_dates').val();
+
+	console.log('Dates '+ graphe +' '+ de +' '+ a);
+	//TODO : BDD
+	
+}
+var okSelection = function() {
+	var graphe = $('#graphe_compo_selection').text();
+	var de = $('#de_compo_selection').text();
+	var a = $('#a_compo_selection').text();
+
+	console.log('Selection '+ graphe +' '+ de +' '+ a);
+	//TODO : BDD
+	
 }
