@@ -112,8 +112,14 @@ var compoMarqueurs = function() {
 	var listeGraphes = "";
 	var listeMarqueursCourants = "";
 
+	$('#graphe_compo_marqueurs').empty();
+	$('#de_compo_marqueurs').empty();
+	$('#a_compo_marqueurs').empty();
+	
 	$.each(charts, function (j, chart) {
-		listeGraphes += "<option value='"+ chart.title.textStr +"'>"+chart.title.textStr+"</option>";
+		if (chart != null && chart.title != null) {
+			listeGraphes += "<option value='"+ chart.title.textStr +"'>"+chart.title.textStr+"</option>";
+		}
 	});
 	$.each(marqueursCourants, function (j, marqueurCourant) {
 		listeMarqueursCourants += "<option value='"+ marqueurCourant.i +"'>"+ marqueurCourant.nom +" &agrave; "+ marqueurCourant.x +"</option>";
@@ -128,14 +134,23 @@ var compoDates = function() {
 	var listeGraphes = "";
 	var listeDates = "";
 
+	$('#graphe_compo_dates').empty();
+	$('#de_compo_dates').empty();
+	$('#a_compo_dates').empty();
+	
 	$.each(charts, function (j, chart) {
-		console.log(chart);
-		listeGraphes += "<option value='"+ chart.title.textStr +"'>"+chart.title.textStr+"</option>";
+		if (chart != null && chart.title != null) {
+			listeGraphes += "<option value='"+ chart.title.textStr +"'>"+chart.title.textStr+"</option>";
+		}
 	});
-	$.each(charts[0].series[0].xData, function (j, timestamp) {
-		listeDates += "<option value='"+ j +"'>"+timestamp +" ms : "+ charts[0].series[0].yData[j] +" mV</option>";
-	});
-
+	for (var i = 0; i < charts.length; i++) {
+		if (charts[i] != null && charts[i].series != null) {
+			$.each(charts[0].series[0].xData, function (j, timestamp) {
+				listeDates += "<option value='"+ j +"'>"+timestamp +" ms : "+ charts[0].series[0].yData[j] +" mV</option>";
+			});
+			break;
+		}
+	}
 	$('#graphe_compo_dates').html(listeGraphes);
 	$('#de_compo_dates').html(listeDates);
 	$('#a_compo_dates').html(listeDates);
@@ -181,5 +196,6 @@ var okSelection = function() {
 }
 
 function saveComposition(graphName,begin,end) {
-	$.get(document.URL, { 'graphName' : graphName , 'compositionBegin' : begin, 'compositionEnd' : end } );
+	if (graphName != null && begin != null && end != null)
+		$.get(document.URL, { 'graphName' : graphName , 'compositionBegin' : begin, 'compositionEnd' : end } );
 }
