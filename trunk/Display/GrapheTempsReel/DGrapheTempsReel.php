@@ -64,27 +64,23 @@ class DGrapheTempsReel extends DAbstract {
         // 		</script>
         echo <<<END
 		<div id="englober" style="height:650px;">
-			<div class="tab-pane active" id="holder" style="float:left;"></div>
+			<div class="tab-pane active" id="holder" style="margin:20px;float:left;"></div>
 			<div id='accordion'>
-				<div class="well" id="controles">
+				<div class="well">
 					<h3 id="head">Controles</h3>
-						<div id="top-right"><a class="btn" id="btnVertical" onClick="vertical();$('#btnHorizontal').removeAttr('disabled');$(this).attr('disabled', 'disabled');" disabled="disabled" title="Vue verticale" style="padding : 1px"><img src="/InspecteurDeryque/Img/icons/vertical.png" /></a><a class="btn" id="btnHorizontal" onClick="horizontal();$('#btnVertical').removeAttr('disabled');$(this).attr('disabled', 'disabled');" title="Vue horizontale" style="padding : 1px"><img src="/InspecteurDeryque/Img/icons/horizontal.png" /></a>
-						</div>	
 						<div style="text-align:center"><a href="#" class="btn" onClick="if (run) {run = false; } else {run = true;$.each(charts, function (i, chart) { requestData(lastCall, i, dataCharts[i]); });}"><img src="/InspecteurDeryque/Img/icons/key_play_pause.png" alt="Lecture/pause" title="Lecture/pause du graphe en cours" /></a>
-						<a href="#" class="btn" onClick="Dezoom();"><img src="/InspecteurDeryque/Img/icons/zoom_out.png" alt="Dezoom" title="Remet le graphe par defaut" /></a>
-						</div>						
+						<a href="#" class="btn" onClick="Dezoom();"><img src="/InspecteurDeryque/Img/icons/zoom_out.png" alt="Dezoom" title="Remet le graphe par defaut" /></a></div>							
 					    
 					<ul class="tabs" data-tabs="tabs">
 						<li class="active"><a href="#divMarqueurs" alt="Manipulation des marqueurs" title="Manipulation des marqueurs"> Marqueurs </a></li>
-						<li><a href="#divPics" alt="Permet de trouver les pics du graphe" title="Permet de trouver les pics du graphe"> Detection de pics </a></li>
-						<li><a href="#divCompo" alt="Composer des morceaux de courbe" title="Composer des morceaux de courbe"> Composition </a></li>
+						<li><a href="#divPics" alt="Permet de trouver les pics du graphe" title="Permet de trouver les pics du graphe"> D&eacutetection de pics </a></li>
 					</ul>
 					<div id="my-tab-content" class="tab-content">
 						<div id="divMarqueurs" class="tab-pane active">	
 							<ol id="listeMarqueursCourants"></ol>
 							<select id="listeMarqueurs" class="span3" onChange="description()"></select>
 							<a class="btn" onClick="setAction('marqueurs')"><img src="/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" title="Placer un marqueur sur le graphe"/></a>
-							<a class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"><img src="/InspecteurDeryque/Img/icons/plus.png" alt="Ajouter" title="Crï¿½er un nouveau marqueur"/></a> 
+							<a class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"><img src="/InspecteurDeryque/Img/icons/plus.png" alt="Ajouter" title="Créer un nouveau marqueur"/></a> 
 							<a class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"><img src="/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" title="Supprimer un marqueur"/></a>
 							
 							<div id="desc" style="text-align:center"></div>
@@ -98,22 +94,20 @@ class DGrapheTempsReel extends DAbstract {
 								</tr>
 							</table>
 						</div>
-						<div id="divCompo" class="tab-pane" style="text-align:center">
-						<ul>
-						<li style="margin: 5px 0px"><a class="btn" onClick="setAction('selectionCompo')" title="Sï¿½lectionnez une partie d'un graphe" >Par s&eacute;lection</a></li>
-						<li style="margin: 5px 0px"><a class="btn" onClick="compoDates()" data-controls-modal="popup_compo_dates" data-keyboard="true">Par dates</a></li>
-						<li style="margin: 5px 0px"><a class="btn" onClick="compoMarqueurs();" data-controls-modal="popup_compo_marqueurs" data-keyboard="true">Par marqueurs</a></li>
-						
-						</div>
 					</div>
 				</div>
-				<div class="well" id="informations">
+				<div class="well">
 					<h3 id="head">Informations</h3>
 					<div class="row">
-						<div id="infosAction">
+						<div class="span3">
+							<ul>				
+							    <li>Information : bla</li>
+							</ul>
 					    </div>
-						<ol id="infos">
-						</ol>
+					    <div class="span3">
+							<ol id="infos">
+							</ol>								
+					    </div>
 					</div>
 				</div>
 			</div>
@@ -152,7 +146,6 @@ class DGrapheTempsReel extends DAbstract {
             <a href="#" class="btn secondary" onClick="$('#popup_ajouter').modal('hide')">Annuler</a>
           </div>
 		</div>
-		<!--  																	 -->
 		<div id="popup_supprimer" class="modal hide fade">
           <div class="modal-header">
             <a href="#" class="close">x</a>
@@ -166,136 +159,38 @@ class DGrapheTempsReel extends DAbstract {
             <a href="#" class="btn secondary" onClick="$('#popup_supprimer').modal('hide')">Annuler</a>
           </div>
 		</div>
-		<!--  																	 -->
-		<div id="popup_compo_marqueurs" class="modal hide fade">
-			<div class="modal-header">
-	            <a href="#" class="close">x</a>
-	            <h3>Composition par marqueurs</h3>
-	          </div>
-	          <div class="modal-body">
-	          	<p> S&eacute;lectionnez 2 marqueurs afin d'&eacute;tablir un intervalle :</p>
-	          	<fieldset>
-          			<div>
-			            <label for="graphe_compo_marqueurs"> Graphe </label>
-			            <select id="graphe_compo_marqueurs" class="span3">
-			            </select>
-		            </div>
-		            <div>
-			            <label for="de_compo_marqueurs"> de </label>
-			            <select id="de_compo_marqueurs" class="span3">
-			            </select>
-		            </div>
-		            <div>
-			            <label for="a_compo_marqueurs"> &agrave; </label>
-			            <select id="a_compo_marqueurs" class="span3">
-			            </select>
-		            </div>
-		         </fieldset>
-	          </div>
-	          <div class="modal-footer">
-	            <a href="#" class="btn primary" onClick="okMarqueurs();$('#popup_compo_marqueurs').modal('hide')">Composer</a>
-	            <a href="#" class="btn secondary" onClick="$('#popup_compo_marqueurs').modal('hide')">Annuler</a>
-	          </div>
-		</div>
-		<div id="popup_compo_dates" class="modal hide fade">
-			<div class="modal-header">
-	            <a href="#" class="close">x</a>
-	            <h3>Composition par dates</h3>
-	          </div>
-	          <div class="modal-body">
-	          	<p> S&eacute;lectionnez 2 dates afin d'&eacute;tablir un intervalle :</p>
-	          	<fieldset>
-          			<div>
-			            <label for="graphe_compo_dates"> Graphe </label>
-			            <select id="graphe_compo_dates" class="span3">
-			            </select>
-		            </div>
-		            <div>
-			            <label for="de_compo_dates"> de </label>
-			            <select id="de_compo_dates" class="span3">
-			            </select>
-		            </div>
-		            <div>
-			            <label for="a_compo_dates"> &agrave; </label>
-			            <select id="a_compo_dates" class="span3">
-			            </select>
-		            </div>
-		         </fieldset>
-	          </div>
-	          <div class="modal-footer">
-	            <a href="#" class="btn primary" onClick="okDates();$('#popup_compo_dates').modal('hide')">Composer</a>
-	            <a href="#" class="btn secondary" onClick="$('#popup_compo_dates').modal('hide')">Annuler</a>
-	          </div>
-		</div>
-		<div id="popup_compo_selection" class="modal hide fade">
-			<div class="modal-header">
-	            <a href="#" class="close">x</a>
-	            <h3>Composition par s&eacute;lection</h3>
-	          </div>
-	          <div class="modal-body">
-	          	<p>Souhaitez vous cr&eacute;er ce nouvel intervalle :</p>
-	          	<fieldset style="text-align:center">
-	          		<p>Graphe <span id="graphe_compo_selection" class="span3"></span></p>
-		            <p>de <span id="de_compo_selection" class="span3"></span></p>
-		            <p>&agrave; <span id="a_compo_selection" class="span3"></span></p>
-		         </fieldset>
-	          </div>
-	          <div class="modal-footer">
-	            <a href="#" class="btn primary" onClick="okSelection();$('#popup_compo_selection').modal('hide')">Composer</a>
-	            <a href="#" class="btn secondary" onClick="$('#popup_compo_selection').modal('hide')">Annuler</a>
-	          </div>
-		</div>
-        <script>$('#btnVertical').click();</script>
 END;
 
         echo $addCharts;
 
-        $this -> addPics();
-
-        $this -> addComposition();
+        if (isset($_GET['minLine']) or isset($_GET['maxLine'])) {
+            $this -> addPics();
+        }
 
     }
 
-    /**
-     * Fonctions permettant de modifier la base de donnÃ©e en faisant des appels GET
-     */
     private function addPics() {
 
-        if (isset($_GET['minLine']) or isset($_GET['maxLine'])) {
+        $releveRow = DataMod::getReleve($_GET['nom'], $_SESSION['bd_id']);
 
-            $releveRow = DataMod::getReleve($_GET['nom'], $_SESSION['bd_id']);
+        $mode = R::findOne('datamod', 'modname = ?', array($releveRow['modname']));
 
-            $mode = R::findOne('datamod', 'modname = ?', array($releveRow['modname']));
+        $releve = R::load('releve', $releveRow['id']);
 
-            $releve = R::load('releve', $releveRow['id']);
+        $releve -> mod = $mode;
 
-            $releve -> mod = $mode;
-
-            if (isset($_GET['minLine'])) {
-                $releve -> PicMinLine = $_GET['minLine'];
-            }
-
-            if (isset($_GET['maxLine'])) {
-                $releve -> PicMaxLine = $_GET['maxLine'];
-            }
-
-            $releve -> PicEndTime = $_GET['endTime'];
-
-            R::store($releve);
-
+        if (isset($_GET['minLine'])) {
+            $releve -> PicMinLine = $_GET['minLine'];
         }
 
-    }
-
-    private function addComposition() {
-
-        if (isset($_GET['compositionBegin']) and isset($_GET['compositionEnd']) and isset($_GET['graphName'])) {
-            
-            $composition = new Composition($_GET['nom'], $_GET['graphName'] , $_GET['compositionBegin'],$_GET['compositionEnd']);
-            
-            $composition -> save();
-            
+        if (isset($_GET['maxLine'])) {
+            $releve -> PicMaxLine = $_GET['maxLine'];
         }
+        
+        $releve->PicEndTime = $_GET['endTime'];
+        
+        R::store($releve);
+
     }
 
 }
