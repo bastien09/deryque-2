@@ -9,16 +9,25 @@ var addComposition = function(nom, debut, fin) {
 	intervalle.max = fin;
 	showChart(composition, "composition", compteurComposition, 0, dataCharts, intervalle, nom);
 	compteurComposition++;
-}
+};
 
-var computeData = function(i, section) {
+var computeData = function(i, section, title) {
 	var tmp = [];
-	for(var x = 1; x < dataCharts[i].length; x++) {
-		if (dataCharts[i].data[x].x >= section.max)
+	var indice = 0;
+	for (var y = 0; y < dataCharts.length; y++) {
+		if (dataCharts[y].name == title) {
+			console.log('Gg');
+			indice = y;
+			break;
+		}
+	}
+	for(var x = 0; x < dataCharts[indice].length; x++) {
+		var leX = dataCharts[indice][x].x*1000;
+		if (leX >= section.max)
 			return tmp;
-		if (dataCharts[i].data[x].x >= section.min) {
-			tmp.push([dataCharts[i].data[x].x*1000, tab[i][x].y]);
+		if (leX >= section.min) {
+			tmp.push([leX, dataCharts[indice][x].y]);
 		}
 	}
 	return tmp;
-}
+};
