@@ -148,6 +148,8 @@ function rmChart(i) {
 //Temps réel
 function requestData(i, j, data) {
 	// add the point
+	if (charts[j].series == null)
+		return;
 	if (!run) {
 		lastCall = i;
 		return;
