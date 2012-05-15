@@ -45,11 +45,11 @@ var printLignes = function() {
 	if (minLine != "" || minLine == "0") {
 		$('#picMin').html(minLine);
 	} else {
-		$('#picMin').html('Non defini');	
+		$('#picMin').html('Non d&eacutefini');	
 	}
 	if (maxLine != "" || maxLine == "0") {
 		$('#picMax').html(maxLine);
 	} else {
-		$('#picMax').html('Non defini');	
+		$('#picMax').html('Non d&eacutefini');	
 	}
 };

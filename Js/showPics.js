@@ -11,7 +11,7 @@ var viewLength = 0; // La taille du tableau lors de la dÃ©finition du seuil.
 
 function initPics() {
 	if(maxLine == "" && minLine == "") {
-		$("#pics").before('<div id="description" class="alert-message info">Pour pouvoir afficher des pics, il faut utiliser le module de détection de pics disponible dans la visualisation Graphe RT.</div>');
+		$("#pics").before('<div id="description" class="alert-message info">Pour pouvoir afficher des pics, il faut utiliser le module de d&eacutetection de pics disponible dans la visualisation Graphe RT.</div>');
 	}
 };
 
