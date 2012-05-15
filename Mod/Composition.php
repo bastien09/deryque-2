@@ -43,7 +43,7 @@ class Composition {
      * Récupère toutes les compositions associées à un relevé.
      */
     public static function getCompositions($rname) {
-        $releves = R::find('releve', "name = ?", array($name));
+        $releves = R::find('releve', "name = ?", array($rname));
 
         foreach ($releves as $releve) {
             return $releve -> ownComposition;
