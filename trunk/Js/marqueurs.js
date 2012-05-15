@@ -9,10 +9,9 @@ var getMarqueur = function(i) {
 			return marqueurs[j];
 	}
 }
-var createMarqueur = function (nom, abb, desc, couleur) {
+var createMarqueur = function (nom, desc, couleur) {
 	var marqueur = {};
 	marqueur.nom = nom;
-	marqueur.abb = abb;
 	marqueur.desc = desc;
 	marqueur.couleur = couleur;
 	marqueur.i = compteurMarqueur++;
@@ -20,8 +19,8 @@ var createMarqueur = function (nom, abb, desc, couleur) {
 	return marqueur;
 };
 
-var addMarqueur = function (nom, abb, desc, couleur) {
-	marqueur = createMarqueur(nom, abb, desc, couleur);
+var addMarqueur = function (nom, desc, couleur) {
+	marqueur = createMarqueur(nom, desc, couleur);
 	marqueurs.push(marqueur);
 	printMarqueurs();
 	$('#listeMarqueurs option').eq(marqueurs.length-1).attr('selected', 'selected');
@@ -93,7 +92,6 @@ var printMarqueursCourants = function() {
 		liste +="<li><a href='#' onClick='if ($(\"#marqueursCourants"+i+"\").is(\":hidden\")) {$(\"#marqueursCourants"+i+"\").fadeIn();}else {$(\"#marqueursCourants"+i+"\").fadeOut();}'>"+ marqueurCourant.nom +" [x = "+ marqueurCourant.x +" ]</a><a href='#' class='close' onClick='rmMarqueurCourant(\""+ marqueurCourant.nom + marqueurCourant.i +"\","+ marqueurCourant.i +")'>x</a></li>";
 		liste +="<ol id='marqueursCourants"+i+"'>";
 		$.each(charts, function (j, chart) {
-			console.log(chart.title);
 			liste += "<li>"+ chart.title.textStr +" : "+ chart.series[0].yData[marqueurCourant.index] +"</li>";
 
 		});		

@@ -131,10 +131,6 @@ class DGrapheTempsReel extends DAbstract {
 	            <label for="nomMarqueur" > Nom </label>
 	            <input id="nomMarqueur" class="span3" />
             </div>
-          	<div >
-	            <label for="abbMarqueur" > Abbr&eacute;viation </label>
-	            <input id="abbMarqueur" class="span3" />
-            </div>
           	<div>
 	            <label for="descMarqueur" > Description </label>
 	            <textarea id="descMarqueur"></textarea>
@@ -152,7 +148,7 @@ class DGrapheTempsReel extends DAbstract {
           </fieldset>
           </div>
           <div class="modal-footer">
-            <a href="#" class="btn primary" onClick="addMarqueur($('#nomMarqueur').val(),$('#abbMarqueur').val(),$('#descMarqueur').val(), $('#coulMarqueur').val());$('#popup_ajouter').modal('hide');">Ajouter</a>
+            <a href="#" class="btn primary" onClick="addMarqueur($('#nomMarqueur').val(),$('#descMarqueur').val(), $('#coulMarqueur').val());$('#popup_ajouter').modal('hide');">Ajouter</a>
             <a href="#" class="btn secondary" onClick="$('#popup_ajouter').modal('hide')">Annuler</a>
           </div>
 		</div>
