@@ -197,7 +197,7 @@ class DGrapheTempsReel extends DAbstract {
 		         </fieldset>
 	          </div>
 	          <div class="modal-footer">
-	            <a href="#" class="btn primary" onClick="$('#popup_compo_marqueurs').modal('hide')">Composer</a>
+	            <a href="#" class="btn primary" onClick="okMarqueurs();$('#popup_compo_marqueurs').modal('hide')">Composer</a>
 	            <a href="#" class="btn secondary" onClick="$('#popup_compo_marqueurs').modal('hide')">Annuler</a>
 	          </div>
 		</div>
@@ -227,7 +227,7 @@ class DGrapheTempsReel extends DAbstract {
 		         </fieldset>
 	          </div>
 	          <div class="modal-footer">
-	            <a href="#" class="btn primary" onClick="$('#popup_compo_dates').modal('hide')">Composer</a>
+	            <a href="#" class="btn primary" onClick="okDates();$('#popup_compo_dates').modal('hide')">Composer</a>
 	            <a href="#" class="btn secondary" onClick="$('#popup_compo_dates').modal('hide')">Annuler</a>
 	          </div>
 		</div>
@@ -239,13 +239,13 @@ class DGrapheTempsReel extends DAbstract {
 	          <div class="modal-body">
 	          	<p>Souhaitez vous cr&eacute;er ce nouvel intervalle :</p>
 	          	<fieldset style="text-align:center">
-		            <p>Graphe <span id="graphe_compo_selection" class="span3"></span></p>
+	          		<p>Graphe <span id="graphe_compo_selection" class="span3"></span></p>
 		            <p>de <span id="de_compo_selection" class="span3"></span></p>
 		            <p>&agrave; <span id="a_compo_selection" class="span3"></span></p>
 		         </fieldset>
 	          </div>
 	          <div class="modal-footer">
-	            <a href="#" class="btn primary" onClick="$('#popup_compo_selection').modal('hide')">Composer</a>
+	            <a href="#" class="btn primary" onClick="okSelection();$('#popup_compo_selection').modal('hide')">Composer</a>
 	            <a href="#" class="btn secondary" onClick="$('#popup_compo_selection').modal('hide')">Annuler</a>
 	          </div>
 		</div>
