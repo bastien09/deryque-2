@@ -115,6 +115,7 @@ END;
         foreach($releves as $releve){
             $hname = htmlspecialchars($releve['name']);
             $hurl = CNavigation::generateUrlToApp('Display', 'iframe_view', array('nom'=>$releve['name']));
+            $hurl .= "/multireleve/true";
             $hid = sha1($releve['name']);
             echo <<<END
             <tr>

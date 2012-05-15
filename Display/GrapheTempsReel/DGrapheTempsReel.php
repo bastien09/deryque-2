@@ -84,7 +84,7 @@ class DGrapheTempsReel extends DAbstract {
 							<ol id="listeMarqueursCourants"></ol>
 							<select id="listeMarqueurs" class="span3" onChange="description()"></select>
 							<a class="btn" onClick="setAction('marqueurs')"><img src="/InspecteurDeryque/Img/icons/Cible.png" alt="Placer" title="Placer un marqueur sur le graphe"/></a>
-							<a class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"><img src="/InspecteurDeryque/Img/icons/plus.png" alt="Ajouter" title="Créer un nouveau marqueur"/></a> 
+							<a class="btn" data-controls-modal="popup_ajouter" data-keyboard="true"><img src="/InspecteurDeryque/Img/icons/plus.png" alt="Ajouter" title="Crï¿½er un nouveau marqueur"/></a> 
 							<a class="btn" data-controls-modal="popup_supprimer" onClick="$('#marqueur').text($('#listeMarqueurs').val())"><img src="/InspecteurDeryque/Img/icons/supprimer.png" alt="Supprimer" title="Supprimer un marqueur"/></a>
 							
 							<div id="desc" style="text-align:center"></div>
@@ -100,7 +100,7 @@ class DGrapheTempsReel extends DAbstract {
 						</div>
 						<div id="divCompo" class="tab-pane" style="text-align:center">
 						<ul>
-						<li style="margin: 5px 0px"><a class="btn" onClick="setAction('selectionCompo')" title="Sélectionnez une partie d'un graphe" >Par s&eacute;lection</a></li>
+						<li style="margin: 5px 0px"><a class="btn" onClick="setAction('selectionCompo')" title="Sï¿½lectionnez une partie d'un graphe" >Par s&eacute;lection</a></li>
 						<li style="margin: 5px 0px"><a class="btn" onClick="compoDates()" data-controls-modal="popup_compo_dates" data-keyboard="true">Par dates</a></li>
 						<li style="margin: 5px 0px"><a class="btn" onClick="compoMarqueurs();" data-controls-modal="popup_compo_marqueurs" data-keyboard="true">Par marqueurs</a></li>
 						
@@ -254,34 +254,52 @@ END;
 
         echo $addCharts;
 
+        $this -> addPics();
+
+        $this -> addComposition();
+
+    }
+
+    /**
+     * Fonctions permettant de modifier la base de donnÃ©e en faisant des appels GET
+     */
+    private function addPics() {
+
         if (isset($_GET['minLine']) or isset($_GET['maxLine'])) {
-            $this -> addPics();
+
+            $releveRow = DataMod::getReleve($_GET['nom'], $_SESSION['bd_id']);
+
+            $mode = R::findOne('datamod', 'modname = ?', array($releveRow['modname']));
+
+            $releve = R::load('releve', $releveRow['id']);
+
+            $releve -> mod = $mode;
+
+            if (isset($_GET['minLine'])) {
+                $releve -> PicMinLine = $_GET['minLine'];
+            }
+
+            if (isset($_GET['maxLine'])) {
+                $releve -> PicMaxLine = $_GET['maxLine'];
+            }
+
+            $releve -> PicEndTime = $_GET['endTime'];
+
+            R::store($releve);
+
         }
 
     }
 
-    private function addPics() {
+    private function addComposition() {
 
-        $releveRow = DataMod::getReleve($_GET['nom'], $_SESSION['bd_id']);
-
-        $mode = R::findOne('datamod', 'modname = ?', array($releveRow['modname']));
-
-        $releve = R::load('releve', $releveRow['id']);
-
-        $releve -> mod = $mode;
-
-        if (isset($_GET['minLine'])) {
-            $releve -> PicMinLine = $_GET['minLine'];
+        if (isset($_GET['compositionBegin']) and isset($_GET['compositionEnd']) and isset($_GET['graphName'])) {
+            
+            $composition = new Composition($_GET['nom'], $_GET['graphName'] , $_GET['compositionBegin'],$_GET['compositionEnd']);
+            
+            $composition -> save();
+            
         }
-
-        if (isset($_GET['maxLine'])) {
-            $releve -> PicMaxLine = $_GET['maxLine'];
-        }
-        
-        $releve->PicEndTime = $_GET['endTime'];
-        
-        R::store($releve);
-
     }
 
 }
