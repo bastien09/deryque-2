@@ -9,7 +9,7 @@ function addChart(name, datas, timestamps) {
 		couple.x = timestamps[i];
 		couple.y = datas[i];
 		data.push(couple);
-		data.name= name;
+		data.name = name;
 	}
 	dataCharts.push(data);
 };
@@ -34,7 +34,7 @@ var showChart = function(where, divName, i, j, tab, section, title) {
 				},
 				series : [{
 					name : 'data',
-					data : computeData(i, section)
+					data : computeData(i, section, title)
 				}],
 				exporting : {
 					enabled : false

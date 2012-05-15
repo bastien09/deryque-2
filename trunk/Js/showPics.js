@@ -114,7 +114,7 @@ var showPicsCharts = function (where, divName, titre, what) {
 };
 
 
-var computeData = function(i, section) {
+var computeData = function(i, section, title) {
 	var tmp = [];
 	for(var x = 1; x < dataCharts[i].length; x++) {
 		if (dataCharts[i][x].x >= section.max)
