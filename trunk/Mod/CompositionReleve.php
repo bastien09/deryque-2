@@ -32,21 +32,12 @@ class CompositionReleve {
 
         foreach ($releves as $releve) {
             
-            $this -> _releveBean -> releves[] = $releve;
+            R::associate($this -> _releveBean, $releve);
             
         }
 
     }
 
-    /**
-     * Envoie le relevé multiple dans la BD.
-     */
-    public function save() {
-
-        R::store($this -> _releveBean);
-        R::commit();
-
-    }
     
     /**
      * Retourne le relevé qui porte ce nom (NULL si il n'existe pas).
