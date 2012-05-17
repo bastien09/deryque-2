@@ -206,13 +206,9 @@ END;
             }
             
             $multi_releve->addReleve($nom_releve);
-            $multi_releve->save();
-            echo print_r($multi_releve);
-            CTools::hackError();
 
         }
         
-        $multi_releve->save();
 
     }
 

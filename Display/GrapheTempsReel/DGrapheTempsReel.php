@@ -42,7 +42,7 @@ class DGrapheTempsReel extends DAbstract {
                     $dataToAdd[] = $rawData[$k][$i];
 
                 }
-                $addCharts .= "addChart('" . $k . "', new Array(" . implode(',', $dataToAdd) . "), new Array(" . implode(',', $timestamps) . "));";
+                $addCharts .= "addChart('" . $v . "', new Array(" . implode(',', $dataToAdd) . "), new Array(" . implode(',', $timestamps) . "));";
             }
         }
 
