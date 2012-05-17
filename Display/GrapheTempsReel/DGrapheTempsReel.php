@@ -249,7 +249,8 @@ class DGrapheTempsReel extends DAbstract {
 END;
 
         echo $addCharts;
-
+        
+        $this -> getPics();
         $this -> addPics();
 
         $this -> addComposition();
@@ -286,6 +287,21 @@ END;
 
         }
 
+    }
+    /**
+     * On récupère les pics de la BDD
+     */
+    private function getPics() {
+
+        $releve = DataMod::getReleve($_GET['nom'], $_SESSION['bd_id']);
+
+        if ($releve['PicMinLine'] != NULL) {
+            echo "<script> setMinLine(".$releve['PicMinLine'].");</script>";
+        }
+        if ($releve['PicMaxLine'] != NULL) {
+            echo "<script> setMaxLine (".$releve['PicMaxLine']."); </script>";
+        }
+        echo '<script> printLignes(); </script>';
     }
 
     private function addComposition() {

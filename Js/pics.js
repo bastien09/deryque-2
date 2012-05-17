@@ -55,6 +55,14 @@ var rmLigne = function(choix) {
 	printLignes();
 };
 
+function setMinLine(i) {
+	minLine = i;
+}
+
+function setMaxLine(i) {
+	maxLine = i;
+}
+
 var printLignes = function() {
 	if (minLine != "" || minLine == "0") {
 		$('#picMin').html(minLine);
