@@ -17,7 +17,7 @@ $(document).ready(function() {
 				tr.hide();
 			}
 		});
-		
+
 		$('#composition tr').each(function() {
 			var tr = $(this);
 			var test = tr.contents('td:last').text().search(value);
@@ -27,7 +27,7 @@ $(document).ready(function() {
 				tr.hide();
 			}
 		});
-		
+
 	});
 
 	var click_releve = function(e) {
@@ -79,7 +79,6 @@ $(document).ready(function() {
 			$(document.getElementById(id)).remove();
 		});
 	}
-	
 	var click_composition = function(e) {
 
 		if((e.originalEvent.target && e.originalEvent.target.nodeName == 'INPUT') || (e.originalEvent.srcElement && e.originalEvent.srcElement.nodeName == 'INPUT')) {
@@ -95,7 +94,7 @@ $(document).ready(function() {
 	};
 
 	$('#composition tr').click(click_composition);
-	
+
 	var gerer_releves_composes = function() {
 		var releves_selectionnes = $('#composition input:checked');
 
@@ -129,5 +128,35 @@ $(document).ready(function() {
 			$(document.getElementById(id)).remove();
 		});
 	}
-
 });
+
+var nomsRelevesSelectionnes = [];
+
+var composerReleves = function() {
+
+	$('#table-composition-releves').empty();
+
+	var releves_selectionnes = $('#releves input:checked');
+
+	nomsRelevesSelectionnes = [];
+
+	for(var i = 0; i < releves_selectionnes.length; i++) {
+		$('#table-composition-releves').append("<tr><td>" + $(releves_selectionnes[i]).attr("rname") + "</tr></td>");
+		nomsRelevesSelectionnes.push($(releves_selectionnes[i]).attr("rname"));
+	}
+	
+	if(nomsRelevesSelectionnes.length > 1) {
+		$('#popup_composition').modal('show');
+	} else {
+		$('#popup_composition_vide').modal('show');
+	}
+
+}
+
+var ajouterComposition = function() {
+	var name = $('#mrname').val();
+	
+	$.get("/InspecteurDeryque/Composition.php", { cname: name, creleves: nomsRelevesSelectionnes.join(',') } );
+	
+	window.location.reload();
+}
