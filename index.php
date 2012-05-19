@@ -65,6 +65,7 @@ CHead::addJS('jquery-1.6.2.min');
 CHead::addJS('bootstrap-dropdown');
 CHead::addJS('application');
 CHead::addJs('bootstrap-tabs');
+CHead::addJs('bootstrap-modal');
 CHead::addJS($CTRL_NAME);
 
 try {

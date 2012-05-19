@@ -20,6 +20,8 @@ class CompositionReleve {
         
         $this -> _releveBean -> name = $name;
         $this -> _releveBean -> user = $user;
+        
+        R::store($this -> _releveBean);
 
     }
 
@@ -27,6 +29,7 @@ class CompositionReleve {
      * Ajoute un relevé à la liste.
      */
     public function addReleve($rname) {
+        
 
         $releves = R::find('releve', 'name = ?', array($rname));
 

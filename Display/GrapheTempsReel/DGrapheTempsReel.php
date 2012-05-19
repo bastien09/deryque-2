@@ -249,7 +249,7 @@ class DGrapheTempsReel extends DAbstract {
 END;
 
         echo $addCharts;
-        
+
         $this -> getPics();
         $this -> addPics();
 
@@ -279,7 +279,7 @@ END;
             if (isset($_GET['maxLine'])) {
                 $releve -> PicMaxLine = $_GET['maxLine'];
             }
-            
+
             $releve -> PicBeginTime = $_GET['beginTime'];
             $releve -> PicEndTime = $_GET['endTime'];
 
@@ -288,18 +288,19 @@ END;
         }
 
     }
+
     /**
-     * On récupère les pics de la BDD
+     * On rï¿½cupï¿½re les pics de la BDD
      */
     private function getPics() {
 
         $releve = DataMod::getReleve($_GET['nom'], $_SESSION['bd_id']);
 
         if ($releve['PicMinLine'] != NULL) {
-            echo "<script> setMinLine(".$releve['PicMinLine'].");</script>";
+            echo "<script> setMinLine(" . $releve['PicMinLine'] . ");</script>";
         }
         if ($releve['PicMaxLine'] != NULL) {
-            echo "<script> setMaxLine (".$releve['PicMaxLine']."); </script>";
+            echo "<script> setMaxLine (" . $releve['PicMaxLine'] . "); </script>";
         }
         echo '<script> printLignes(); </script>';
     }
@@ -307,11 +308,11 @@ END;
     private function addComposition() {
 
         if (isset($_GET['compositionBegin']) and isset($_GET['compositionEnd']) and isset($_GET['graphName'])) {
-            
-            $composition = new Composition($_GET['nom'], $_GET['graphName'] , $_GET['compositionBegin'],$_GET['compositionEnd']);
-            
+
+            $composition = new Composition($_GET['nom'], $_GET['graphName'], $_GET['compositionBegin'], $_GET['compositionEnd']);
+
             $composition -> save();
-            
+
         }
     }
 
