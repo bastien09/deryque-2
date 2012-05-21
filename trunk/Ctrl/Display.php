@@ -34,10 +34,10 @@ class Display {
                 
                 $releve = DataMod::getReleve($simpleReleve->name, $_SESSION['bd_id']);
                 
+                $n_datamod = DataMod::loadDataType($releve['modname']);
+                
                 if ($g === NULL) {                   
-                    
-                    
-                    $n_datamod = DataMod::loadDataType($releve['modname']);
+                                                           
 
                     $type = isset($_REQUEST['type']) ? $_REQUEST['type'] : (empty($n_datamod -> display_prefs) ? 'default' : $n_datamod -> display_prefs[0]);
                     
@@ -62,9 +62,9 @@ class Display {
                 foreach (R::getAll('select * from d_' . $n_datamod -> dossier . ' where user_id = ? and releve_id = ?', array($_SESSION['bd_id'], $releve['id'])) as $index => $data) {
                     foreach ($data as $key => $value) {
                         if($key != 'timestamp') {
-                        $g -> data[$index][sha1($releve['name']).$key] = $value;
+                            $g -> data[$index][sha1($releve['name']).$key] = $value;
                         } else {
-                           $g -> data[$index][$key] = $value;
+                            $g -> data[$index][$key] = $value;
                         }
                     }
                 }

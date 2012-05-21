@@ -148,7 +148,7 @@ END;
             <p>Nom de la composition : <input type="text" id="mrname" name="mrname" /> </p>
             <table id="table-composition-releves" class="zebra-striped">
             </table>
-            <p class="alert-message info">La composition de relevés de types différents ou avec un timestamp différent n'est pas encore supporté et peut poser des problèmes.</p>
+            <p class="alert-message info">La composition de relevés avec un timestamp différent n'est pas encore supporté.</p>
           </div>
           <div class="modal-footer">
             <a href="#" onClick="$('#popup_composition').modal('hide')" class="btn">Annuler</a>
