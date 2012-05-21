@@ -22,9 +22,13 @@ class DGrapheTempsReel extends DAbstract {
         $dataToAdd = array();
         $timestamps = array();
         $rawData = array();
+           
+            
 
         foreach ($this->data as $data) {
             $timestamps[] = $data['timestamp'];
+
+         
 
             foreach ($this->structure as $k => $v) {
 
@@ -36,6 +40,9 @@ class DGrapheTempsReel extends DAbstract {
         $addCharts = "<script>";
 
         foreach ($this->structure as $k => $v) {
+            
+            $dataToAdd = array();
+            
             if ($k !== 'timestamp') {
                 for ($i = 0; $i < count($timestamps); $i++) {
 
