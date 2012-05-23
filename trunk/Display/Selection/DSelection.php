@@ -33,6 +33,9 @@ class DSelection extends DAbstract {
         $addCharts = "<script>";
 
         foreach ($this->structure as $k => $v) {
+            
+            $dataToAdd = array();
+            
             if ($k !== 'timestamp') {
                 for ($i = 0; $i < count($timestamps); $i++) {
 
