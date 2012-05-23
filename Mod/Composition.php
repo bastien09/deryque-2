@@ -29,38 +29,36 @@ class Composition {
         }
 
         $this -> _compositionBean = R::dispense('composition');
-        
+
         $this -> _compositionBean -> name = $name;
 
         $this -> _compositionBean -> releve_id = $this -> _releveBean -> getID();
         $this -> _compositionBean -> releve_type = $this -> _releveBean -> getMeta('type');
 
     }
-    
+
     /**
      * Ajoute une sélection (bean) à la composition.
      */
-     public function addSelection($selectionBean)
-     {
+    public function addSelection($selectionBean) {
         $selectionBean -> composition = $this -> _compositionBean;
-        
+
         R::store($selectionBean);
-     }
-     
-     /**
+    }
+
+    /**
      * Ajoute une sélection (crée à partir des données) à la composition.
      */
-     public function addNewSelection($graphName, $debut, $fin)
-     {
+    public function addNewSelection($graphName, $debut, $fin) {
         $selection = new Selection($this -> _releveBean -> name, $graphName, $debut, $fin);
-        
-        $selection ->save();
-        
+
+        $selection -> save();
+
         $selectionBean = $selection -> getBean();
-        
+
         $this -> addSelection($selectionBean);
-        
-     }
+
+    }
 
     /**
      * Envoie la selection dans la BD.
@@ -76,21 +74,33 @@ class Composition {
     /**
      * Récupère toutes les compositions associées à un relevé.
      */
-    public static function getComposition($rname) {
+    public static function getCompositions($rname) {
         $releves = R::find('releve', "name = ?", array($rname));
-        if($releves == NULL) {
+        if ($releves == NULL) {
             $releves = R::find('multi_releve', "name = ?", array($rname));
         }
 
         foreach ($releves as $releve) {
-            
-            $values['id'] = $releve->getID();
-            $values['type'] = $releve->getMeta('type');
-            
-            $compositions = R::find ( 'composition', 'releve_id = :id AND releve_type = :type',$values );
-            
+
+            $values['id'] = $releve -> getID();
+            $values['type'] = $releve -> getMeta('type');
+
+            $compositions = R::find('composition', 'releve_id = :id AND releve_type = :type', $values);
+
             return $compositions;
         }
+
+    }
+
+    /**
+     * Récupère toutes les selections associées à une composition.
+     */
+    public static function getSelections($cname) {
+        $composition = R::findOne('composition', "name = ?", array($cname));
+
+        $selections = $composition -> ownSelection;
+
+        return $selections;
 
     }
 

@@ -63,10 +63,20 @@ END;
     
     	$compositions = Composition::getCompositions($_GET['nom']);
     
+        echo "<script>";
+    
     	foreach ($compositions as $composition) {
-    		echo "<script> addComposition('". $composition->name . "'," . $composition->begin . "," . $composition->end .") </script>";
+    		echo "addComposition('". $composition->name ."');";
+            $selections = $composition -> ownSelection;
+            foreach ($selections as $selection) {
+                echo "addSelectionToComposition('". $composition->name ."', '". $selection->name ."', ". $selection->begin .", ". $selection -> end .");";
+            }
     	}
     
+    echo "</script>";
+    echo "<script> initCompositions(); </script>";
     
     }
 }
+
+?>
