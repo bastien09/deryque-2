@@ -62,7 +62,7 @@ END;
     private function getSelections() {
         
         $selections = Selection::getSelections($_GET['nom']);
-        
+                
         foreach ($selections as $selection) {
             echo "<script> addSelection('". $selection->name . "'," . $selection->begin . "," . $selection->end .") </script>";
         }

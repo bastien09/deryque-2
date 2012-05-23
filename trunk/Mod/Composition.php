@@ -1,0 +1,79 @@
+<?php
+
+/**
+ * Associe une ou plusieurs compositions à un relevé.
+ */
+class Composition {
+
+    private $_compositionBean;
+    private $_releveBean;
+
+    /**
+     * Ajoute une composition au relevé.
+     */
+    public function __construct($rname, $name) {
+        $beans = R::find('releve', "name = ?", array($rname));
+
+        foreach ($beans as $bean) {
+            $this -> _releveBean = $bean;
+            break;
+        }
+
+        if ($this -> _releveBean === NULL) {
+            $beans = R::find('multi_releve', "name = ?", array($rname));
+
+            foreach ($beans as $bean) {
+                $this -> _releveBean = $bean;
+                break;
+            }
+        }
+
+        $this -> _compositionBean = R::dispense('composition');
+
+        $this -> _compositionBean -> releve_id = $this -> _releveBean -> getID();
+        $this -> _compositionBean -> releve_type = $this -> _releveBean -> getMeta('type');
+
+    }
+    
+    /**
+     * Ajoute une sélection (bean) à la composition.
+     */
+     public function addSelection($selectionBean)
+     {
+        $this -> _compositionBean -> selection[] = $selectionBean;
+     }
+
+    /**
+     * Envoie la selection dans la BD.
+     */
+    public function save() {
+
+        R::store($this -> _releveBean);
+
+        R::store($this -> _selectionBean);
+
+    }
+
+    /**
+     * Récupère toutes les compositions associées à un relevé.
+     */
+    public static function getComposition($rname) {
+        $releves = R::find('releve', "name = ?", array($rname));
+        if($releves == NULL) {
+            $releves = R::find('multi_releve', "name = ?", array($rname));
+        }
+
+        foreach ($releves as $releve) {
+            
+            $values['id'] = $releve->getID();
+            $values['type'] = $releve->getMeta('type');
+            
+            $compositions = R::find ( 'composition', 'releve_id = :id AND releve_type = :type',$values );
+            
+            return $compositions;
+        }
+
+    }
+
+}
+?>
