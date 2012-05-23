@@ -1,16 +1,17 @@
 // SOUS "CLASSE" DE MINICHART
-var composition = [];
+var selection = [];
 var dataCharts = [];
-var compteurComposition = 0;
+var compteurSelection = 0;
 
-var addComposition = function(nom, debut, fin) {
+var addSelection = function(nom, debut, fin) {
 	var intervalle = [];
 	intervalle.min = debut;
 	intervalle.max = fin;
-	showChart(composition, "composition", compteurComposition, 0, dataCharts, intervalle, nom);
-	compteurComposition++;
+	showChart(selection, "selection", compteurSelection, 0, dataCharts, intervalle, nom);
+	compteurSelection++;
 };
 
+// On trouve la donnée en fonction du titre du graphe
 var computeData = function(i, section, title) {
 	var tmp = [];
 	var indice = 0;
@@ -31,3 +32,5 @@ var computeData = function(i, section, title) {
 	}
 	return tmp;
 };
+
+

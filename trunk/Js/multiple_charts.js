@@ -22,8 +22,8 @@ var getChartConfig = function(renderId, title, width, height) {
 							}
 						}
 						break;
-					case 'selectionCompo' :
-						compoSelection(this, event);
+					case 'selectionSelect' :
+						selectSelection(this, event);
 						break;
 					}
 				}

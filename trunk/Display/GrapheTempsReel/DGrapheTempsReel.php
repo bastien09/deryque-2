@@ -15,6 +15,7 @@ class DGrapheTempsReel extends DAbstract {
         CHead::addJs('bootstrap-modal');
         CHead::addJs('bootstrap-tabs');
         CHead::addJs('marqueurs');
+        CHead::addJs('boutonsSelection');
         CHead::addJs('pics');
         CHead::addJs('grid');
         CHead::addJs('visu_pics');
@@ -84,7 +85,7 @@ class DGrapheTempsReel extends DAbstract {
                     <ul class="tabs" data-tabs="tabs">
                         <li class="active"><a href="#divMarqueurs" alt="Manipulation des marqueurs" title="Manipulation des marqueurs"> Marqueurs </a></li>
                         <li><a href="#divPics" alt="Permet de trouver les pics du graphe" title="Permet de trouver les pics du graphe"> Detection de pics </a></li>
-                        <li><a href="#divCompo" alt="Composer des morceaux de courbe" title="Composer des morceaux de courbe"> Composition </a></li>
+                        <li><a href="#divSelect" alt="Selectionner des morceaux de courbe" title="Selectionner des morceaux de courbe"> Selection 	</a></li>
                     </ul>
                     <div id="my-tab-content" class="tab-content">
                         <div id="divMarqueurs" class="tab-pane active"> 
@@ -105,11 +106,11 @@ class DGrapheTempsReel extends DAbstract {
                                 </tr>
                             </table>
                         </div>
-                        <div id="divCompo" class="tab-pane" style="text-align:center">
+                        <div id="divSelect" class="tab-pane" style="text-align:center">
                         <ul>
-                        <li style="margin: 5px 0px"><a class="btn" onClick="setAction('selectionCompo')" title="S�lectionnez une partie d'un graphe" >Par s&eacute;lection</a></li>
-                        <li style="margin: 5px 0px"><a class="btn" onClick="compoDates()" data-controls-modal="popup_compo_dates" data-keyboard="true">Par dates</a></li>
-                        <li style="margin: 5px 0px"><a class="btn" onClick="compoMarqueurs();" data-controls-modal="popup_compo_marqueurs" data-keyboard="true">Par marqueurs</a></li>
+                        <li style="margin: 5px 0px"><a class="btn" onClick="setAction('selectionSelect')" title="S�lectionnez une partie d'un graphe" >Par s&eacute;lection</a></li>
+                        <li style="margin: 5px 0px"><a class="btn" onClick="selectDates()" data-controls-modal="popup_select_dates" data-keyboard="true">Par dates</a></li>
+                        <li style="margin: 5px 0px"><a class="btn" onClick="selectMarqueurs();" data-controls-modal="popup_select_marqueurs" data-keyboard="true">Par marqueurs</a></li>
                         
                         </div>
                     </div>
@@ -174,82 +175,82 @@ class DGrapheTempsReel extends DAbstract {
           </div>
         </div>
         <!--                                                                     -->
-        <div id="popup_compo_marqueurs" class="modal hide fade">
+        <div id="popup_select_marqueurs" class="modal hide fade">
             <div class="modal-header">
                 <a href="#" class="close">x</a>
-                <h3>Composition par marqueurs</h3>
+                <h3>Selection par marqueurs</h3>
               </div>
               <div class="modal-body">
                 <p> S&eacute;lectionnez 2 marqueurs afin d'&eacute;tablir un intervalle :</p>
                 <fieldset>
                     <div>
-                        <label for="graphe_compo_marqueurs"> Graphe </label>
-                        <select id="graphe_compo_marqueurs" class="span3">
+                        <label for="graphe_select_marqueurs"> Graphe </label>
+                        <select id="graphe_select_marqueurs" class="span3">
                         </select>
                     </div>
                     <div>
-                        <label for="de_compo_marqueurs"> de </label>
-                        <select id="de_compo_marqueurs" class="span3">
+                        <label for="de_select_marqueurs"> de </label>
+                        <select id="de_select_marqueurs" class="span3">
                         </select>
                     </div>
                     <div>
-                        <label for="a_compo_marqueurs"> &agrave; </label>
-                        <select id="a_compo_marqueurs" class="span3">
+                        <label for="a_select_marqueurs"> &agrave; </label>
+                        <select id="a_select_marqueurs" class="span3">
                         </select>
                     </div>
                  </fieldset>
               </div>
               <div class="modal-footer">
-                <a href="#" class="btn primary" onClick="okMarqueurs();$('#popup_compo_marqueurs').modal('hide')">Composer</a>
-                <a href="#" class="btn secondary" onClick="$('#popup_compo_marqueurs').modal('hide')">Annuler</a>
+                <a href="#" class="btn primary" onClick="okMarqueurs();$('#popup_select_marqueurs').modal('hide')">Selectionner</a>
+                <a href="#" class="btn secondary" onClick="$('#popup_select_marqueurs').modal('hide')">Annuler</a>
               </div>
         </div>
-        <div id="popup_compo_dates" class="modal hide fade">
+        <div id="popup_select_dates" class="modal hide fade">
             <div class="modal-header">
                 <a href="#" class="close">x</a>
-                <h3>Composition par dates</h3>
+                <h3>Selection par dates</h3>
               </div>
               <div class="modal-body">
                 <p> S&eacute;lectionnez 2 dates afin d'&eacute;tablir un intervalle :</p>
                 <fieldset>
                     <div>
-                        <label for="graphe_compo_dates"> Graphe </label>
-                        <select id="graphe_compo_dates" class="span3">
+                        <label for="graphe_select_dates"> Graphe </label>
+                        <select id="graphe_select_dates" class="span3">
                         </select>
                     </div>
                     <div>
-                        <label for="de_compo_dates"> de </label>
-                        <select id="de_compo_dates" class="span3">
+                        <label for="de_select_dates"> de </label>
+                        <select id="de_select_dates" class="span3">
                         </select>
                     </div>
                     <div>
-                        <label for="a_compo_dates"> &agrave; </label>
-                        <select id="a_compo_dates" class="span3">
+                        <label for="a_select_dates"> &agrave; </label>
+                        <select id="a_select_dates" class="span3">
                         </select>
                     </div>
                  </fieldset>
               </div>
               <div class="modal-footer">
-                <a href="#" class="btn primary" onClick="okDates();$('#popup_compo_dates').modal('hide')">Composer</a>
-                <a href="#" class="btn secondary" onClick="$('#popup_compo_dates').modal('hide')">Annuler</a>
+                <a href="#" class="btn primary" onClick="okDates();$('#popup_select_dates').modal('hide')">Selectionner</a>
+                <a href="#" class="btn secondary" onClick="$('#popup_select_dates').modal('hide')">Annuler</a>
               </div>
         </div>
-        <div id="popup_compo_selection" class="modal hide fade">
+        <div id="popup_select_selection" class="modal hide fade">
             <div class="modal-header">
                 <a href="#" class="close">x</a>
-                <h3>Composition par s&eacute;lection</h3>
+                <h3>Selection par s&eacute;lection</h3>
               </div>
               <div class="modal-body">
                 <p>Souhaitez vous cr&eacute;er ce nouvel intervalle :</p>
                 <fieldset style="text-align:center">
-                    <p>Graphe <span id="graphe_compo_selection" class="span3"></span></p>
-                    <p>de <span id="de_compo_selection" class="span3"></span></p>
-                    <p>&agrave; <span id="a_compo_selection" class="span3"></span></p>
+                    <p>Graphe <span id="graphe_select_selection" class="span3"></span></p>
+                    <p>de <span id="de_select_selection" class="span3"></span></p>
+                    <p>&agrave; <span id="a_select_selection" class="span3"></span></p>
                  </fieldset>
               </div>
               <div class="modal-footer">
-                <a href="#" class="btn primary" onClick="okSelection();$('#popup_compo_selection').modal('hide')">Composer</a>
-                <a href="#" class="btn secondary" onClick="$('#popup_compo_selection').modal('hide')">Annuler</a>
+                <a href="#" class="btn primary" onClick="okSelection();$('#popup_select_selection').modal('hide')">Selectionner</a>
+                <a href="#" class="btn secondary" onClick="$('#popup_select_selection').modal('hide')">Annuler</a>
               </div>
         </div>
         <script>$('#btnVertical').click();</script>
@@ -260,7 +261,7 @@ END;
         $this -> getPics();
         $this -> addPics();
 
-        $this -> addComposition();
+        $this -> addSelection();
 
     }
 
@@ -312,13 +313,13 @@ END;
         echo '<script> printLignes(); </script>';
     }
 
-    private function addComposition() {
+    private function addSelection() {
 
-        if (isset($_GET['compositionBegin']) and isset($_GET['compositionEnd']) and isset($_GET['graphName'])) {
-
-            $composition = new Composition($_GET['nom'], $_GET['graphName'], $_GET['compositionBegin'], $_GET['compositionEnd']);
-
-            $composition -> save();
+        if (isset($_GET['selectionBegin']) and isset($_GET['selectionEnd']) and isset($_GET['graphName'])) {
+            
+            $selection = new Selection($_GET['nom'], $_GET['graphName'] , $_GET['selectionBegin'],$_GET['selectionEnd']);
+           
+            $selection -> save();
 
         }
     }
