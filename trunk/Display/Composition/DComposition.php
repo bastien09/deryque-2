@@ -1,6 +1,6 @@
 <?php
-class DSelection extends DAbstract {
-    const nom = 'Selection';
+class DComposition extends DAbstract {
+    const nom = 'Composition';
 
     public function show() {
         if ($this -> gererVide())
@@ -11,8 +11,7 @@ class DSelection extends DAbstract {
         CHead::addJs('exporting');
         CHead::addJs('bootstrap-modal');
         CHead::addJs('bootstrap-tabs');
-        CHead::addJs('miniChart');
-        CHead::addJs('selection');
+        CHead::addJs('composition');
         CHead::addJs('grid');
         
         
@@ -49,26 +48,25 @@ class DSelection extends DAbstract {
 		
 		<div id="holder" style="display : none;"></div>
 		
-		<div class="" id="selection" style="margin:20px;float:left;"></div>
+		<div class="" id="composition" style="margin:20px;"></div>
 		
 END;
 
-        echo $addCharts;
-
-        $this -> getSelections();
-
+    
+    echo $addCharts;
+    
+    $this -> getCompositions();
+    
     }
-
-    private function getSelections() {
-        
-        $selections = Selection::getSelections($_GET['nom']);
-        
-        foreach ($selections as $selection) {
-            echo "<script> addSelection('". $selection->name . "'," . $selection->begin . "," . $selection->end .") </script>";
-        }
-        
-        
+    
+    private function getCompositions() {
+    
+    	$compositions = Composition::getCompositions($_GET['nom']);
+    
+    	foreach ($compositions as $composition) {
+    		echo "<script> addComposition('". $composition->name . "'," . $composition->begin . "," . $composition->end .") </script>";
+    	}
+    
+    
     }
-
 }
-?>
