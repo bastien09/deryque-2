@@ -1,6 +1,6 @@
 // SOUS "CLASSE" DE MINICHART
-var selection = [];
-var dataCharts = [];
+var selection = [];		// Tableaux des graphes selections
+var dataCharts = [];	// Leurs données
 var compteurSelection = 0;
 
 var addSelection = function(nom, debut, fin) {

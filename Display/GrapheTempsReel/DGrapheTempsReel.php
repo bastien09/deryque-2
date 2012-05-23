@@ -18,7 +18,7 @@ class DGrapheTempsReel extends DAbstract {
         CHead::addJs('boutonsSelection');
         CHead::addJs('pics');
         CHead::addJs('grid');
-        CHead::addJs('visu_pics');
+        CHead::addJs('css');
 
         $dataToAdd = array();
         $timestamps = array();
@@ -86,6 +86,7 @@ class DGrapheTempsReel extends DAbstract {
                         <li class="active"><a href="#divMarqueurs" alt="Manipulation des marqueurs" title="Manipulation des marqueurs"> Marqueurs </a></li>
                         <li><a href="#divPics" alt="Permet de trouver les pics du graphe" title="Permet de trouver les pics du graphe"> Detection de pics </a></li>
                         <li><a href="#divSelect" alt="Selectionner des morceaux de courbe" title="Selectionner des morceaux de courbe"> Selection 	</a></li>
+                        <li><a href="#divCompo" alt="Composer des morceaux de courbe" title="Composer des morceaux de courbe"> Composition 	</a></li>
                     </ul>
                     <div id="my-tab-content" class="tab-content">
                         <div id="divMarqueurs" class="tab-pane active"> 
@@ -108,10 +109,19 @@ class DGrapheTempsReel extends DAbstract {
                         </div>
                         <div id="divSelect" class="tab-pane" style="text-align:center">
                         <ul>
-                        <li style="margin: 5px 0px"><a class="btn" onClick="setAction('selectionSelect')" title="S�lectionnez une partie d'un graphe" >Par s&eacute;lection</a></li>
-                        <li style="margin: 5px 0px"><a class="btn" onClick="selectDates()" data-controls-modal="popup_select_dates" data-keyboard="true">Par dates</a></li>
-                        <li style="margin: 5px 0px"><a class="btn" onClick="selectMarqueurs();" data-controls-modal="popup_select_marqueurs" data-keyboard="true">Par marqueurs</a></li>
-                        
+                        <li style="margin: 5px 0px"><a class="btn" onClick="compoOrSelect='select';setAction('selectionSelect')" title="S�lectionnez une partie d'un graphe" >Par s&eacute;lection</a></li>
+                        <li style="margin: 5px 0px"><a class="btn" onClick="compoOrSelect='select';selectDates();" data-controls-modal="popup_select_dates" data-keyboard="true">Par dates</a></li>
+                        <li style="margin: 5px 0px"><a class="btn" onClick="compoOrSelect='select';selectMarqueurs();" data-controls-modal="popup_select_marqueurs" data-keyboard="true">Par marqueurs</a></li>
+                        </ul>
+                        </div> 
+                        <div id="divCompo" class="tab-pane" style="text-align:center">
+                        <div id="listeCompo"></div>
+                        <ul>
+                        <li style="margin: 5px 0px"><a class="btn" onClick="compoOrSelect='compo';setAction('selectionSelect');" title="S�lectionnez une partie d'un graphe" >Par s&eacute;lection</a></li>
+                        <li style="margin: 5px 0px"><a class="btn" onClick="compoOrSelect='compo';selectDates();" data-controls-modal="popup_select_dates" data-keyboard="true">Par dates</a></li>
+                        <li style="margin: 5px 0px"><a class="btn" onClick="compoOrSelect='compo';selectMarqueurs();" data-controls-modal="popup_select_marqueurs" data-keyboard="true">Par marqueurs</a></li>
+                        </ul>
+                        <a class="btn" data-controls-modal="popup_composition" data-keyboard="true" title="Sauvegarder une composition" > Composer </a>
                         </div>
                     </div>
                 </div>
@@ -251,6 +261,23 @@ class DGrapheTempsReel extends DAbstract {
               <div class="modal-footer">
                 <a href="#" class="btn primary" onClick="okSelection();$('#popup_select_selection').modal('hide')">Selectionner</a>
                 <a href="#" class="btn secondary" onClick="$('#popup_select_selection').modal('hide')">Annuler</a>
+              </div>
+        </div>
+        <div id="popup_composition" class="modal hide fade">
+            <div class="modal-header">
+                <a href="#" class="close">x</a>
+                <h3> Composition</h3>
+              </div>
+              <div class="modal-body">
+                    <div>
+                        <label for="de_select_dates"> Nom </label>
+                        <input type="text" id="nomComposition" />
+                        </select>
+                    </div>
+              </div>
+              <div class="modal-footer">
+                <a href="#" class="btn primary" onClick="saveComposition($('#nomComposition').val());$('#popup_composition').modal('hide');"> Sauvegarder</a>
+                <a href="#" class="btn secondary" onClick="$('#popup_composition').modal('hide')">Annuler</a>
               </div>
         </div>
         <script>$('#btnVertical').click();</script>

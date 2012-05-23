@@ -1,3 +1,5 @@
+var compoOrSelect = '';
+var listeCompo = []; // Liste des intervalles pour la compo
 /* ----------------------------------------------- onClick() ------------------------------------------------- */
 
 var selectMarqueurs = function() {
@@ -20,7 +22,7 @@ var selectMarqueurs = function() {
 	$('#de_select_marqueurs').html(listeMarqueursCourants);
 	$('#a_select_marqueurs').html(listeMarqueursCourants);
 	
-}
+};
 
 var selectDates = function() {
 	var listeGraphes = "";
@@ -46,7 +48,7 @@ var selectDates = function() {
 	$('#graphe_select_dates').html(listeGraphes);
 	$('#de_select_dates').html(listeDates);
 	$('#a_select_dates').html(listeDates);
-}
+};
 
 var selectSelection = function(graphe, event) {
 	if (event.xAxis) {
@@ -58,7 +60,7 @@ var selectSelection = function(graphe, event) {
 		$('#popup_select_selection').modal('show');
 		setTimeout("Dezoom()", 100);
 	}
-}
+};
 
 var okMarqueurs = function() {
 	var graphe = $('#graphe_select_marqueurs').val();
@@ -66,7 +68,12 @@ var okMarqueurs = function() {
 	var a = $('#a_select_marqueurs').val();
 	
 	console.log('Marqueurs '+ graphe +' '+ de +' '+ a);
-	saveSelection(graphe,de,a);
+	
+	if (compoOrSelect == 'select')
+		saveSelection(graphe,de,a);
+	else
+		addToCompo(graphe, de, a);
+		
 }
 var okDates = function() {
 	var graphe = $('#graphe_select_dates').val();
@@ -74,20 +81,56 @@ var okDates = function() {
 	var a = $('#a_select_dates').val();
 
 	console.log('Dates '+ graphe +' '+ de +' '+ a);
-	saveSelection(graphe,de,a);
 	
-}
+	if (compoOrSelect == 'select')
+		saveSelection(graphe,de,a);
+	else
+		addToCompo(graphe, de, a);
+	
+};
 var okSelection = function() {
 	var graphe = $('#graphe_select_selection').text();
 	var de = $('#de_select_selection').text();
 	var a = $('#a_select_selection').text();
 
 	console.log('Selection '+ graphe +' '+ de +' '+ a);
-	saveSelection(graphe,de,a);
 	
-}
+	if (compoOrSelect == 'select')
+		saveSelection(graphe,de,a);
+	else
+		addToCompo(graphe, de, a);
+	
+};
 
 function saveSelection(graphName,begin,end) {
 	if (graphName != null && begin != null && end != null)
 		$.get(document.URL, { 'graphName' : graphName , 'selectionBegin' : begin, 'selectionEnd' : end } );
-}
+};
+
+function addToCompo(graphe, de, a) {
+	var elem = [];
+	elem.graphe = graphe;
+	elem.debut = de;
+	elem.fin = a;
+	listeCompo.push(elem);
+	printListCompo($('#listeCompo'));
+};
+
+function printListCompo(where) {
+	var liste = "<ul>";
+	$.each(listeCompo, function (i, e) {
+		liste +="<li>"+ e.graphe +" de "+ e.debut +" &agrave; "+ e.fin +"<a href='#' class='close' onClick='rmCompoIntervalle("+ i +")'>x</a></li>";
+	});
+	liste += "</ul>";
+	where.html(liste);	
+};
+
+function saveComposition(nom) {
+	if (nom != null && listeCompo.length > 0) {
+		$.get(document.URL, { 'name' : nom , 'list' : listeCompo } );
+		listeCompo = new Array();
+		printListCompo($('#listeCompo'));
+	} else {
+		$('#infosAction').html("<p class='alert-message info' style='margin-left: 25px'> S&eacute;lectionnez des intervalles avant de composer </p>");
+	}
+};
