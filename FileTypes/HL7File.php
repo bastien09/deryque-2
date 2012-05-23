@@ -209,6 +209,8 @@ END;
 
         }
         
+        $rTodelete = R::findOne('releve', 'name = ? and user_id = ?', array($nom_releve_prefix, $_SESSION['bd_id']));
+        R::trash($rTodelete);
 
     }
 
