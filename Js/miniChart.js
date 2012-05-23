@@ -14,6 +14,7 @@ function addChart(name, datas, timestamps) {
 	dataCharts.push(data);
 };
 
+//GL HF with this one
 var showChart = function(where, divName, i, j, tab, section, title) {
 	$('#'+ divName).append('<div id="chartBloc"><a class="close" href="#" onClick="rmChart(\''+ divName +'\', '+i+', '+ j +')">x</a><div id="'+divName+''+i+'-'+j+'" style="margin:20px;"></div></div>');
 	where.push(

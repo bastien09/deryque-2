@@ -1,6 +1,6 @@
 <?php
-class DComposition extends DAbstract {
-    const nom = 'Composition';
+class DSelection extends DAbstract {
+    const nom = 'Selection';
 
     public function show() {
         if ($this -> gererVide())
@@ -12,7 +12,7 @@ class DComposition extends DAbstract {
         CHead::addJs('bootstrap-modal');
         CHead::addJs('bootstrap-tabs');
         CHead::addJs('miniChart');
-        CHead::addJs('composition');
+        CHead::addJs('selection');
         CHead::addJs('grid');
         
         
@@ -49,25 +49,25 @@ class DComposition extends DAbstract {
 		
 		<div id="holder" style="display : none;"></div>
 		
-		<div class="" id="composition" style="margin:20px;float:left;"></div>
+		<div class="" id="selection" style="margin:20px;float:left;"></div>
 		
 END;
 
         echo $addCharts;
 
-        $this -> getCompositions();
+        $this -> getSelections();
 
     }
 
-    private function getCompositions() {
+    private function getSelections() {
 
         $releve = DataMod::getReleve($_GET['nom'], $_SESSION['bd_id']);
         
         
-        $compositions = Composition::getCompositions($_GET['nom']);
+        $selections = Selection::getSelections($_GET['nom']);
         
-        foreach ($compositions as $composition) {
-            echo "<script> addComposition('". $composition->name . "'," . $composition->begin . "," . $composition->end .") </script>";
+        foreach ($selections as $selection) {
+            echo "<script> addSelection('". $selection->name . "'," . $selection->begin . "," . $selection->end .") </script>";
         }
         
         
