@@ -29,6 +29,8 @@ class Composition {
         }
 
         $this -> _compositionBean = R::dispense('composition');
+        
+        $this -> _compositionBean -> name = $name;
 
         $this -> _compositionBean -> releve_id = $this -> _releveBean -> getID();
         $this -> _compositionBean -> releve_type = $this -> _releveBean -> getMeta('type');
@@ -40,7 +42,24 @@ class Composition {
      */
      public function addSelection($selectionBean)
      {
-        $this -> _compositionBean -> selection[] = $selectionBean;
+        $selectionBean -> composition = $this -> _compositionBean;
+        
+        R::store($selectionBean);
+     }
+     
+     /**
+     * Ajoute une sélection (crée à partir des données) à la composition.
+     */
+     public function addNewSelection($graphName, $debut, $fin)
+     {
+        $selection = new Selection($this -> _releveBean -> name, $graphName, $debut, $fin);
+        
+        $selection ->save();
+        
+        $selectionBean = $selection -> getBean();
+        
+        $this -> addSelection($selectionBean);
+        
      }
 
     /**
