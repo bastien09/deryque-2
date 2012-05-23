@@ -23,13 +23,9 @@ class DGrapheTempsReel extends DAbstract {
         $dataToAdd = array();
         $timestamps = array();
         $rawData = array();
-           
-            
 
         foreach ($this->data as $data) {
             $timestamps[] = $data['timestamp'];
-
-         
 
             foreach ($this->structure as $k => $v) {
 
@@ -41,9 +37,9 @@ class DGrapheTempsReel extends DAbstract {
         $addCharts = "<script>";
 
         foreach ($this->structure as $k => $v) {
-            
+
             $dataToAdd = array();
-            
+
             if ($k !== 'timestamp') {
                 for ($i = 0; $i < count($timestamps); $i++) {
 
@@ -289,6 +285,8 @@ END;
         $this -> addPics();
 
         $this -> addSelection();
+        
+        $this -> addComposition();
 
     }
 
@@ -343,10 +341,29 @@ END;
     private function addSelection() {
 
         if (isset($_GET['selectionBegin']) and isset($_GET['selectionEnd']) and isset($_GET['graphName'])) {
-            
-            $selection = new Selection($_GET['nom'], $_GET['graphName'] , $_GET['selectionBegin'],$_GET['selectionEnd']);
-           
+
+            $selection = new Selection($_GET['nom'], $_GET['graphName'], $_GET['selectionBegin'], $_GET['selectionEnd']);
+
             $selection -> save();
+
+        }
+    }
+
+    private function addComposition() {
+
+        if (isset($_GET['cname']) and isset($_GET['snames']) and isset($_GET['sdebuts']) and isset($_GET['sfins'])) {            
+            
+            $name = $_GET['cname'];
+            
+            $sNames = explode(",", $_GET['snames']);
+            $sDebuts = explode(",", $_GET['sdebuts']);
+            $sFins = explode(",", $_GET['sfins']);
+
+            $compostion = new Composition($_GET['nom'], $name);
+
+            for($i = 0; $i < count($sNames); $i++ ) {
+                $compostion -> addNewSelection($sNames[$i], $sDebuts[$i], $sFins[$i]);
+            }
 
         }
     }

@@ -127,7 +127,17 @@ function printListCompo(where) {
 
 function saveComposition(nom) {
 	if (nom != null && listeCompo.length > 0) {
-		$.get(document.URL, { 'name' : nom , 'list' : listeCompo } );
+		var grapheNames = [];
+		var debuts = [];
+		var fins = [];
+		
+		for(var i = 0; i < listeCompo.length; i++) {
+			grapheNames[i] = listeCompo[i].graphe;
+			debuts[i] = listeCompo[i].debut;
+			fins[i] = listeCompo[i].fin;
+		}
+				
+		$.get(document.URL, { 'cname' : nom , 'snames' : grapheNames.join(',') , 'sdebuts' : debuts.join(',') , 'sfins' : fins.join(',') } );
 		listeCompo = new Array();
 		printListCompo($('#listeCompo'));
 	} else {

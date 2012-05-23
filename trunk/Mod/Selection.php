@@ -35,6 +35,7 @@ class Selection {
         $this -> _selectionBean -> name = $graphName;
         $this -> _selectionBean -> begin = $begin;
         $this -> _selectionBean -> end = $end;
+        $this -> _selectionBean -> composition_id = NULL;
 
     }
 
@@ -50,7 +51,7 @@ class Selection {
     }
 
     /**
-     * Récupère toutes les selections associées à un relevé.
+     * Récupère toutes les selections associées à un relevé (et non attaché à une composition).
      */
     public static function getSelections($rname) {
         $releves = R::find('releve', "name = ?", array($rname));
@@ -66,7 +67,7 @@ class Selection {
             $values['id'] = $releve->getID();
             $values['type'] = $releve->getMeta('type');
             
-            $selections = R::find ( 'selection', 'releve_id = :id AND releve_type = :type',$values );
+            $selections = R::find ( 'selection', 'releve_id = :id AND releve_type = :type AND composition_id IS NULL',$values );
             
             return $selections;
         }
