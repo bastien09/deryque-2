@@ -112,7 +112,7 @@ var showPicsCharts = function (where, divName, titre, what) {
 	$.each(what, function (i, dChart) {
 		$('#'+ divName).append("<h3> Graphe "+ dataCharts[i].name +"</h3");
 		$.each(dChart, function (j, section) {
-			showChart(where, divName, i, j, dataCharts, section, dataCharts[i].name+'-'+j);
+			showChart(where, divName, i, j, section, dataCharts[i].name+'-'+j);
 			
 		});
 		$('#'+ divName).append('<br />');

@@ -15,7 +15,15 @@ function addChart(name, datas, timestamps) {
 };
 
 //GL HF with this one
-var showChart = function(where, divName, i, j, tab, section, title) {
+/** 
+ * Affiche un miniChart
+ * @param {Object} where Dans quel tableau ajouter le graphe
+ * @param {Object} divName Dans quel container
+ * @param {Object} i Utilisé pour retrouver l'indice du tableau du pics, mais aussi sa ligne dans la grille de divs
+ * @param {Object} j Sa colonne dans la grille de divs
+ * @param {Object} tab
+ */
+var showChart = function(where, divName, i, j, section, title) {
 	$('#'+ divName).append('<div id="chartBloc"><a class="close" href="#" onClick="rmChart(\''+ divName +'\', '+i+', '+ j +')">x</a><div id="'+divName+''+i+'-'+j+'" style="margin:20px;"></div></div>');
 	where.push(
 			new Highcharts.StockChart({
