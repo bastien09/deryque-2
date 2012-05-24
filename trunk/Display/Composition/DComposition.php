@@ -12,6 +12,7 @@ class DComposition extends DAbstract {
         CHead::addJs('bootstrap-modal');
         CHead::addJs('bootstrap-tabs');
         CHead::addJs('composition');
+        CHead::addJs('miniChart');
         CHead::addJs('grid');
         
         

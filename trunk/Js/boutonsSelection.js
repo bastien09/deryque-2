@@ -2,6 +2,9 @@ var compoOrSelect = '';
 var listeCompo = []; // Liste des intervalles pour la compo
 /* ----------------------------------------------- onClick() ------------------------------------------------- */
 
+/*
+ *  select : Initie les popup de selection et composition
+ */
 var selectMarqueurs = function() {
 	var listeGraphes = "";
 	var listeMarqueursCourants = "";
@@ -62,6 +65,9 @@ var selectSelection = function(graphe, event) {
 	}
 };
 
+/*
+ * ok : Actions à faire lorsque l'on valide les popup
+ */
 var okMarqueurs = function() {
 	var graphe = $('#graphe_select_marqueurs').val();
 	var de = $('#de_select_marqueurs').val();
@@ -102,9 +108,18 @@ var okSelection = function() {
 	
 };
 
-function saveSelection(graphName,begin,end) {
-	if (graphName != null && begin != null && end != null)
-		$.get(document.URL, { 'graphName' : graphName , 'selectionBegin' : begin, 'selectionEnd' : end } );
+function printListCompo(where) {
+	var liste = "<ul>";
+	$.each(listeCompo, function (i, e) {
+		liste +="<li>"+ e.graphe +" de "+ e.debut +" &agrave; "+ e.fin +"<a href='#' class='close' onClick='rmCompoIntervalle("+ i +")'>x</a></li>";
+	});
+	liste += "</ul>";
+	where.html(liste);	
+};
+
+function rmCompoIntervalle(i) {
+	listeCompo.slice(i, 1);
+	printListCompo($('#listeCompo'));
 };
 
 function addToCompo(graphe, de, a) {
@@ -116,13 +131,12 @@ function addToCompo(graphe, de, a) {
 	printListCompo($('#listeCompo'));
 };
 
-function printListCompo(where) {
-	var liste = "<ul>";
-	$.each(listeCompo, function (i, e) {
-		liste +="<li>"+ e.graphe +" de "+ e.debut +" &agrave; "+ e.fin +"<a href='#' class='close' onClick='rmCompoIntervalle("+ i +")'>x</a></li>";
-	});
-	liste += "</ul>";
-	where.html(liste);	
+/*
+ * Sauvegarde
+ */
+function saveSelection(graphName,begin,end) {
+	if (graphName != null && begin != null && end != null)
+		$.get(document.URL, { 'graphName' : graphName , 'selectionBegin' : begin, 'selectionEnd' : end } );
 };
 
 function saveComposition(nom) {
@@ -140,6 +154,7 @@ function saveComposition(nom) {
 		$.get(document.URL, { 'cname' : nom , 'snames' : grapheNames.join(',') , 'sdebuts' : debuts.join(',') , 'sfins' : fins.join(',') } );
 		listeCompo = new Array();
 		printListCompo($('#listeCompo'));
+		$('#listeCompo').html("<p class='alert-message info' style='margin-left: 25px'> Composition enregistr&eacute;e </p>");
 	} else {
 		$('#infosAction').html("<p class='alert-message info' style='margin-left: 25px'> S&eacute;lectionnez des intervalles avant de composer </p>");
 	}

@@ -7,7 +7,7 @@ var addSelection = function(nom, debut, fin) {
 	var intervalle = [];
 	intervalle.min = debut;
 	intervalle.max = fin;
-	showChart(selection, "selection", compteurSelection, 0, dataCharts, intervalle, nom);
+	showChart(selection, "selection", compteurSelection, 0, intervalle, nom);
 	compteurSelection++;
 };
 
