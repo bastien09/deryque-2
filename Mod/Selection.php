@@ -80,6 +80,10 @@ class Selection {
     public function getBean() {
         return $this -> _selectionBean;
     }
+    
+    public function delete() {
+        R::trash($this -> _selectionBean);
+    }
 
 }
 ?>

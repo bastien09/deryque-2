@@ -103,6 +103,10 @@ class Composition {
         return $selections;
 
     }
+    
+    public function delete() {
+        R::trash($this -> _compositionBean);
+    }
 
 }
 ?>
