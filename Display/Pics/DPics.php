@@ -30,7 +30,7 @@ class DPics extends DAbstract {
             }
         }
 
-        $addCharts = "<script>";
+        $addCharts = "<script>\n";
 
         foreach ($this->structure as $k => $v) {
             if ($k !== 'timestamp') {
@@ -39,11 +39,11 @@ class DPics extends DAbstract {
                     $dataToAdd[] = $rawData[$k][$i];
 
                 }
-                $addCharts .= "addChart('" . $k . "', new Array(" . implode(',', $dataToAdd) . "), new Array(" . implode(',', $timestamps) . "));";
+                $addCharts .= "addChart('" . $k . "', new Array(" . implode(',', $dataToAdd) . "), new Array(" . implode(',', $timestamps) . "));\n";
             }
         }
 
-        $addCharts .= "</script>";
+        $addCharts .= "</script>\n";
 
         echo <<<END
 		
@@ -61,20 +61,25 @@ END;
 
     private function getPics() {
 
-        $releve = DataMod::getReleve($_GET['nom'], $_SESSION['bd_id']);
+        $releve = R::findOne('releve', 'name = ?', array( $_GET['nom']));
         
-        $endTime = R::getRow('select PicEndTime, PicBeginTime from releve r where r.id = ?', array($releve['id']));
+        if($releve == NULL) {
+            $releve = CompositionReleve::getCReleve($_GET['nom']);
+        }
+        
+        $endTime = $releve -> PicEndTime;
+        
         if($endTime != NULL) {
-            echo "<script> setViewLength(".$endTime['PicBeginTime'].", ".$endTime['PicEndTime'].") </script>";
+            echo "<script> setViewLength(". $releve -> PicBeginTime .", ". $releve -> PicEndTime ."); </script>\n";
         }
 
-        if ($releve['PicMinLine'] != NULL) {
-            echo "<script> setMinLine(".$releve['PicMinLine'].");</script>";
+        if ($releve -> PicMinLine != NULL) {
+            echo "<script> setMinLine(". $releve -> PicMinLine ."); </script>\n";
         }
-        if ($releve['PicMaxLine'] != NULL) {
-            echo "<script> setMaxLine (".$releve['PicMaxLine']."); </script>";
+        if ($releve -> PicMaxLine != NULL) {
+            echo "<script> setMaxLine(".$releve -> PicMaxLine ."); </script>\n";
         }
-        echo '<script> initPics(); </script>';
+        echo '<script> initPics() </script>';
     }
 
 }
