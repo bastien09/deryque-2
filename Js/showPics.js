@@ -16,7 +16,7 @@ function initPics() {
 	} else {
 		if (minLine != "")
 			recupererPicsMin(starto, endo, minLine);
-		else
+		if (maxLine != "")
 			recupererPicsMax(starto, endo, maxLine);
 	}
 };
