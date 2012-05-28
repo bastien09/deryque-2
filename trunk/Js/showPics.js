@@ -1,8 +1,8 @@
 // SOUS "CLASSE" DE MINICHART
 //Need charts, maxLine, minLine
-var dataCharts = [];	// Tableaux de données pour les graphes, utilisé dans computeData principalement
+var dataCharts = [];	// Tableaux de donnï¿½es pour les graphes, utilisï¿½ dans computeData principalement
 var maxLine = "";		// obvious
-var minLine = "";		// ²
+var minLine = "";		// ï¿½
 var picsMaxCharts = []; //Graphes des pics max
 var picsMinCharts = []; // Graphes des pics min
 var dPicsMin = new Array();	//Tableau d'intervalles pour les min
@@ -142,6 +142,6 @@ function setMaxLine(i) {
 }
 
 function setViewLength(min, max) {
-	startView = min;
-	endView = max;
+	starto = min;
+	endo = max;
 }

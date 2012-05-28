@@ -285,7 +285,7 @@ END;
         $this -> addPics();
 
         $this -> addSelection();
-        
+
         $this -> addComposition();
 
     }
@@ -299,11 +299,16 @@ END;
 
             $releveRow = DataMod::getReleve($_GET['nom'], $_SESSION['bd_id']);
 
-            $mode = R::findOne('datamod', 'modname = ?', array($releveRow['modname']));
+            $releve = R::findOne('releve', 'name = ?', array($_GET['nom']));
 
-            $releve = R::load('releve', $releveRow['id']);
+            if ($releve != NULL) {// si on a un relevé simple
+                $mode = R::findOne('datamod', 'modname = ?', array($releveRow['modname']));
 
-            $releve -> mod = $mode;
+                $releve -> mod = $mode;
+
+            } else {
+                $releve = CompositionReleve::getCReleve($_GET['nom']);
+            }
 
             if (isset($_GET['minLine'])) {
                 $releve -> PicMinLine = $_GET['minLine'];
@@ -351,17 +356,17 @@ END;
 
     private function addComposition() {
 
-        if (isset($_GET['cname']) and isset($_GET['snames']) and isset($_GET['sdebuts']) and isset($_GET['sfins'])) {            
-            
+        if (isset($_GET['cname']) and isset($_GET['snames']) and isset($_GET['sdebuts']) and isset($_GET['sfins'])) {
+
             $name = $_GET['cname'];
-            
+
             $sNames = explode(",", $_GET['snames']);
             $sDebuts = explode(",", $_GET['sdebuts']);
             $sFins = explode(",", $_GET['sfins']);
 
             $compostion = new Composition($_GET['nom'], $name);
 
-            for($i = 0; $i < count($sNames); $i++ ) {
+            for ($i = 0; $i < count($sNames); $i++) {
                 $compostion -> addNewSelection($sNames[$i], $sDebuts[$i], $sFins[$i]);
             }
 
