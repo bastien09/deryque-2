@@ -3,7 +3,7 @@ var charts = [];
 var dataCharts = [];
 
 
-//Fonction pour créer un graphe facilement
+//Fonction pour crï¿½er un graphe facilement
 var getChartConfig = function(renderId, title, width, height) {
 	var config = {};
 	config.chart = {
@@ -128,7 +128,7 @@ function addChart(name, datas, timestamps) {
 	//$('#holder').height($('#holder').height()+400);
 	$('#holder').append('<a class="close" href="#" onClick="rmChart('+charts.length+');">x</a><div id="'+idHolder+'" style="margin:20px;"></div>');
 	charts.push(new Highcharts.StockChart(
-			getChartConfig(idHolder, name, 700, 300)
+			getChartConfig(idHolder, name, 600, 300)
 	));
 	dataCharts[charts.length - 1] = data;
 	inf = "infos"+(charts.length-1);
@@ -144,7 +144,7 @@ function rmChart(i) {
 	$('#holder'+i).hide();
 };
 
-//Temps réel
+//Temps rï¿½el
 function requestData(i, j, data) {
 	// add the point
 	if (charts[j].series == null)
@@ -172,26 +172,26 @@ function requestData(i, j, data) {
 	setTimeout(function() { if (charts[j]) requestData(i, j, data); }, 10);    
 };
 
-//Info en temps réel à droite
+//Info en temps rï¿½el ï¿½ droite
 function afficheInfos(i, data) {
 	$('#infos'+i).html(data+ "unite");
 }
-//Action à effectuer, placer des marqueurs ou des pics
+//Action ï¿½ effectuer, placer des marqueurs ou des pics
 function setAction(item) {
 	action = item;
 	var info = "";
 	switch (action) {
 	case 'zoom' : 
-		info = "Sélectionnez un intervalle sur le graphe à zoomer.";
+		info = "Sï¿½lectionnez un intervalle sur le graphe ï¿½ zoomer.";
 		break;
 	case 'selectionCompo' :
-		info="Sélectionnez un intervalle sur le graphe afin de pouvoir le composer avec d'autres.";
+		info="Sï¿½lectionnez un intervalle sur le graphe afin de pouvoir le composer avec d'autres.";
 		break;
 	case 'pics' :
-		info="Cliquez sur la courbe là afin de définir un seuil pour détecter un ou plusieurs pic(s).";
+		info="Cliquez sur la courbe lï¿½ afin de dï¿½finir un seuil pour dï¿½tecter un ou plusieurs pic(s).";
 		break;
 	case 'marqueurs' :
-		info="Cliquez sur la courbe là où vous souhaitez placer un marqueur.";
+		info="Cliquez sur la courbe lï¿½ oï¿½ vous souhaitez placer un marqueur.";
 		break;
 	}
 	$('#infosAction').html("<p class='alert-message info' style='margin-left: 25px'>"+info+"</p>");

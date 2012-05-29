@@ -38,15 +38,14 @@ var addSelectionToComposition = function(cname, graphName, debut, fin) {
  * Affiche un miniChart
  * @param {Object} where Dans quel tableau ajouter le graphe
  * @param {Object} divName Dans quel container
- * @param {Object} i Utilis� pour retrouver l'indice du tableau du pics, mais aussi sa ligne dans la grille de divs
- * @param {Object} j Sa colonne dans la grille de divs
+ * @param {Object} i Ligne dans la grille de divs
  * @param {Object} tab
  */
-var showBigChart = function(where, divName, i, j, section, title) {
+var showBigChart = function(where, divName, i, selections, title) {
 	$('#' + divName).append('<div id="chartBloc"><a class="close" href="#" onClick="rmChart(\'' + divName + '\', ' + i + ')">x</a><div id="' + divName + '' + i + '" style="margin:20px;"></div></div>');
 	where.push(new Highcharts.StockChart({
 		chart : {
-			renderTo : divName + '' + i + '-' + j,
+			renderTo : divName + '' + i,
 			height : 300,
 			width : 600
 		},
@@ -79,7 +78,7 @@ var showBigChart = function(where, divName, i, j, section, title) {
 		},
 		series : [{
 			name : title,
-			data : computeData(i, section)
+			data : computeData(i, selections)
 		}],
 		exporting : {
 			enabled : false
@@ -88,27 +87,29 @@ var showBigChart = function(where, divName, i, j, section, title) {
 
 };
 
-var computeData = function(i, selection, title) {
-	section = selection.section;
-	console.log(section);
+var computeData = function(i, selections) {
 	var tmp = [];
 	var indice = 0;
-	for (var y = 0; y < dataCharts.length; y++) {
-		if (dataCharts[y].name == title) {
-			console.log('Gg');
-			indice = y;
-			break;
+	for (var i= 0; i < selections.length; i++) {
+		for (var y = 0; y < dataCharts.length; y++) {
+			if (dataCharts[y].name == selections[i].graph) {
+				console.log("found ya");
+				indice = y;
+				break;
+			}
+		}
+		for(var x = 0; x < dataCharts[indice].length; x++) {
+			var leX = dataCharts[indice][x].x*1000;
+			if (leX >= selections[i].section.max)
+				break;
+			if (leX >= selections[i].section.min) {
+				// Que des y, les x ne forment pas une suite
+				tmp.push(dataCharts[indice][x].y);
+			}
 		}
 	}
-	for(var x = 0; x < dataCharts[indice].length; x++) {
-		var leX = dataCharts[indice][x].x*1000;
-		if (leX >= section.max)
-			return tmp;
-		if (leX >= section.min) {
-			tmp.push([leX, dataCharts[indice][x].y]);
-		}
-	}
-	return tmp;
+	console.log('Bouh : '+ tmp);
+	return tmp;	
 };
 
 var initCompositions = function() {
@@ -116,8 +117,6 @@ var initCompositions = function() {
 	console.log(compositions);
 	$.each(compositions, function(i, compo) {
 		console.log("Une compo");
-		$.each(compo.selections, function(j, selection) {
-			showBigChart(graphs, 'composition', i, j, selection, compo.name);
-		});
+		showBigChart(graphs, 'composition', i, compo.selections, compo.name);
 	});
 }
