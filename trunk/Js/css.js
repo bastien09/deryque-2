@@ -17,8 +17,9 @@ $('#controles').css("width", "");
 $('#divSelect > ul li').css("display", "");
 
 for (var x = 0; x < charts.length; x++) {
-	$('holder'+x).css('float', '');
-	$('holder'+x).css('display', '');
+	$('#holder'+x).css('float', '');
+	$('#holder'+x).css('display', '');
+	$('.close').css('float', 'right');
 	charts[x].setSize(600, 300);
 }
 
@@ -40,8 +41,9 @@ var horizontal = function() {
 	$('#holder').css("margin-top", "220px");
 	$('#divSelect > ul li').css("display", "inline");
 	for (var x = 0; x < charts.length; x++) {
-		$('holder'+x).css('float', 'left');
-		$('holder'+x).css('display', 'inline');
+		$('#holder'+x).css('float', 'left');
+		$('#holder'+x).css('display', 'inline');
+		$('.close').css('float', 'left');
 		charts[x].setSize(300, 200);
 	}
 };
